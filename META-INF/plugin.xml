@@ -1,0 +1,34 @@
+<idea-plugin version="2">
+    <name>Heroku Plugin</name>
+    <description>Heroku Plugin</description>
+    <version>1.0</version>
+    <vendor>Jexp</vendor>
+    <idea-version since-build="8000"/>
+    <depends>com.intellij.modules.lang</depends>
+    <depends>com.intellij.modules.platform</depends>
+    <depends>com.intellij.modules.vcs</depends>
+    <application-components>
+        <!-- Add your application components here -->
+        <component>
+            <implementation-class>com.heroku.idea.HerokuApplicationComponent</implementation-class>
+        </component>
+    </application-components>
+
+    <project-components>
+        <!-- Add your project components here -->
+        <component>
+            <implementation-class>com.heroku.idea.HerokuProjectComponent</implementation-class>
+        </component>
+    </project-components>
+
+    <actions>
+        <!-- Add your actions here -->
+        <action id="HerokuSettingsAction" class="com.heroku.idea.HerokuSettingsAction" text="HerokuSettingsAction">
+            <add-to-group group-id="ToolsMenu" anchor="last"/>
+        </action>
+    </actions>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <!-- Add your extensions here -->
+    </extensions>
+</idea-plugin>
