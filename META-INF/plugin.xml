@@ -1,7 +1,7 @@
 <idea-plugin version="2">
-    <name>Heroku Plugin</name>
-    <description>Heroku Plugin</description>
-    <version>1.0</version>
+    <name>Heroku Integration</name>
+    <description>Alpha Proof of Concept for Heroku integration for all Jetbrains Products, stores credentials, lists existing apps, allows current project to be connected to an app, new app creation, restart, deploy.</description>
+    <version>0.1</version>
     <vendor>Michael Hunger</vendor>
     <depends>com.intellij.modules.lang</depends>
     <depends>com.intellij.modules.platform</depends>

@@ -49,8 +49,8 @@ public class HerokuSettings implements Configurable, ActionListener {
                 "right:pref, 6dlu, pref, 10dlu, right:pref, 6dlu, pref, 10dlu, pref, 10dlu:grow(0.1)", // columns
                 "pref"));// rows
         builder.appendSeparator("Heroku Credentials");
-        builder.append("&Login", nameField);
-        builder.append("&Password", passwordField);
+        builder.append("Login", nameField);
+        builder.append("Password", passwordField);
         builder.append(new JButton("Test") {{
             addActionListener(HerokuSettings.this);
         }},1);
