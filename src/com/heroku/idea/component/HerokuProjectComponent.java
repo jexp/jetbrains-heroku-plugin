@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 @State(name = "heroku-plugin-app-name",storages = @Storage(id = "heroku-plugin-app-name",file = "$WORKSPACE_FILE$"))
-public class HerokuProjectComponent implements ProjectComponent, PersistentStateComponent<Map<String, String>> {
+public class HerokuProjectComponent implements ProjectComponent, PersistentStateComponent {
     transient private final Project project;
     transient private final HerokuApplicationComponent applicationComponent;
     transient private Application application;
@@ -58,13 +58,13 @@ public class HerokuProjectComponent implements ProjectComponent, PersistentState
 
     }
 
-    public Map<String, String> getState() {
+    public Object getState() {
         return name;
     }
 
-    public void loadState(Map<String, String> name) {
+    public void loadState(Object name) {
         this.name.clear();
-        this.name.putAll(name);
+        this.name.putAll((Map<String, String>)name);
         if (isHerokuProject()) {
             application = this.applicationComponent.getApplication(getHerokuApplicationName());
         }

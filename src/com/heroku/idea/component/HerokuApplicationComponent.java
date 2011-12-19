@@ -18,7 +18,7 @@ import java.util.List;
  * @since 17.12.11
  */
 @State(name = "heroku-plugin", storages = @Storage(id = "heroku-plugin", file = "$APP_CONFIG$/heroku-plugin.app.xml"))
-public class HerokuApplicationComponent implements ApplicationComponent, PersistentStateComponent<Credentials> {
+public class HerokuApplicationComponent implements ApplicationComponent, PersistentStateComponent {
     private Credentials credentials = null;
     private HerokuApi herokuApi;
 
@@ -33,9 +33,13 @@ public class HerokuApplicationComponent implements ApplicationComponent, Persist
     public Credentials login(final String email, final String password) {
         final Credentials result = HerokuApi.login(email, password);
         if (result == null || !result.valid()) {
-            Messages.showMessageDialog("Could not log into Heroku, please supply your credentials in the settings.", "Heroku Login Error", Messages.getErrorIcon());
+            showCredentialsError();
         }
         return result;
+    }
+
+    private static void showCredentialsError() {
+        Messages.showMessageDialog("Could not log into Heroku, please supply your credentials in the settings.", "Heroku Login Error", Messages.getErrorIcon());
     }
 
     public void disposeComponent() {
@@ -46,12 +50,12 @@ public class HerokuApplicationComponent implements ApplicationComponent, Persist
         return "Heroku.ApplicationComponent";
     }
 
-    public Credentials getState() {
+    public Object getState() {
         return credentials;
     }
 
-    public void loadState(Credentials credentials) {
-        this.credentials = credentials;
+    public void loadState(Object credentials) {
+        this.credentials = (Credentials) credentials;
     }
 
     private void initApi(Credentials newCredentials) {
@@ -82,10 +86,18 @@ public class HerokuApplicationComponent implements ApplicationComponent, Persist
         return new HerokuApi(credentials).allApps();
     }
     public List<Application> allApps() {
+        if (!isInitialized()) {
+            showCredentialsError();
+            return Collections.emptyList();
+        }
         return herokuApi.allApps();
     }
 
     public Application createApplication(String applicationName) {
+        if (!isInitialized()) {
+            showCredentialsError();
+            return null;
+        }
         return this.herokuApi.create(applicationName, Collections.<String,String>emptyMap());
     }
 }

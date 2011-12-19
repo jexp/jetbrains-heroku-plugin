@@ -2,6 +2,7 @@ package com.heroku.idea.ui;
 
 import com.heroku.idea.component.HerokuProjectComponent;
 import com.heroku.idea.git.GitHelper;
+import com.heroku.idea.git.GitRemoteInfo;
 import com.heroku.idea.herokuapi.Application;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Messages;
@@ -13,7 +14,7 @@ import com.intellij.ui.content.Content;
 import com.intellij.ui.content.ContentFactory;
 import com.jgoodies.forms.builder.DefaultFormBuilder;
 import com.jgoodies.forms.layout.FormLayout;
-import git4idea.repo.GitRemote;
+import git4idea.GitRemote;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -126,9 +127,9 @@ public class HerokuToolWindowFactory implements ToolWindowFactory {
         return builder.getPanel();
     }
 
-    private GitRemote attachRemote(Project project, Application application) {
+    private GitRemoteInfo attachRemote(Project project, Application application) {
         final String gitUrl = application.getString("git_url");
-        final GitRemote remote = GitHelper.findRemote(gitUrl, project);
+        final GitRemoteInfo remote = GitHelper.findRemote(gitUrl, project);
         if (remote==null) {
             GitHelper.addHerokuRemote(project,gitUrl);
             return GitHelper.findRemote(gitUrl, project);
@@ -143,7 +144,7 @@ public class HerokuToolWindowFactory implements ToolWindowFactory {
         final Application application = herokuProjectComponent.getApplication();
 
         final String gitUrl = application.getString("git_url");
-        GitRemote herokuRemote = GitHelper.findRemote(gitUrl, project);
+        GitRemoteInfo herokuRemote = GitHelper.findRemote(gitUrl, project);
 
         final DefaultFormBuilder builder = new DefaultFormBuilder(new FormLayout(
                 "right:pref, 6dlu, right:pref, 10dlu, right:pref, 6dlu, right:pref, pref:grow", // columns
@@ -156,15 +157,15 @@ public class HerokuToolWindowFactory implements ToolWindowFactory {
         builder.append("Dynos", new JLabel("" + application.get("dynos")));
         builder.append("Workers", new JLabel("" + application.get("workers")));
         if (herokuRemote != null)
-            builder.append("Remote", new JLabel(herokuRemote.getName() + " : " + herokuRemote.getFirstUrl()));
+            builder.append("Remote", new JLabel(herokuRemote.getName() + " : " + herokuRemote.getUrl()));
         else
             builder.append("Remote", new JButton(new AbstractAction("Add: " + gitUrl) {
                 public void actionPerformed(ActionEvent actionEvent) {
-                    final GitRemote herokuRemote = attachRemote(project, application);
+                    final GitRemoteInfo herokuRemote = attachRemote(project, application);
                     if (herokuRemote!=null) {
                             setEnabled(false);
-                            this.putValue(NAME, herokuRemote.getName() + " : " + herokuRemote.getFirstUrl());
-                            this.putValue(SHORT_DESCRIPTION, herokuRemote.getName() + " : " + herokuRemote.getFirstUrl());
+                            this.putValue(NAME, herokuRemote.getName() + " : " + herokuRemote.getUrl());
+                            this.putValue(SHORT_DESCRIPTION, herokuRemote.getName() + " : " + herokuRemote.getUrl());
                     }
                 }
             }));
@@ -284,9 +285,9 @@ public class HerokuToolWindowFactory implements ToolWindowFactory {
     }
 
     private static class GitRemotesTableModel extends AbstractTableModel {
-        private final List<GitRemote> remotes;
+        private final List<GitRemoteInfo> remotes;
 
-        public GitRemotesTableModel(List<GitRemote> remotes) {
+        public GitRemotesTableModel(List<GitRemoteInfo> remotes) {
             this.remotes = remotes;
         }
 
@@ -299,12 +300,12 @@ public class HerokuToolWindowFactory implements ToolWindowFactory {
         }
 
         public Object getValueAt(int row, int col) {
-            final GitRemote remote = remotes.get(row);
+            final GitRemoteInfo remote = remotes.get(row);
             switch (col) {
                 case 0:
                     return remote.getName();
                 case 1:
-                    return remote.getFirstUrl();
+                    return remote.getUrl();
             }
             return null;
         }

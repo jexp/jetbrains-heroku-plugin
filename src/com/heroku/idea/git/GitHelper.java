@@ -9,14 +9,9 @@ import com.intellij.openapi.vcs.VcsException;
 import com.intellij.openapi.vfs.VirtualFile;
 import git4idea.checkout.GitCheckoutProvider;
 import git4idea.commands.*;
-import git4idea.repo.GitRemote;
-import git4idea.repo.GitRepository;
-import git4idea.repo.GitRepositoryManager;
 import git4idea.ui.GitUIUtil;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -28,6 +23,26 @@ public class GitHelper {
     public static final String HEROKU_REMOTE = "heroku";
     public static final String HEROKU_DEFAULT_BRANCH = "master";
 
+    private final static GitRemoteHandler remoteHandler = createRemoteHandler();
+
+    private static GitRemoteHandler createRemoteHandler() {
+        try {
+            Class.forName("git4idea.repo.GitRepositoryManager");
+            return createRemoteHandler("com.heroku.idea.git.NewGitRemoteHandler");
+        } catch(Exception cnfe) {
+            return createRemoteHandler("com.heroku.idea.git.OldGitRemoteHandler");
+        }
+    }
+
+    private static GitRemoteHandler createRemoteHandler(final String className)  {
+        try {
+            return (GitRemoteHandler)Class.forName(className).newInstance();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     public static boolean addHerokuRemote(Project project, String remoteUrl) {
         final GitSimpleHandler addRemoteHandler = new GitSimpleHandler(project, project.getBaseDir(), GitCommand.REMOTE);
         addRemoteHandler.setNoSSH(true);
@@ -35,7 +50,7 @@ public class GitHelper {
         try {
             addRemoteHandler.run();
             GitUIUtil.notifyMessage(project, "Added Heroku Remote", "Heroku remote <code>" + remoteUrl + "</code> added to project " + project.getName(), NotificationType.INFORMATION, true, null);
-            getRepository(project).update(GitRepository.TrackedTopic.CONFIG);
+            remoteHandler.updateRepository(project);
             return true;
         } catch (VcsException e) {
             LOG.info("addRemote ", e);
@@ -44,24 +59,13 @@ public class GitHelper {
         }
     }
 
-    public static GitRemote findRemote(String gitUrl, final Project project) {
+    public static GitRemoteInfo findRemote(String gitUrl, final Project project) {
         if (gitUrl == null) return null;
-        final List<GitRemote> remotes = getRemotes(project);
-        for (GitRemote remote : remotes) {
-            if (remote.getFirstUrl().equals(gitUrl)) return remote;
-        }
-        return null;
+        return remoteHandler.findRemote(gitUrl,project);
     }
 
-    private static List<GitRemote> getRemotes(final Project project) {
-        final GitRepository repo = getRepository(project);
-        if (repo == null) return Collections.emptyList();
-        return new ArrayList<GitRemote>(repo.getRemotes());
-    }
-
-    public static GitRepository getRepository(final Project project) {
-        final GitRepositoryManager repositoryManager = GitRepositoryManager.getInstance(project);
-        return repositoryManager.getRepositoryForRoot(project.getBaseDir());
+    private static List<GitRemoteInfo> getRemotes(final Project project) {
+        return remoteHandler.getRemotes(project);
     }
 
 

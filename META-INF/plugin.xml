@@ -2,33 +2,36 @@
     <name>Heroku Plugin</name>
     <description>Heroku Plugin</description>
     <version>1.0</version>
-    <vendor>Jexp</vendor>
-    <idea-version since-build="8000"/>
+    <vendor>Michael Hunger</vendor>
     <depends>com.intellij.modules.lang</depends>
     <depends>com.intellij.modules.platform</depends>
     <depends>com.intellij.modules.vcs</depends>
+    <depends>Git4Idea</depends>
     <application-components>
         <!-- Add your application components here -->
         <component>
-            <implementation-class>com.heroku.idea.HerokuApplicationComponent</implementation-class>
+            <implementation-class>com.heroku.idea.component.HerokuApplicationComponent</implementation-class>
         </component>
     </application-components>
 
     <project-components>
         <!-- Add your project components here -->
         <component>
-            <implementation-class>com.heroku.idea.HerokuProjectComponent</implementation-class>
+            <implementation-class>com.heroku.idea.component.HerokuProjectComponent</implementation-class>
         </component>
     </project-components>
 
     <actions>
         <!-- Add your actions here -->
-        <action id="HerokuSettingsAction" class="com.heroku.idea.HerokuSettingsAction" text="HerokuSettingsAction">
+        <action id="HerokuSettingsAction" class="com.heroku.idea.action.HerokuSettingsAction"
+                text="HerokuSettingsAction">
             <add-to-group group-id="ToolsMenu" anchor="last"/>
         </action>
     </actions>
 
+
     <extensions defaultExtensionNs="com.intellij">
-        <!-- Add your extensions here -->
+        <toolWindow id="Heroku"  anchor="bottom" factoryClass="com.heroku.idea.ui.HerokuToolWindowFactory" icon="/icons/heroku_icon_16.png"/>
+        <applicationConfigurable id="Heroku" instance="com.heroku.idea.HerokuSettings"/>
     </extensions>
 </idea-plugin>

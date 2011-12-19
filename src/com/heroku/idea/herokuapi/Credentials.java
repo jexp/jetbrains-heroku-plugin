@@ -10,7 +10,7 @@ import static com.heroku.idea.rest.RestFormatHelper.map;
  * @since 17.12.11
  */
 public class Credentials {
-    private Map<String, Object> data = new HashMap<String, Object>();
+    private Map data = new HashMap();
 
     public Credentials() {
     }

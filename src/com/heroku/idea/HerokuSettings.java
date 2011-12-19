@@ -78,7 +78,7 @@ public class HerokuSettings implements Configurable, ActionListener {
     }
 
     public void reset() {
-        final Credentials credentials = herokuApplicationComponent.getState();
+        final Credentials credentials = herokuApplicationComponent.getCredentials();
         this.nameField.setText(credentials!=null ? credentials.user() : null);
         this.passwordField.setText(null);
 
