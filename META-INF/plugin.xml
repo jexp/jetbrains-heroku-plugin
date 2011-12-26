@@ -10,20 +10,20 @@
     <application-components>
         <!-- Add your application components here -->
         <component>
-            <implementation-class>com.heroku.idea.component.HerokuApplicationComponent</implementation-class>
+            <implementation-class>com.jetbrains.heroku.component.HerokuApplicationComponent</implementation-class>
         </component>
     </application-components>
 
     <project-components>
         <!-- Add your project components here -->
         <component>
-            <implementation-class>com.heroku.idea.component.HerokuProjectComponent</implementation-class>
+            <implementation-class>com.jetbrains.heroku.component.HerokuProjectComponent</implementation-class>
         </component>
     </project-components>
 
     <actions>
         <!-- Add your actions here -->
-        <action id="HerokuSettingsAction" class="com.heroku.idea.action.HerokuSettingsAction"
+        <action id="HerokuSettingsAction" class="com.jetbrains.heroku.action.HerokuSettingsAction"
                 text="HerokuSettingsAction">
             <add-to-group group-id="ToolsMenu" anchor="last"/>
         </action>
@@ -31,7 +31,7 @@
 
 
     <extensions defaultExtensionNs="com.intellij">
-        <toolWindow id="Heroku"  anchor="bottom" factoryClass="com.heroku.idea.ui.HerokuToolWindowFactory" icon="/icons/heroku_icon_16.png"/>
-        <applicationConfigurable id="Heroku" instance="com.heroku.idea.HerokuSettings"/>
+        <toolWindow id="Heroku"  anchor="bottom" factoryClass="com.jetbrains.heroku.ui.HerokuToolWindowFactory" icon="/icons/heroku_icon_16.png"/>
+        <applicationConfigurable id="Heroku" instance="com.jetbrains.heroku.HerokuSettings"/>
     </extensions>
 </idea-plugin>
