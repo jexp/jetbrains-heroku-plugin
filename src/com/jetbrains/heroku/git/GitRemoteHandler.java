@@ -14,4 +14,6 @@ interface GitRemoteHandler {
     GitRemoteInfo findRemote(String gitUrl, Project project);
 
     List<GitRemoteInfo> getRemotes(Project project);
+
+    boolean isGitEnabled(Project project);
 }

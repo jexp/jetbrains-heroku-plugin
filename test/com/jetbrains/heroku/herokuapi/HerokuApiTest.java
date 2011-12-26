@@ -1,13 +1,14 @@
 package com.jetbrains.heroku.herokuapi;
 
-import com.jetbrains.heroku.herokuapi.Application;
-import com.jetbrains.heroku.herokuapi.Credentials;
-import com.jetbrains.heroku.herokuapi.HerokuApi;
+import com.heroku.api.App;
+import com.heroku.api.Collaborator;
+import com.heroku.api.HerokuAPI;
+import com.heroku.api.request.log.LogStreamResponse;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.List;
-import java.util.Map;
 
 import static org.junit.Assert.*;
 
@@ -18,54 +19,57 @@ import static org.junit.Assert.*;
 public class HerokuApiTest {
 
 
-    private static HerokuApi herokuApi;
+    private static HerokuAPI herokuApi;
+    private static final String API_KEY = "8e8d207358c24f68314ccfb7b47e93f6f298f7c8";
+    private static final String IDEA_TEST = "idea-test";
 
     @BeforeClass
     public static void init() throws Exception {
-        final Credentials credentials = HerokuApi.login("heroku-test@mesirii.de", "herokutest");
-        herokuApi = new HerokuApi(credentials);
+        HerokuApiTest.herokuApi = new HerokuAPI(API_KEY);
     }
 
 
     @Test
     public void testGetApplication() throws Exception {
-        final Application application = herokuApi.getApplication("idea-test");
-        final Map<String,Object> result = application.getInfo();
-        assertEquals("http://idea-test.heroku.com/",result.get("web_url"));
+        final App application = herokuApi.getApp(IDEA_TEST);
+        assertEquals("http://idea-test.heroku.com/",application.getWebUrl());
     }
+
     @Test
+    @Ignore
     public void testGetApplicationStatus() throws Exception {
-        final String status = herokuApi.getApplicationStatus("idea-test");
+        final String status = herokuApi.getApp(IDEA_TEST).getCreateStatus();
         System.out.println("status = " + status);
         assertNotNull(status);
     }
     @Test
     public void testGetApplicationCollaborators() throws Exception {
-        final List<Map<String, Object>> result = herokuApi.loadApplicationCollaborators("idea-test");
+        final List<Collaborator> result = herokuApi.listCollaborators(IDEA_TEST);
         assertEquals(2, result.size());
-        assertNotNull(result.get(0).get("email").equals("heroku-test@mesirii.de") || result.get(1).get("email").equals("heroku-test@mesirii.de"));
+        assertNotNull(result.get(0).getEmail().equals("heroku-test@mesirii.de") || result.get(1).getEmail().equals("heroku-test@mesirii.de"));
     }
     @Test
     public void testGetApplicationLogs() throws Exception {
-        final String result = herokuApi.loadApplicationLogs("idea-test", 10000);
-        assertNotNull("found logs",result);
+        final LogStreamResponse result = herokuApi.getLogs(IDEA_TEST);
+        assertNotNull("found logs", result);
     }
     @Test
     public void testGetApplications() throws Exception {
-        final List<Application> apps = herokuApi.allApps();
+        final List<App> apps = herokuApi.listApps();
         assertEquals(1,apps.size());
-        assertEquals("http://idea-test.heroku.com/",apps.get(0).get("web_url"));
+        assertEquals("http://idea-test.heroku.com/",apps.get(0).getWebUrl());
     }
 
     @Test
     public void testCreateApplication() {
         final String prefix = "test-create";
-        createApplication(prefix);
+        final App application = createApplication(prefix);
+        herokuApi.destroyApp(application.getName());
     }
 
-    private Application createApplication(String prefix) {
+    private App createApplication(String prefix) {
         final String newName = prefix + System.currentTimeMillis();
-        final Application application = herokuApi.create(newName, HerokuApi.NO_OPTIONS);
+        final App application = herokuApi.createApp(new App().named(newName));
         assertNotNull("created application",application);
         assertEquals("correct application name",newName,application.getName());
         return application;
@@ -73,9 +77,12 @@ public class HerokuApiTest {
 
     @Test
     public void testDestroyApplication() throws InterruptedException {
-        final Application application = createApplication("test-destroy");
-        herokuApi.destroyApplication(application.getName());
-        assertNull(herokuApi.getApplicationStatus(application.getName()));
+        final App application = createApplication("test-destroy");
+        herokuApi.destroyApp(application.getName());
+        try {
+            assertNull(herokuApi.getApp(application.getName()));
+            fail("App still exists");
+        } catch(com.heroku.api.exception.RequestFailedException rfe) { }
     }
 }
 

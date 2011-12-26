@@ -2,6 +2,7 @@
     <name>Heroku Integration</name>
     <description>Alpha Proof of Concept for Heroku integration for all Jetbrains Products, stores credentials, lists existing apps, allows current project to be connected to an app, new app creation, restart, deploy.</description>
     <version>0.1</version>
+    <idea-version since-build="8000"/>
     <vendor>Michael Hunger</vendor>
     <depends>com.intellij.modules.lang</depends>
     <depends>com.intellij.modules.platform</depends>
@@ -9,16 +10,16 @@
     <depends>Git4Idea</depends>
     <application-components>
         <!-- Add your application components here -->
-        <component>
-            <implementation-class>com.jetbrains.heroku.component.HerokuApplicationComponent</implementation-class>
-        </component>
+        <!--component>
+            <implementation-class>com.jetbrains.heroku.component.HerokuApplicationService</implementation-class>
+        </component-->
     </application-components>
 
     <project-components>
         <!-- Add your project components here -->
-        <component>
+        <!--component>
             <implementation-class>com.jetbrains.heroku.component.HerokuProjectComponent</implementation-class>
-        </component>
+        </component-->
     </project-components>
 
     <actions>
@@ -31,6 +32,11 @@
 
 
     <extensions defaultExtensionNs="com.intellij">
+        <applicationService serviceInterface="com.jetbrains.heroku.service.HerokuApplicationService" serviceImplementation="com.jetbrains.heroku.service.HerokuApplicationService">
+        </applicationService>
+
+        <projectService serviceInterface="com.jetbrains.heroku.service.HerokuProjectService" serviceImplementation="com.jetbrains.heroku.service.HerokuProjectService">
+        </projectService>
         <toolWindow id="Heroku"  anchor="bottom" factoryClass="com.jetbrains.heroku.ui.HerokuToolWindowFactory" icon="/icons/heroku_icon_16.png"/>
         <applicationConfigurable id="Heroku" instance="com.jetbrains.heroku.HerokuSettings"/>
     </extensions>

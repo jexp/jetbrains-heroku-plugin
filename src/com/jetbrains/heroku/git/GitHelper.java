@@ -28,17 +28,17 @@ public class GitHelper {
     private static GitRemoteHandler createRemoteHandler() {
         try {
             Class.forName("git4idea.repo.GitRepositoryManager");
-            return createRemoteHandler("com.heroku.idea.git.NewGitRemoteHandler");
+            return createRemoteHandler("NewGitRemoteHandler");
         } catch(Exception cnfe) {
-            return createRemoteHandler("com.heroku.idea.git.OldGitRemoteHandler");
+            return createRemoteHandler("OldGitRemoteHandler");
         }
     }
 
     private static GitRemoteHandler createRemoteHandler(final String className)  {
         try {
-            return (GitRemoteHandler)Class.forName(className).newInstance();
+            return (GitRemoteHandler)Class.forName(GitRemoteHandler.class.getPackage().getName()+"."+className).newInstance();
         } catch (Exception e) {
-            e.printStackTrace();
+            System.err.println("Error creating instance of class "+className+ " "+e.getMessage());
             return null;
         }
     }
@@ -66,6 +66,9 @@ public class GitHelper {
 
     private static List<GitRemoteInfo> getRemotes(final Project project) {
         return remoteHandler.getRemotes(project);
+    }
+    public static boolean isGitEnabled(final Project project) {
+        return remoteHandler.isGitEnabled(project);
     }
 
 

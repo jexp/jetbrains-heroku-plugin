@@ -2,7 +2,10 @@ package com.jetbrains.heroku.git;
 
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vcs.VcsException;
+import git4idea.Git;
 import git4idea.GitRemote;
+import git4idea.GitUtil;
+import git4idea.ui.GitUIUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,5 +55,10 @@ public class OldGitRemoteHandler implements GitRemoteHandler {
         public String getUrl() {
             return remote.pushUrl();
         }
+    }
+
+    @Override
+    public boolean isGitEnabled(Project project) {
+        return GitUtil.isUnderGit(project.getBaseDir());
     }
 }

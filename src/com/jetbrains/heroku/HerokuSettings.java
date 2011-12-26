@@ -1,11 +1,11 @@
 package com.jetbrains.heroku;
 
-import com.jetbrains.heroku.component.HerokuApplicationComponent;
+import com.jetbrains.heroku.service.HerokuApplicationService;
 import com.jetbrains.heroku.herokuapi.Credentials;
-import com.jetbrains.heroku.ui.ApplicationsTableModel;
 import com.intellij.openapi.options.Configurable;
 import com.intellij.openapi.options.ConfigurationException;
 import com.intellij.openapi.ui.Messages;
+import com.jetbrains.heroku.ui.AppsTableModel;
 import com.jgoodies.forms.builder.DefaultFormBuilder;
 import com.jgoodies.forms.layout.FormLayout;
 import org.jetbrains.annotations.Nls;
@@ -20,13 +20,13 @@ import java.awt.event.ActionListener;
  */
 public class HerokuSettings implements Configurable, ActionListener {
 
-    private JTextField nameField = new JTextField();
-    private JPasswordField passwordField = new JPasswordField();
-    private final ApplicationsTableModel appsModel= new ApplicationsTableModel();
-    private final HerokuApplicationComponent herokuApplicationComponent;
+    private JTextField emailField = new JTextField();
+    private JTextField tokenField = new JTextField();
+    private final AppsTableModel appsModel= new AppsTableModel();
+    private final HerokuApplicationService herokuApplicationService;
 
-    public HerokuSettings(HerokuApplicationComponent herokuApplicationComponent) {
-        this.herokuApplicationComponent = herokuApplicationComponent;
+    public HerokuSettings(HerokuApplicationService herokuApplicationService) {
+        this.herokuApplicationService = herokuApplicationService;
     }
 
     @Nls
@@ -43,15 +43,15 @@ public class HerokuSettings implements Configurable, ActionListener {
     }
 
     public JComponent createComponent() {
-        nameField.setColumns(20);
-        passwordField.setColumns(10);
+        emailField.setColumns(20);
+        tokenField.setColumns(10);
         final DefaultFormBuilder builder = new DefaultFormBuilder(new FormLayout(
                 "right:pref, 6dlu, pref, 10dlu, right:pref, 6dlu, pref, 10dlu, pref, 10dlu:grow(0.1)", // columns
                 "pref"));// rows
         builder.appendSeparator("Heroku Credentials");
-        builder.append("Login", nameField);
-        builder.append("Password", passwordField);
-        builder.append(new JButton("Test") {{
+        builder.append("Heroku-Email", emailField);
+        builder.append("API-Token", tokenField);
+        builder.append(new JButton("Test Credentials") {{
             addActionListener(HerokuSettings.this);
         }},1);
         builder.nextLine();
@@ -63,30 +63,30 @@ public class HerokuSettings implements Configurable, ActionListener {
         return true;
     }
 
-    private String getPassword() {
-        return String.valueOf(passwordField.getPassword());
+    private String getToken() {
+        return String.valueOf(tokenField.getText());
     }
 
     private String getName() {
-        return nameField.getText();
+        return emailField.getText();
     }
 
     public void apply() throws ConfigurationException {
         if (testLogin()) {
-            herokuApplicationComponent.update(getName(), getPassword());
+            herokuApplicationService.update(getName(), getToken());
         }
     }
 
     public void reset() {
-        final Credentials credentials = herokuApplicationComponent.getCredentials();
-        this.nameField.setText(credentials!=null ? credentials.user() : null);
-        this.passwordField.setText(null);
+        final Credentials credentials = herokuApplicationService.getCredentials();
+        this.emailField.setText(credentials != null ? credentials.getEmail() : null);
+        this.tokenField.setText(credentials != null ? credentials.getToken() : null);
 
     }
 
     public void disposeUIResources() {
-        nameField = null;
-        passwordField = null;
+        emailField = null;
+        tokenField = null;
     }
 
     public void actionPerformed(ActionEvent actionEvent) {
@@ -96,11 +96,11 @@ public class HerokuSettings implements Configurable, ActionListener {
     }
 
     private boolean testLogin() {
-        final Credentials credentials = herokuApplicationComponent.login(getName(), getPassword());
+        final Credentials credentials = herokuApplicationService.login(getName(), getToken());
         final boolean validCredentials = credentials != null && credentials.valid();
 
         if (validCredentials) {
-            this.appsModel.update(herokuApplicationComponent.allApps(credentials));
+            this.appsModel.update(herokuApplicationService.allApps(credentials));
         }
         return validCredentials;
     }

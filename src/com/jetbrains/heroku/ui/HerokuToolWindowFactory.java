@@ -1,9 +1,9 @@
 package com.jetbrains.heroku.ui;
 
-import com.jetbrains.heroku.component.HerokuProjectComponent;
-import com.jetbrains.heroku.git.GitHelper;
-import com.jetbrains.heroku.git.GitRemoteInfo;
-import com.jetbrains.heroku.herokuapi.Application;
+import com.heroku.api.Addon;
+import com.heroku.api.App;
+import com.heroku.api.Collaborator;
+import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.wm.ToolWindow;
@@ -12,9 +12,11 @@ import com.intellij.ui.HyperlinkLabel;
 import com.intellij.ui.components.JBScrollPane;
 import com.intellij.ui.content.Content;
 import com.intellij.ui.content.ContentFactory;
+import com.jetbrains.heroku.service.HerokuProjectService;
+import com.jetbrains.heroku.git.GitHelper;
+import com.jetbrains.heroku.git.GitRemoteInfo;
 import com.jgoodies.forms.builder.DefaultFormBuilder;
 import com.jgoodies.forms.layout.FormLayout;
-import git4idea.GitRemote;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -34,35 +36,34 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class HerokuToolWindowFactory implements ToolWindowFactory {
 
-    public static final int MAX_DYNOS = 100;
     private final JTabbedPane tabs = new JTabbedPane(1);
 
     public void createToolWindowContent(Project project, ToolWindow toolWindow) {
         ContentFactory contentFactory = ContentFactory.SERVICE.getInstance();
-        final HerokuProjectComponent herokuProjectComponent = project.getComponent(HerokuProjectComponent.class);
-        Content content = contentFactory.createContent(createPanel(herokuProjectComponent), "", false);
+        final HerokuProjectService herokuProjectService = ServiceManager.getService(project,HerokuProjectService.class);
+        Content content = contentFactory.createContent(createPanel(herokuProjectService), "", false);
         toolWindow.getContentManager().addContent(content);
     }
 
-        // todo check for non existent project on heroku and op
+    // todo check for non existent project on heroku and op
     // if there is no app-name configured: provide one for an existing heroku project or create a new one
     // todo async load operations
-    private JComponent createPanel(HerokuProjectComponent herokuProjectComponent) {
-        updatePanels(herokuProjectComponent);
+    private JComponent createPanel(HerokuProjectService herokuProjectService) {
+        updatePanels(herokuProjectService);
         return tabs;
     }
 
-    private void updatePanels(HerokuProjectComponent herokuProjectComponent) {
+    private void updatePanels(HerokuProjectService herokuProjectService) {
         tabs.removeAll();
-        if (herokuProjectComponent.isHerokuProject()) {
-            tabs.addTab("Application", createActivePanel(herokuProjectComponent));
-            tabs.addTab("Information", createInfoTable(herokuProjectComponent));
-            tabs.addTab("Config", createConfigTable(herokuProjectComponent));
-            tabs.addTab("Add-Ons", createAddOnTable(herokuProjectComponent));
-            tabs.addTab("Collaborators", createCollaboratorTable(herokuProjectComponent));
-            tabs.addTab("Logs", createLogViewer(herokuProjectComponent));
+        if (herokuProjectService.isHerokuProject()) {
+            tabs.addTab("Application", createActivePanel(herokuProjectService));
+            tabs.addTab("Information", createInfoTable(herokuProjectService));
+            tabs.addTab("Config", createConfigTable(herokuProjectService));
+            tabs.addTab("Add-Ons", createAddOnTable(herokuProjectService));
+            tabs.addTab("Collaborators", createCollaboratorTable(herokuProjectService));
+            tabs.addTab("Logs", createLogViewer(herokuProjectService));
         } else {
-            tabs.addTab("Setup", createSetupPanel(herokuProjectComponent));
+            tabs.addTab("Setup", createSetupPanel(herokuProjectService));
         }
     }
 
@@ -73,15 +74,26 @@ public class HerokuToolWindowFactory implements ToolWindowFactory {
             }
         });
     }
-    private JPanel createSetupPanel(final HerokuProjectComponent herokuProjectComponent) {
-        final Project project = herokuProjectComponent.getProject();
+
+    private JPanel createSetupPanel(final HerokuProjectService herokuProjectService) {
+        final Project project = herokuProjectService.getProject();
         final DefaultFormBuilder builder = new DefaultFormBuilder(new FormLayout(
                 "pref, 10dlu, pref, 10dlu, pref, 10dlu, pref, pref:grow", // columns
                 "default, pref:g(1)"));// rows
-        final ApplicationsTableModel applicationsTableModel = new ApplicationsTableModel();
+        if (!GitHelper.isGitEnabled(project)) {
+            builder.append(new JButton(new AbstractAction("Enable Git Integration") {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    updatePanels(herokuProjectService);
+                }
+            }));
+            return builder.getPanel();
+        }
+
+        final AppsTableModel applicationsTableModel = new AppsTableModel();
         final Runnable updater = new Runnable() {
             public void run() {
-                final List<Application> allApps = herokuProjectComponent.getApplicationComponent().allApps();
+                final List<App> allApps = herokuProjectService.getApplicationService().allApps();
                 applicationsTableModel.update(allApps);
             }
         };
@@ -89,13 +101,14 @@ public class HerokuToolWindowFactory implements ToolWindowFactory {
         final AtomicInteger selectedApplication = new AtomicInteger();
         builder.append(table(applicationsTableModel, selectedApplication), 8);
         builder.append(updateButton(updater));
+
         builder.append(new JButton(new AbstractAction("Attach") {
             public void actionPerformed(ActionEvent actionEvent) {
-                final Application application = applicationsTableModel.getSelectedApplication(selectedApplication);
-                if (application != null) {
-                    herokuProjectComponent.update(application.getName());
-                    attachRemote(project, application);
-                    updatePanels(herokuProjectComponent);
+                final App app = applicationsTableModel.getSelectedApplication(selectedApplication);
+                if (app != null) {
+                    herokuProjectService.update(app);
+                    attachRemote(project, app);
+                    updatePanels(herokuProjectService);
                 }
             }
         }));
@@ -105,8 +118,8 @@ public class HerokuToolWindowFactory implements ToolWindowFactory {
             }
 
             public void actionPerformed(ActionEvent actionEvent) {
-                final Application application = applicationsTableModel.getSelectedApplication(selectedApplication);
-                if (application != null) {
+                final App app = applicationsTableModel.getSelectedApplication(selectedApplication);
+                if (app != null) {
                     // todo git clone
                 }
             }
@@ -115,10 +128,10 @@ public class HerokuToolWindowFactory implements ToolWindowFactory {
             public void actionPerformed(ActionEvent actionEvent) {
                 try {
                     String newApplicationName = Messages.showInputDialog(project, "Please enter the new Heroku Application Name or leave blank for default:", "New Heroku Application Name", Messages.getQuestionIcon());
-                    Application newApplication = herokuProjectComponent.getApplicationComponent().createApplication(newApplicationName);
-                    herokuProjectComponent.update(newApplication.getName());
-                    attachRemote(project,newApplication);
-                    updatePanels(herokuProjectComponent);
+                    App newApp = herokuProjectService.getApplicationService().createApplication(newApplicationName);
+                    herokuProjectService.update(newApp);
+                    attachRemote(project, newApp);
+                    updatePanels(herokuProjectService);
                 } catch (Exception e) {
                     Messages.showMessageDialog(project, "Error creating application: " + e.getMessage(), "Error Creating Heroku Application", Messages.getErrorIcon());
                 }
@@ -127,45 +140,45 @@ public class HerokuToolWindowFactory implements ToolWindowFactory {
         return builder.getPanel();
     }
 
-    private GitRemoteInfo attachRemote(Project project, Application application) {
-        final String gitUrl = application.getString("git_url");
+    private GitRemoteInfo attachRemote(Project project, App app) {
+        final String gitUrl = app.getGitUrl();
         final GitRemoteInfo remote = GitHelper.findRemote(gitUrl, project);
-        if (remote==null) {
-            GitHelper.addHerokuRemote(project,gitUrl);
+        if (remote == null) {
+            GitHelper.addHerokuRemote(project, gitUrl);
             return GitHelper.findRemote(gitUrl, project);
         }
         return null;
     }
 
-    private JPanel createActivePanel(final HerokuProjectComponent herokuProjectComponent) {
-        if (!herokuProjectComponent.isHerokuProject()) return null;
-        final Project project = herokuProjectComponent.getProject();
+    private JPanel createActivePanel(final HerokuProjectService herokuProjectService) {
+        if (!herokuProjectService.isHerokuProject()) return null;
+        final Project project = herokuProjectService.getProject();
 
-        final Application application = herokuProjectComponent.getApplication();
+        final App app = herokuProjectService.getApp();
 
-        final String gitUrl = application.getString("git_url");
+        final String gitUrl = app.getGitUrl();
         GitRemoteInfo herokuRemote = GitHelper.findRemote(gitUrl, project);
 
         final DefaultFormBuilder builder = new DefaultFormBuilder(new FormLayout(
                 "right:pref, 6dlu, right:pref, 10dlu, right:pref, 6dlu, right:pref, pref:grow", // columns
                 "pref"));// rows
-        builder.appendSeparator("Heroku Application: " + herokuProjectComponent.getHerokuApplicationName());
-        builder.append("URL", link(application.getString("web_url")));
-        builder.append("Domain", link(application.getString("domain")));
-        builder.append("Owner", new JLabel(application.getString("owner")));
-        builder.append("Stack", new JLabel(application.getString("stack")));
-        builder.append("Dynos", new JLabel("" + application.get("dynos")));
-        builder.append("Workers", new JLabel("" + application.get("workers")));
+        builder.appendSeparator("Heroku Application: " + herokuProjectService.getHerokuAppName());
+        builder.append("URL", link(app.getWebUrl()));
+        builder.append("Domain", link(app.getDomainName()));
+        builder.append("Owner", new JLabel(app.getOwnerEmail()));
+        builder.append("Stack", new JLabel(app.getStack()));
+        builder.append("Dynos", new JLabel("" + app.getDynos()));
+        builder.append("Workers", new JLabel("" + app.getWorkers()));
         if (herokuRemote != null)
             builder.append("Remote", new JLabel(herokuRemote.getName() + " : " + herokuRemote.getUrl()));
         else
             builder.append("Remote", new JButton(new AbstractAction("Add: " + gitUrl) {
                 public void actionPerformed(ActionEvent actionEvent) {
-                    final GitRemoteInfo herokuRemote = attachRemote(project, application);
-                    if (herokuRemote!=null) {
-                            setEnabled(false);
-                            this.putValue(NAME, herokuRemote.getName() + " : " + herokuRemote.getUrl());
-                            this.putValue(SHORT_DESCRIPTION, herokuRemote.getName() + " : " + herokuRemote.getUrl());
+                    final GitRemoteInfo herokuRemote = attachRemote(project, app);
+                    if (herokuRemote != null) {
+                        setEnabled(false);
+                        this.putValue(NAME, herokuRemote.getName() + " : " + herokuRemote.getUrl());
+                        this.putValue(SHORT_DESCRIPTION, herokuRemote.getName() + " : " + herokuRemote.getUrl());
                     }
                 }
             }));
@@ -174,7 +187,7 @@ public class HerokuToolWindowFactory implements ToolWindowFactory {
 
         builder.append(new JButton(new AbstractAction("Restart") {
             public void actionPerformed(ActionEvent actionEvent) {
-                herokuProjectComponent.restartApplication();
+                herokuProjectService.restartApplication();
             }
         }));
         builder.append(new JButton(new AbstractAction("Deploy") {
@@ -187,7 +200,7 @@ public class HerokuToolWindowFactory implements ToolWindowFactory {
     }
 
     private HyperlinkLabel link(final String url) {
-        if (url==null) {
+        if (url == null) {
             return new HyperlinkLabel();
         }
         final HyperlinkLabel label = new HyperlinkLabel(url);
@@ -195,16 +208,16 @@ public class HerokuToolWindowFactory implements ToolWindowFactory {
         return label;
     }
 
-    private JTextArea createLogViewer(HerokuProjectComponent herokuProjectComponent) {
-        if (!herokuProjectComponent.isHerokuProject()) return null;
-        String logs = herokuProjectComponent.getApplicationLogs();
+    private JTextArea createLogViewer(HerokuProjectService herokuProjectService) {
+        if (!herokuProjectService.isHerokuProject()) return null;
+        String logs = herokuProjectService.getApplicationLogs();
         return new JTextArea(logs);
     }
 
-    private Component createCollaboratorTable(HerokuProjectComponent herokuProjectComponent) {
-        if (!herokuProjectComponent.isHerokuProject()) return null;
-        final List<Map<String, Object>> applicationInfo = herokuProjectComponent.getApplicationCollaborators();
-        return table(new ListMapTableModel(applicationInfo, "email", "access"));
+    private Component createCollaboratorTable(HerokuProjectService herokuProjectService) {
+        if (!herokuProjectService.isHerokuProject()) return null;
+        final List<Collaborator> collaborators = herokuProjectService.getApplicationCollaborators();
+        return table(new CollaboratorTableModel(collaborators));
     }
 
     private JBScrollPane table(TableModel model) {
@@ -227,22 +240,23 @@ public class HerokuToolWindowFactory implements ToolWindowFactory {
         return table;
     }
 
-    private Component createAddOnTable(HerokuProjectComponent herokuProjectComponent) {
-        if (!herokuProjectComponent.isHerokuProject()) return null;
-        final List<Map<String, Object>> applicationInfo = herokuProjectComponent.getApplicationAddOns();
-        return table(new ListMapTableModel(applicationInfo, "name", "description", "configured", "state", "beta", "url"));
+    private Component createAddOnTable(HerokuProjectService herokuProjectService) {
+        if (!herokuProjectService.isHerokuProject()) return null;
+        final List<Addon> addons = herokuProjectService.getApplicationAddOns();
+        return table(new AddonTableModel(addons));
     }
 
-    private Component createConfigTable(HerokuProjectComponent herokuProjectComponent) {
-        if (!herokuProjectComponent.isHerokuProject()) return null;
-        final Map<String, Object> applicationInfo = herokuProjectComponent.getApplicationConfig();
+    @SuppressWarnings("unchecked")
+    private Component createConfigTable(HerokuProjectService herokuProjectService) {
+        if (!herokuProjectService.isHerokuProject()) return null;
+        final Map applicationInfo = herokuProjectService.getApplicationConfig();
         return table(new MapTableModel(applicationInfo, "Parameter", "Value"));
     }
 
-    private Component createInfoTable(HerokuProjectComponent herokuProjectComponent) {
-        if (!herokuProjectComponent.isHerokuProject()) return null;
-        final Map<String, Object> applicationInfo = herokuProjectComponent.getApplicationInfo();
-        return table(new MapTableModel(applicationInfo, "Setting", "Value"));
+    private Component createInfoTable(HerokuProjectService herokuProjectService) {
+        if (!herokuProjectService.isHerokuProject()) return null;
+        final App app = herokuProjectService.getApplicationInfo();
+        return table(new AppTableModel(app));
     }
 
     private static class MapTableModel extends AbstractTableModel {
@@ -319,6 +333,84 @@ public class HerokuToolWindowFactory implements ToolWindowFactory {
                     return "URL";
             }
             return null;
+        }
+    }
+
+    private static class CollaboratorTableModel extends AbstractTableModel {
+        private final List<Collaborator> collaborators;
+
+        public CollaboratorTableModel(List<Collaborator> collaborators) {
+            this.collaborators = collaborators;
+        }
+
+        @Override
+        public int getRowCount() {
+            return collaborators.size();
+        }
+
+        @Override
+        public int getColumnCount() {
+            return 2;
+        }
+
+        @Override
+        public Object getValueAt(int row, int column) {
+            final Collaborator collaborator = collaborators.get(row);
+            return column == 0 ? collaborator.getEmail() : collaborator.getAccess();
+        }
+
+        @Override
+        public String getColumnName(int column) {
+            return column == 0 ? "Email" : "Access";
+        }
+    }
+
+    private static class AddonTableModel extends AbstractTableModel {
+        private final List<Addon> addons;
+
+        public AddonTableModel(List<Addon> addons) {
+            this.addons = addons;
+        }
+
+        enum Column {name, description, configured, state, beta, url}
+
+        @Override
+        public int getRowCount() {
+            return addons.size();
+        }
+
+        @Override
+        public int getColumnCount() {
+            return Column.values().length;
+        }
+
+        @Override
+        public Object getValueAt(int row, int col) {
+            final Addon addon = addons.get(row);
+            switch (columnFor(col)) {
+                case name:
+                    return addon.getName();
+                case description:
+                    return addon.getDescription();
+                case configured:
+                    return addon.getConfigured();
+                case state:
+                    return addon.getState();
+                case beta:
+                    return addon.getBeta();
+                case url:
+                    return addon.getUrl();
+            }
+            return null;
+        }
+
+        private Column columnFor(int column) {
+            return Column.values()[column];
+        }
+
+        @Override
+        public String getColumnName(int column) {
+            return columnFor(column).name();
         }
     }
 

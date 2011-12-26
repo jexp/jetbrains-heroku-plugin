@@ -37,6 +37,11 @@ public class NewGitRemoteHandler implements GitRemoteHandler{
         return result;
     }
 
+    @Override
+    public boolean isGitEnabled(Project project) {
+        return getRepository(project)!=null;
+    }
+
     private GitRepository getRepository(final Project project) {
         final GitRepositoryManager repositoryManager = GitRepositoryManager.getInstance(project);
         return repositoryManager.getRepositoryForRoot(project.getBaseDir());
