@@ -7,6 +7,7 @@ import com.jetbrains.heroku.service.HerokuProjectService;
 
 import javax.swing.*;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -24,17 +25,19 @@ public class HerokuLogsWindow extends HerokuToolWindow {
 
     @Override
     protected JComponent createContentPane() {
-        if (!herokuProjectService.isHerokuProject()) return null;
         logView = new LogView(herokuProjectService.getProject());
         update();
         return logView.getConsoleView().getComponent();
     }
 
     private LogStreamResponse load() {
+        if (!herokuProjectService.isHerokuProject()) return null;
+
         return herokuProjectService.getApplicationLogStream();
     }
 
-    private void update() {
+    public void update() {
+        setEnabled(herokuProjectService.isHerokuProject());
         logView.update(load());
     }
 

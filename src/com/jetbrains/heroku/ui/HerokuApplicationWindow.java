@@ -1,10 +1,10 @@
 package com.jetbrains.heroku.ui;
 
 import com.heroku.api.App;
-import com.heroku.api.request.log.LogStreamResponse;
+import com.heroku.api.Heroku;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.project.Project;
+import com.intellij.openapi.ui.Messages;
 import com.jetbrains.heroku.git.GitHelper;
 import com.jetbrains.heroku.git.GitRemoteInfo;
 import com.jetbrains.heroku.service.HerokuProjectService;
@@ -15,6 +15,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.Arrays;
 import java.util.List;
+
+import static com.jetbrains.heroku.ui.GuiUtil.label;
+import static com.jetbrains.heroku.ui.GuiUtil.link;
 
 /**
  * @author mh
@@ -30,7 +33,6 @@ public class HerokuApplicationWindow extends HerokuToolWindow {
 
     @Override
     protected JComponent createContentPane() {
-        if (!herokuProjectService.isHerokuProject()) return null;
         view = new JPanel(new BorderLayout());
         update();
         return view;
@@ -46,19 +48,19 @@ public class HerokuApplicationWindow extends HerokuToolWindow {
                 "pref"));// rows
         builder.appendSeparator("Heroku Application: " + herokuProjectService.getHerokuAppName());
         builder.append("URL", link(app.getWebUrl()));
-        builder.append("Owner", new JLabel(app.getOwnerEmail()));
-        builder.append("Id", new JLabel(app.getId()));
+        builder.append("Owner", label(app.getOwnerEmail()));
+        builder.append("Id", label(app.getId()));
         builder.append("Domain", link(app.getDomainName()));
-        builder.append("Requested Stack", new JLabel("" + app.getRequestedStack()));
-        builder.append("Stack", new JLabel(app.getStack()));
-        builder.append("Dynos", new JLabel("" + app.getDynos()));
-        builder.append("Workers", new JLabel("" + app.getWorkers()));
-        builder.append("Created At", new JLabel("" + app.getCreatedAt()));
-        builder.append("Create Status", new JLabel("" + app.getCreateStatus()));
-        builder.append("Repo Size", new JLabel("" + app.getRepoSize()));
-        builder.append("Slug Size", new JLabel("" + app.getSlugSize()));
+        builder.append("Requested Stack", label(app.getRequestedStack()));
+        builder.append("Stack", label(app.getStack()));
+        builder.append("Dynos", label(app.getDynos()));
+        builder.append("Workers", label(app.getWorkers()));
+        builder.append("Created At", label(app.getCreatedAt()));
+        builder.append("Create Status", label(app.getCreateStatus()));
+        builder.append("Repo Size", label(app.getRepoSize()));
+        builder.append("Slug Size", label(app.getSlugSize()));
 
-        builder.append("Remote", new JLabel(getGitRemote(app)));
+        builder.append("Remote", label(getGitRemote(app)));
 
         return builder.getPanel();
     }
@@ -70,7 +72,9 @@ public class HerokuApplicationWindow extends HerokuToolWindow {
         return herokuRemote.getName() + " : " + herokuRemote.getUrl();
     }
 
-    private void update() {
+    public void update() {
+        setEnabled(herokuProjectService.isHerokuProject());
+
         view.removeAll();
         view.add(createApplicationView(),BorderLayout.CENTER);
     }
@@ -113,6 +117,24 @@ public class HerokuApplicationWindow extends HerokuToolWindow {
                         HerokuApplicationWindow.this.update();
                     }
                 }
+/*                new AnAction("Change Stack", "", icon("/runConfigurations/scrollToStackTrace.png")) {
+                    public void actionPerformed(AnActionEvent anActionEvent) {
+                        final Heroku.Stack[] stacks = Heroku.Stack.values();
+                        final String[] stackNames = new String[stacks.length];
+                        final String appStack = herokuProjectService.getApp().getStack();
+                        int initial=0;
+                        for (int i = 0; i < stackNames.length; i++) {
+                            stackNames[i]= stacks[i].name();
+                            if (appStack.startsWith(stackNames[i])) {
+                                initial=i;
+                            }
+                        }
+                        final int newStack = Messages.showChooseDialog(herokuProjectService.getProject(), "Choose new stacks", "Stack", Messages.getQuestionIcon(), stackNames, stackNames[initial]);
+                        if (newStack < 0 || newStack >= stacks.length || newStack==initial) return;
+                        herokuProjectService.changeStack(stacks[newStack]);
+                    }
+                }
+*/
         );
     }
 

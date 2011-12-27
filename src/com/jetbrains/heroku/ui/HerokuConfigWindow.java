@@ -8,11 +8,10 @@ import com.jetbrains.heroku.service.HerokuProjectService;
 
 import javax.swing.*;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
-
-import static java.util.Arrays.asList;
 
 /**
  * @author mh
@@ -30,15 +29,19 @@ public class HerokuConfigWindow extends HerokuToolWindow {
 
     @Override
     protected JComponent createContentPane() {
-        if (!herokuProjectService.isHerokuProject()) return null;
-        final Map applicationInfo = herokuProjectService.getApplicationConfig();
-        tableModel = new MapTableModel(applicationInfo, "Parameter", "Value");
+        tableModel = new MapTableModel(load(), "Parameter", "Value");
         selectedRow = new AtomicInteger(-1);
-        return table(tableModel, selectedRow);
+        return GuiUtil.table(tableModel, selectedRow);
     }
 
-    private void update() {
-        tableModel.update((Map)herokuProjectService.getApplicationConfig());
+    public void update() {
+        setEnabled(herokuProjectService.isHerokuProject());
+        tableModel.update(load());
+    }
+
+    private Map load() {
+        if (!herokuProjectService.isHerokuProject()) return Collections.emptyMap();
+        return (Map)herokuProjectService.getApplicationConfig();
     }
 
     @Override

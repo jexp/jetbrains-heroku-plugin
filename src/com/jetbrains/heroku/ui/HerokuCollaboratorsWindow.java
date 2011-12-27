@@ -8,8 +8,8 @@ import com.jetbrains.heroku.service.HerokuProjectService;
 
 import javax.swing.*;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -28,17 +28,18 @@ public class HerokuCollaboratorsWindow extends HerokuToolWindow {
 
     @Override
     protected JComponent createContentPane() {
-        if (!herokuProjectService.isHerokuProject()) return null;
         tableModel = new CollaboratorTableModel(load());
         selectedRow = new AtomicInteger(-1);
-        return table(tableModel, selectedRow);
+        return GuiUtil.table(tableModel, selectedRow);
     }
 
     private List<Collaborator> load() {
+        if (!herokuProjectService.isHerokuProject()) return Collections.emptyList();
         return herokuProjectService.getApplicationCollaborators();
     }
 
-    private void update() {
+    public void update() {
+        setEnabled(herokuProjectService.isHerokuProject());
         tableModel.update(load());
     }
 

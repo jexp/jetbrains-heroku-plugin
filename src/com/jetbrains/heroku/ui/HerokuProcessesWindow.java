@@ -9,8 +9,8 @@ import com.jetbrains.heroku.service.HerokuProjectService;
 
 import javax.swing.*;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @author mh
@@ -28,16 +28,18 @@ public class HerokuProcessesWindow extends HerokuToolWindow {
 
     @Override
     protected JComponent createContentPane() {
-        if (!herokuProjectService.isHerokuProject()) return null;
         tableModel = new ProcessTableModel(load());
-        return table(tableModel);
+        return GuiUtil.table(tableModel);
     }
 
     private List<Proc> load() {
+        if (!herokuProjectService.isHerokuProject()) return Collections.emptyList();
+
         return herokuProjectService.getProcesses();
     }
 
-    private void update() {
+    public void update() {
+        setEnabled(herokuProjectService.isHerokuProject());
         tableModel.update(load());
     }
 

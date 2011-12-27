@@ -22,7 +22,7 @@ import java.util.Map;
  * @author mh
  * @since 26.12.11
  */
-public class HerokuToolWindowFactory implements ToolWindowFactory {
+public class HerokuToolWindowFactory implements ToolWindowFactory, Updateable {
     private final Map<Class,HerokuToolWindow> windows = new LinkedHashMap<Class, HerokuToolWindow>();
     private Project project;
     private ToolWindow toolWindow;
@@ -32,12 +32,15 @@ public class HerokuToolWindowFactory implements ToolWindowFactory {
         this.project = project;
         this.toolWindow = toolWindow;
         final HerokuProjectService herokuProjectService = ServiceManager.getService(project, HerokuProjectService.class);
+        if (!herokuProjectService.isHerokuProject()) {
+            add(new HerokuSetupWindow(herokuProjectService, this));
+        }
         addAll(new HerokuApplicationWindow(herokuProjectService),
                 new HerokuProcessesWindow(herokuProjectService), new HerokuConfigWindow(herokuProjectService),
                 new HerokuAddonsWindow(herokuProjectService), new HerokuCollaboratorsWindow(herokuProjectService),
                 new HerokuLogsWindow(herokuProjectService), new HerokuReleasesWindow(herokuProjectService));
         if (herokuProjectService.isHerokuProject())
-            getContentManager().setSelectedContent(getContent(HerokuAddonsWindow.class));
+            getContentManager().setSelectedContent(getContent(HerokuApplicationWindow.class));
         else
             getContentManager().setSelectedContent(getContent(HerokuSetupWindow.class));
 
@@ -63,6 +66,13 @@ public class HerokuToolWindowFactory implements ToolWindowFactory {
     private void add(HerokuToolWindow toolWindow) {
         this.windows.put(toolWindow.getClass(),toolWindow);
         toolWindow.addAsContent(getContentManager());
+    }
+
+    @Override
+    public void update() {
+        for (Updateable updateable : windows.values()) {
+            updateable.update();
+        }
     }
 
     static class TestToolWindow extends SimpleToolWindowPanel implements DataProvider, Disposable {

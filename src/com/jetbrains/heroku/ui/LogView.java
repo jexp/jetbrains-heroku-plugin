@@ -55,6 +55,7 @@ public class LogView {
     }
 
     public void update(LogStreamResponse lsr) {
+        if (lsr==null) return;
         consoleView.clear();
         printLog(lsr.openStream(), consoleView);
         // consoleView.print();

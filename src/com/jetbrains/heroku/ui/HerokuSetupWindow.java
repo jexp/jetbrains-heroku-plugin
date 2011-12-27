@@ -1,10 +1,13 @@
 package com.jetbrains.heroku.ui;
 
-import com.heroku.api.Addon;
-import com.intellij.ide.BrowserUtil;
+import com.heroku.api.App;
+import com.heroku.api.Heroku;
+import com.intellij.ide.actions.StartUseVcsAction;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.ui.Messages;
+import com.intellij.openapi.util.Pair;
+import com.jetbrains.heroku.git.GitHelper;
 import com.jetbrains.heroku.service.HerokuProjectService;
 
 import javax.swing.*;
@@ -19,58 +22,89 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class HerokuSetupWindow extends HerokuToolWindow {
 
     private AtomicInteger selectedRow;
-    private AddonTableModel tableModel;
+    private AppsTableModel tableModel;
+    private Updateable panels;
 
     @Override
     protected void setWindowInfo(ContentInfo contentInfo) {
-        contentInfo.describe("Add-Ons","/debugger/threadSuspended.png","Service Add-Ons");
+        contentInfo.describe("Setup", "/vcs/customizeView.png", "Application Setup");
     }
 
     @Override
     protected JComponent createContentPane() {
-        if (!herokuProjectService.isHerokuProject()) return null;
-        final List<Addon> addons = load();
-        tableModel = new AddonTableModel(herokuProjectService.getApplicationService().getAllAddons(), addons);
+        if (herokuProjectService.isHerokuProject()) return null;
+        tableModel = new AppsTableModel();
+        update();
         selectedRow = new AtomicInteger(-1);
-        return table(tableModel, selectedRow);
+        return GuiUtil.table(tableModel, selectedRow);
     }
 
-    private List<Addon> load() {
-        return herokuProjectService.getApplicationAddOns();
+    private List<App> load() {
+        return herokuProjectService.getApplicationService().listApps();
     }
 
-    private void update() {
+    public void update() {
+        setEnabled(!herokuProjectService.isHerokuProject());
         tableModel.update(load());
     }
 
     @Override
     protected List<AnAction> createActions() {
-        return Arrays.<AnAction>asList(
-                new AnAction("Add Add-On", "", icon("/general/add.png")) {
+        final List<AnAction> actions = Arrays.<AnAction>asList(
+                new AnAction("Enable Git Integration", "Enable Git VCS integration for project", icon("/vcs/addToVcs.png")) {
+                    @Override
+                    public void update(AnActionEvent e) {
+                        setEnabled(!GitHelper.isGitEnabled(herokuProjectService.getProject()));
+                    }
+
                     public void actionPerformed(AnActionEvent anActionEvent) {
-                        final Addon addon = tableModel.getAddOn(selectedRow.get());
-                        if (addon==null || tableModel.isInstalled(addon)) return;
-                        if (Messages.showYesNoDialog("Add the Add-On:"+addon.getName()+" "+addon.getPriceCents()+" "+addon.getPriceUnit(),"Add Add-On",Messages.getQuestionIcon())!=Messages.YES) return;
-                        // ask confirmation
-                        herokuProjectService.addAddon(addon);
+                        new StartUseVcsAction().actionPerformed(anActionEvent);
+                        HerokuSetupWindow.this.update();
+                        updatePanels();
+                    }
+                },
+                // /general/getProjectfromVCS.png
+
+                new AnAction("Attach", "Attach to existing Heroku Application", icon("/general/vcsSmallTab.png")) {
+                    {
+                        update(null);
+                    }
+
+                    @Override
+                    public void update(AnActionEvent e) {
+                        setEnabled(!herokuProjectService.isHerokuProject());
+                    }
+
+                    public void actionPerformed(AnActionEvent anActionEvent) {
+                        final App app = tableModel.getApplication(selectedRow.get());
+                        if (app == null) return;
+                        herokuProjectService.update(app);
+                        GitHelper.attachRemote(herokuProjectService.getProject(), app);
+                        updatePanels();
                         HerokuSetupWindow.this.update();
                     }
                 },
-                new AnAction("Remove Add-On", "", icon("/general/remove.png")) {
-                    public void actionPerformed(AnActionEvent anActionEvent) {
-                        final Addon addon = tableModel.getAddOn(selectedRow.get());
-                        if (addon==null || !tableModel.isInstalled(addon)) return;
-                        // ask confirmation
-                        if (Messages.showYesNoDialog("Remove the Add-On:"+addon.getName(),"Remove Add-On",Messages.getQuestionIcon())!=Messages.YES) return;
-                        herokuProjectService.removeAddon(addon);
-                        HerokuSetupWindow.this.update();
+                new AnAction("New App", "Create new Heroku Application", icon("/general/add.png")) {
+                    {
+                        update(null);
                     }
-                },
-                new AnAction("Show Documentation", "", icon("/xml/web_preview.png")) {
+
+                    @Override
+                    public void update(AnActionEvent e) {
+                        setEnabled(!herokuProjectService.isHerokuProject());
+                    }
+
                     public void actionPerformed(AnActionEvent anActionEvent) {
-                        final Addon addon = tableModel.getAddOn(selectedRow.get());
-                        if (addon==null) return;
-                        BrowserUtil.launchBrowser(addon.getUrl().toExternalForm());
+                        try {
+                            Pair<String, Boolean> newApplicationInfo = Messages.showInputDialogWithCheckBox("Please enter the new Heroku Application Name or leave blank for default:", "New Heroku Application Name", "Cedar stack", true, true, Messages.getQuestionIcon(), null, null);
+                            final Heroku.Stack stack = newApplicationInfo.second ? Heroku.Stack.Cedar : Heroku.Stack.Bamboo;
+                            App newApp = herokuProjectService.getApplicationService().createApplication(newApplicationInfo.first, stack);
+                            herokuProjectService.update(newApp);
+                            GitHelper.attachRemote(herokuProjectService.getProject(), newApp);
+                            updatePanels();
+                        } catch (Exception e) {
+                            Messages.showErrorDialog("Error creating application: " + e.getMessage(), "Error Creating Heroku Application");
+                        }
                     }
                 },
                 new AnAction("Update", "", icon("/actions/sync.png")) {
@@ -79,9 +113,18 @@ public class HerokuSetupWindow extends HerokuToolWindow {
                     }
                 }
         );
+        for (AnAction action : actions) {
+            action.update(null);
+        }
+        return actions;
     }
 
-    public HerokuSetupWindow(HerokuProjectService herokuProjectService) {
+    private void updatePanels() {
+        panels.update();
+    }
+
+    public HerokuSetupWindow(HerokuProjectService herokuProjectService, Updateable updateable) {
         super(herokuProjectService);
+        this.panels=updateable;
     }
 }

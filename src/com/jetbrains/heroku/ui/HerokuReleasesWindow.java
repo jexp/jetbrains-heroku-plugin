@@ -3,12 +3,12 @@ package com.jetbrains.heroku.ui;
 import com.heroku.api.Release;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.ui.InputValidator;
 import com.intellij.openapi.ui.Messages;
 import com.jetbrains.heroku.service.HerokuProjectService;
 
 import javax.swing.*;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -28,17 +28,19 @@ public class HerokuReleasesWindow extends HerokuToolWindow {
 
     @Override
     protected JComponent createContentPane() {
-        if (!herokuProjectService.isHerokuProject()) return null;
         tableModel = new ReleaseTableModel(load());
         selectedRow = new AtomicInteger(-1);
-        return table(tableModel, selectedRow);
+        return GuiUtil.table(tableModel, selectedRow);
     }
 
     private List<Release> load() {
+        if (!herokuProjectService.isHerokuProject()) return Collections.emptyList();
+
         return herokuProjectService.getReleases();
     }
 
-    private void update() {
+    public void update() {
+        setEnabled(herokuProjectService.isHerokuProject());
         tableModel.update(load());
     }
 
@@ -51,7 +53,7 @@ public class HerokuReleasesWindow extends HerokuToolWindow {
                         if (release==null) return;
                         final Release releaseInfo = herokuProjectService.getReleaseInfo(release);
                         String html=tableModel.renderRelease(releaseInfo);
-                        Messages.showMessageDialog(html,"Release Info",Messages.getInformationIcon());
+                        Messages.showMessageDialog(html, "Release Info", Messages.getInformationIcon());
                     }
                 },
                 new AnAction("Rollback", "", icon("/actions/rollback.png")) {

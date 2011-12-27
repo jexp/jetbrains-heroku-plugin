@@ -59,14 +59,9 @@ public class AppsTableModel extends AbstractTableModel {
     }
 
     public App getApplication(int row) {
-        return apps.get(row);
-    }
-
-    App getSelectedApplication(AtomicInteger selectedApplication) {
-        final int row = selectedApplication.get();
         if (row == -1 || row >= getRowCount()) {
             return null;
         }
-        return getApplication(row);
+        return apps.get(row);
     }
 }

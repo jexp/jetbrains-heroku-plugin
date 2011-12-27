@@ -1,14 +1,13 @@
 package com.jetbrains.heroku.service;
 
-import com.heroku.api.Addon;
-import com.heroku.api.App;
-import com.heroku.api.HerokuAPI;
-import com.heroku.api.Key;
+import com.heroku.api.*;
+import com.heroku.api.exception.RequestFailedException;
 import com.intellij.openapi.components.PersistentStateComponent;
 import com.intellij.openapi.components.State;
 import com.intellij.openapi.components.Storage;
 import com.intellij.openapi.ui.Messages;
 import com.jetbrains.heroku.herokuapi.Credentials;
+import git4idea.ui.GitUIUtil;
 
 import java.util.Collections;
 import java.util.List;
@@ -79,7 +78,7 @@ public class HerokuApplicationService implements PersistentStateComponent<Creden
         return new HerokuAPI(credentials.getToken()).listApps();
     }
 
-    public List<App> allApps() {
+    public List<App> listApps() {
         if (!isInitialized()) {
             showCredentialsError();
             return Collections.emptyList();
@@ -87,17 +86,56 @@ public class HerokuApplicationService implements PersistentStateComponent<Creden
         return herokuApi.listApps();
     }
 
-    public App createApplication(String applicationName) {
+    public App createApplication(String applicationName, Heroku.Stack stack) {
         if (!isInitialized()) {
             showCredentialsError();
             return null;
         }
-        return this.herokuApi.createApp(new App().named(applicationName));
+        App app = new App().on(stack);
+        if (applicationName != null && !applicationName.isEmpty()) {
+            app = app.named(applicationName);
+        }
+        return this.herokuApi.createApp(app);
     }
+
     public List<Addon> getAllAddons() {
         return this.herokuApi.listAllAddons();
     }
+
     public List<Key> getKeys() {
         return this.herokuApi.listKeys();
+    }
+
+    public String obtainApiToken(String email, char[] password) {
+        return HerokuAPI.obtainApiKey(email, String.valueOf(password));
+    }
+
+    public List<Key> listKeys() {
+        return herokuApi.listKeys();
+    }
+
+    public void addKey(String key) {
+        try {
+            herokuApi.addKey(key);
+        } catch (RequestFailedException rfe) {
+            GitUIUtil.notifyError(null, "Error Adding key", rfe.getResponseBody(), false, rfe);
+        }
+    }
+
+    public void removeKey(Key key) {
+        try {
+            herokuApi.removeKey(key.getEmail());
+        } catch (RequestFailedException rfe) {
+            GitUIUtil.notifyError(null, "Error Adding key", rfe.getResponseBody(), false, rfe);
+        }
+    }
+
+    public void destroyApp(App app) {
+        try {
+            if (app == null) return;
+            herokuApi.destroyApp(app.getName());
+        } catch (RequestFailedException rfe) {
+            GitUIUtil.notifyError(null, "Error Destroying App "+app.getName(), rfe.getResponseBody(), true, rfe);
+        }
     }
 }

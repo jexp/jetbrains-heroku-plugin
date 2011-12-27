@@ -80,7 +80,7 @@ public class OldHerokuToolWindowFactory implements ToolWindowFactory {
         final AppsTableModel applicationsTableModel = new AppsTableModel();
         final Runnable updater = new Runnable() {
             public void run() {
-                final List<App> allApps = herokuProjectService.getApplicationService().allApps();
+                final List<App> allApps = herokuProjectService.getApplicationService().listApps();
                 applicationsTableModel.update(allApps);
             }
         };
@@ -91,7 +91,7 @@ public class OldHerokuToolWindowFactory implements ToolWindowFactory {
 
         builder.append(new JButton(new AbstractAction("Attach") {
             public void actionPerformed(ActionEvent actionEvent) {
-                final App app = applicationsTableModel.getSelectedApplication(selectedApplication);
+                final App app = applicationsTableModel.getApplication(selectedApplication.get());
                 if (app != null) {
                     herokuProjectService.update(app);
                     attachRemote(project, app);
@@ -105,7 +105,7 @@ public class OldHerokuToolWindowFactory implements ToolWindowFactory {
             }
 
             public void actionPerformed(ActionEvent actionEvent) {
-                final App app = applicationsTableModel.getSelectedApplication(selectedApplication);
+                final App app = applicationsTableModel.getApplication(selectedApplication.get());
                 if (app != null) {
                     // todo git clone
                 }
@@ -115,7 +115,7 @@ public class OldHerokuToolWindowFactory implements ToolWindowFactory {
             public void actionPerformed(ActionEvent actionEvent) {
                 try {
                     String newApplicationName = Messages.showInputDialog(project, "Please enter the new Heroku Application Name or leave blank for default:", "New Heroku Application Name", Messages.getQuestionIcon());
-                    App newApp = herokuProjectService.getApplicationService().createApplication(newApplicationName);
+                    App newApp = herokuProjectService.getApplicationService().createApplication(newApplicationName,null);
                     herokuProjectService.update(newApp);
                     attachRemote(project, newApp);
                     updatePanels(herokuProjectService);

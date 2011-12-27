@@ -37,7 +37,6 @@
 
         <projectService serviceInterface="com.jetbrains.heroku.service.HerokuProjectService" serviceImplementation="com.jetbrains.heroku.service.HerokuProjectService">
         </projectService>
-        <toolWindow id="Old"  anchor="bottom" factoryClass="com.jetbrains.heroku.ui.OldHerokuToolWindowFactory" icon="/icons/heroku_icon_16.png"/>
         <toolWindow id="Heroku"  anchor="bottom" factoryClass="com.jetbrains.heroku.ui.HerokuToolWindowFactory" icon="/icons/heroku_icon_16.png"/>
         <applicationConfigurable id="Heroku" instance="com.jetbrains.heroku.HerokuSettings"/>
     </extensions>

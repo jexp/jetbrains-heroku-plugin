@@ -31,65 +31,18 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @author mh
  * @since 26.12.11
  */
-public abstract class HerokuToolWindow extends SimpleToolWindowPanel implements Disposable, DataProvider {
+public abstract class HerokuToolWindow extends SimpleToolWindowPanel implements Disposable, DataProvider, Updateable {
     protected HerokuProjectService herokuProjectService;
 
     public HerokuToolWindow(HerokuProjectService herokuProjectService) {
         super(false, false);
         this.herokuProjectService = herokuProjectService;
-        setContent(createContentPane());
+        final JComponent contentPane = createContentPane();
+        if (contentPane!=null) setContent(contentPane);
         setToolbar(createToolbarPanel(createActions()));
     }
 
-    protected HyperlinkLabel link(final String url) {
-        if (url == null) {
-            return new HyperlinkLabel();
-        }
-        final HyperlinkLabel label = new HyperlinkLabel(url);
-        label.setHyperlinkTarget(url);
-        label.addHyperlinkListener(new HyperlinkAdapter() {
-              @Override
-              protected void hyperlinkActivated(final HyperlinkEvent e) {
-                BrowserUtil.launchBrowser(e.getURL().toExternalForm());
-              }
-            });
-        return label;
-    }
-
-    GitRemoteInfo attachRemote(Project project, App app) {
-        final String gitUrl = app.getGitUrl();
-        final GitRemoteInfo remote = GitHelper.findRemote(gitUrl, project);
-        if (remote == null) {
-            GitHelper.addHerokuRemote(project, gitUrl);
-            return GitHelper.findRemote(gitUrl, project);
-        }
-        return null;
-    }
-
-    protected JScrollPane table(TableModel model) {
-        return table(model, null);
-    }
-
-    protected JScrollPane table(TableModel model, final AtomicInteger selectedRow) {
-        final JBTable table = new JBTable(model);
-        table.setAutoCreateRowSorter(true);
-        return ScrollPaneFactory.createScrollPane(withSelectionCallback(table, selectedRow));
-    }
-
-    protected JTable withSelectionCallback(final JTable table, final AtomicInteger selectedRow) {
-        if (selectedRow == null) return table;
-
-        table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        table.setRowSelectionAllowed(true);
-        table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-            public void valueChanged(ListSelectionEvent listSelectionEvent) {
-                final int viewRow = table.getSelectedRow();
-                final int modelRow = viewRow == -1 ? -1 : table.convertRowIndexToModel(viewRow);
-                selectedRow.set(modelRow);
-            }
-        });
-        return table;
-    }
+    public void update() {}
 
     interface ContentInfo {
         void describe(String title, String icon, String description);

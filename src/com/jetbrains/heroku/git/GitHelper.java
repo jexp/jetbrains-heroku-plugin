@@ -1,5 +1,6 @@
 package com.jetbrains.heroku.git;
 
+import com.heroku.api.App;
 import com.intellij.execution.process.ProcessOutputTypes;
 import com.intellij.notification.NotificationType;
 import com.intellij.openapi.diagnostic.Logger;
@@ -97,5 +98,15 @@ public class GitHelper {
                 }
             }
         });
+    }
+
+    public static GitRemoteInfo attachRemote(Project project, App app) {
+        final String gitUrl = app.getGitUrl();
+        final GitRemoteInfo remote = findRemote(gitUrl, project);
+        if (remote == null) {
+            addHerokuRemote(project, gitUrl);
+            return findRemote(gitUrl, project);
+        }
+        return null;
     }
 }
