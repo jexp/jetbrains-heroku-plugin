@@ -1,7 +1,9 @@
 package com.jetbrains.heroku.service;
 
+import com.heroku.api.Addon;
 import com.heroku.api.App;
 import com.heroku.api.HerokuAPI;
+import com.heroku.api.Key;
 import com.intellij.openapi.components.PersistentStateComponent;
 import com.intellij.openapi.components.State;
 import com.intellij.openapi.components.Storage;
@@ -91,5 +93,11 @@ public class HerokuApplicationService implements PersistentStateComponent<Creden
             return null;
         }
         return this.herokuApi.createApp(new App().named(applicationName));
+    }
+    public List<Addon> getAllAddons() {
+        return this.herokuApi.listAllAddons();
+    }
+    public List<Key> getKeys() {
+        return this.herokuApi.listKeys();
     }
 }

@@ -187,6 +187,9 @@
       </item>
     </group>
   </component>
+  <component name="ProjectDictionaryState">
+    <dictionary name="mh" />
+  </component>
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Heroku.iml" filepath="$PROJECT_DIR$/Heroku.iml" />

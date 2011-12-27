@@ -1,25 +1,29 @@
 package com.jetbrains.heroku.service;
 
-import com.heroku.api.Addon;
-import com.heroku.api.App;
-import com.heroku.api.Collaborator;
-import com.heroku.api.HerokuAPI;
+import com.heroku.api.*;
+import com.heroku.api.exception.RequestFailedException;
 import com.heroku.api.request.log.LogStreamResponse;
 import com.intellij.openapi.components.PersistentStateComponent;
 import com.intellij.openapi.components.State;
 import com.intellij.openapi.components.Storage;
 import com.intellij.openapi.project.Project;
 import com.jetbrains.heroku.git.GitHelper;
+import git4idea.ui.GitUIUtil;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
 @State(name = "heroku-plugin-app", storages = @Storage(id = "heroku-plugin-app-name", file = "$WORKSPACE_FILE$"))
 public class HerokuProjectService implements  PersistentStateComponent<HerokuProjectService.HerokuAppName> {
+    public void stopApplication() {
+        //this.herokuApi.stop(getHerokuAppName());
+    }
+
     public static class HerokuAppName {
         public String name;
         public static HerokuAppName named(String name) {
@@ -31,7 +35,7 @@ public class HerokuProjectService implements  PersistentStateComponent<HerokuPro
     transient private final Project project;
     transient private HerokuApplicationService applicationService;
     transient private App app;
-    transient private HerokuAPI api;
+    transient private HerokuAPI herokuApi;
     private HerokuAppName herokuAppName;
     
     public HerokuProjectService(Project project, HerokuApplicationService applicationService) {
@@ -58,10 +62,10 @@ public class HerokuProjectService implements  PersistentStateComponent<HerokuPro
 
     public void loadState(HerokuAppName newHerokuApp) {
         this.herokuAppName = newHerokuApp;
-        if (this.api==null) {
-            this.api = applicationService.getHerokuApi();
+        if (this.herokuApi ==null) {
+            this.herokuApi = applicationService.getHerokuApi();
         }
-        this.app = this.api.getApp(newHerokuApp.name);
+        this.app = this.herokuApi.getApp(newHerokuApp.name);
     }
 
     public App getApplicationInfo() {
@@ -69,19 +73,22 @@ public class HerokuProjectService implements  PersistentStateComponent<HerokuPro
     }
 
     public Map<String, String> getApplicationConfig() {
-        return this.api.listConfig(getHerokuAppName());
+        return this.herokuApi.listConfig(getHerokuAppName());
     }
 
     public List<Collaborator> getApplicationCollaborators() {
-        return this.api.listCollaborators(getHerokuAppName());
+        return this.herokuApi.listCollaborators(getHerokuAppName());
     }
 
     public List<Addon> getApplicationAddOns() {
-        return this.api.listAppAddons(getHerokuAppName());
+        return this.herokuApi.listAppAddons(getHerokuAppName());
     }
 
+    public LogStreamResponse getApplicationLogStream() {
+        return this.herokuApi.getLogs(getHerokuAppName());
+    }
     public String getApplicationLogs() {
-        final LogStreamResponse response = this.api.getLogs(getHerokuAppName());
+        final LogStreamResponse response = this.herokuApi.getLogs(getHerokuAppName());
         final InputStream inputStream = response.openStream();
         return readString(inputStream, 10 * 1024);
     }
@@ -125,5 +132,72 @@ public class HerokuProjectService implements  PersistentStateComponent<HerokuPro
 
     public void update(App app) {
         loadState(HerokuAppName.named(app.getName()));
+    }
+
+    public List<Proc> getProcesses() {
+        return this.herokuApi.listProcesses(getHerokuAppName());
+    }
+
+    public void scaleDynos(int count) {
+        try {
+            this.herokuApi.scaleProcess(getHerokuAppName(), "Dyno", count);
+        } catch (RequestFailedException rfe) {
+            GitUIUtil.notifyError(project, "Error scaling dynos", rfe.getResponseBody(), true, rfe);
+        }
+    }
+
+    public void scaleWorkers(int count) {
+        try {
+            this.herokuApi.scaleProcess(getHerokuAppName(),"Worker",count);
+        } catch (RequestFailedException rfe) {
+            GitUIUtil.notifyError(project, "Error scaling workers", rfe.getResponseBody(), true, rfe);
+        }
+    }
+
+    public List<Release> getReleases() {
+        try {
+            return this.herokuApi.listReleases(getHerokuAppName());
+        } catch (RequestFailedException rfe) {
+            GitUIUtil.notifyError(project, "Error retrieving releases", rfe.getResponseBody(), false, rfe);
+            return Collections.emptyList();
+        }
+    }
+    public Release getReleaseInfo(Release release) {
+        try {
+            return this.herokuApi.getReleaseInfo(getHerokuAppName(), release.getName());
+        } catch (RequestFailedException rfe) {
+            GitUIUtil.notifyError(project, "Error retrieving release: "+release.getName(), rfe.getResponseBody(), false, rfe);
+            return null;
+        }
+    }
+    public void rollbackTo(Release release) {
+        try {
+            this.herokuApi.rollback(getHerokuAppName(),release.getName());
+        } catch (RequestFailedException rfe) {
+            GitUIUtil.notifyError(project, "Error retrieving releases", rfe.getResponseBody(), false, rfe);
+        }
+    }
+
+    public AddonChange addAddon(Addon addon) {
+        return this.herokuApi.addAddon(getHerokuAppName(), addon.getName());
+    }
+
+    public AddonChange removeAddon(Addon addon) {
+        return this.herokuApi.removeAddon(getHerokuAppName(),addon.getName());
+    }
+
+
+    public void addConfigVar(String name, String value) {
+        this.herokuApi.addConfig(getHerokuAppName(),Collections.singletonMap(name,value));
+    }
+
+    public void removeConfigVar(String name) {
+        this.herokuApi.removeConfig(getHerokuAppName(), name);
+    }
+    public void addCollaborator(String email) {
+        this.herokuApi.addCollaborator(getHerokuAppName(),email);
+    }
+    public void removeCollaborator(String email) {
+        this.herokuApi.removeCollaborator(getHerokuAppName(),email);
     }
 }
