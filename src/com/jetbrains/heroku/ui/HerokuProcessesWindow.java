@@ -18,7 +18,7 @@ import java.util.List;
  */
 public class HerokuProcessesWindow extends HerokuToolWindow {
 
-    private static final int MAX_DYNOS = 100;
+    private static final int MAX_WEB_PROCESSES = 100;
     private ProcessTableModel tableModel;
 
     @Override
@@ -48,18 +48,20 @@ public class HerokuProcessesWindow extends HerokuToolWindow {
         return Arrays.asList(
                 new AnAction("Scale Dynos", "", icon("/debugger/threadSuspended.png")) {
                     public void actionPerformed(AnActionEvent anActionEvent) {
-                        final ScaleInputValidator parser = new ScaleInputValidator(1, MAX_DYNOS);
-                        String dynoText = Messages.showInputDialog(herokuProjectService.getProject(), "New Number of Dynos:", "Scale Dynos", Messages.getQuestionIcon(), String.valueOf(herokuProjectService.getApp().getDynos()), parser);
-                        Integer dynos = parser.parse(dynoText);
-                        if (dynos == null) return;
-                        herokuProjectService.scaleDynos(dynos);
+                        final ScaleInputValidator parser = new ScaleInputValidator(1, MAX_WEB_PROCESSES);
+                        final List<Proc> webProcesses = herokuProjectService.getProcesses("web");
+                        String webProcessText = Messages.showInputDialog(herokuProjectService.getProject(), "New Number of Web-Processes:", "Scale Web-Processes", Messages.getQuestionIcon(), String.valueOf(webProcesses.size()), parser);
+                        Integer webProcessCount = parser.parse(webProcessText);
+                        if (webProcessCount == null) return;
+                        herokuProjectService.scaleWeb(webProcessCount);
                         HerokuProcessesWindow.this.update();
                     }
                 },
                 new AnAction("Scale Workers", "", icon("/debugger/threadRunning.png")) {
                     public void actionPerformed(AnActionEvent anActionEvent) {
-                        final ScaleInputValidator parser = new ScaleInputValidator(0, MAX_DYNOS);
-                        String workersText = Messages.showInputDialog(herokuProjectService.getProject(), "New Number of Workers:", "Scale Workers", Messages.getQuestionIcon(), String.valueOf(herokuProjectService.getApp().getWorkers()), parser);
+                        final ScaleInputValidator parser = new ScaleInputValidator(0, MAX_WEB_PROCESSES);
+                        final List<Proc> workerProcesses = herokuProjectService.getProcesses("worker");
+                        String workersText = Messages.showInputDialog(herokuProjectService.getProject(), "New Number of Workers:", "Scale Workers", Messages.getQuestionIcon(), String.valueOf(workerProcesses.size()), parser);
                         Integer workers = parser.parse(workersText);
                         if (workers == null) return;
                         herokuProjectService.scaleWorkers(workers);

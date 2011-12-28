@@ -53,8 +53,8 @@ public class HerokuApplicationWindow extends HerokuToolWindow {
         builder.append("Domain", link(app.getDomainName()));
         builder.append("Requested Stack", label(app.getRequestedStack()));
         builder.append("Stack", label(app.getStack()));
-        builder.append("Dynos", label(app.getDynos()));
-        builder.append("Workers", label(app.getWorkers()));
+        builder.append("Dynos", label(getDynos(app)));
+        builder.append("Workers", label(getWorkers(app)));
         builder.append("Created At", label(app.getCreatedAt()));
         builder.append("Create Status", label(app.getCreateStatus()));
         builder.append("Repo Size", label(app.getRepoSize()));
@@ -63,6 +63,16 @@ public class HerokuApplicationWindow extends HerokuToolWindow {
         builder.append("Remote", label(getGitRemote(app)));
 
         return builder.getPanel();
+    }
+
+    private int getWorkers(App app) {
+        if (app.getStack().equalsIgnoreCase(Heroku.Stack.Cedar.name())) return herokuProjectService.getProcesses("worker").size();
+        return app.getWorkers();
+    }
+
+    private int getDynos(App app) {
+        if (app.getStack().equalsIgnoreCase(Heroku.Stack.Cedar.name())) return herokuProjectService.getProcesses("web").size();
+        return app.getDynos();
     }
 
     private String getGitRemote(App app) {

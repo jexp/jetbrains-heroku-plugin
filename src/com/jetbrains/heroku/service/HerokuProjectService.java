@@ -14,6 +14,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -22,6 +23,18 @@ import java.util.Map;
 public class HerokuProjectService implements  PersistentStateComponent<HerokuProjectService.HerokuAppName> {
     public void stopApplication() {
         //this.herokuApi.stop(getHerokuAppName());
+    }
+
+    public List<Proc> getProcesses(String type) {
+        final String prefix = type + ".";
+        List<Proc> result=new ArrayList<Proc>();
+        for (Proc proc : getProcesses()) {
+            if (proc==null || proc.getProcess()==null) continue;
+            if (proc.getProcess().startsWith(prefix)) {
+                result.add(proc);
+            }
+        }
+        return result;
     }
 
     public static class HerokuAppName {
@@ -142,17 +155,17 @@ public class HerokuProjectService implements  PersistentStateComponent<HerokuPro
         return this.herokuApi.listProcesses(getHerokuAppName());
     }
 
-    public void scaleDynos(int count) {
+    public void scaleWeb(int count) {
         try {
-            this.herokuApi.scaleProcess(getHerokuAppName(), "Dyno", count);
+            this.herokuApi.scaleProcess(getHerokuAppName(), "web", count);
         } catch (RequestFailedException rfe) {
-            Notifications.notifyError(project, "Error scaling dynos", rfe.getResponseBody(), true, rfe);
+            Notifications.notifyError(project, "Error scaling web processes", rfe.getResponseBody(), true, rfe);
         }
     }
 
     public void scaleWorkers(int count) {
         try {
-            this.herokuApi.scaleProcess(getHerokuAppName(),"Worker",count);
+            this.herokuApi.scaleProcess(getHerokuAppName(),"worker",count);
         } catch (RequestFailedException rfe) {
             Notifications.notifyError(project, "Error scaling workers", rfe.getResponseBody(), true, rfe);
         }
