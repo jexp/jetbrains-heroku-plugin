@@ -2,20 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="19e80d91-3f4d-4f31-8360-256ebec15f4e" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/jetbrains/heroku/Notifications.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Heroku.iws" afterPath="$PROJECT_DIR$/Heroku.iws" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/META-INF/plugin.xml" afterPath="$PROJECT_DIR$/META-INF/plugin.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/jetbrains/heroku/HerokuSettings.java" afterPath="$PROJECT_DIR$/src/com/jetbrains/heroku/HerokuSettings.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/jetbrains/heroku/git/GitHelper.java" afterPath="$PROJECT_DIR$/src/com/jetbrains/heroku/git/GitHelper.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/jetbrains/heroku/git/GitRemoteHandler.java" afterPath="$PROJECT_DIR$/src/com/jetbrains/heroku/git/GitRemoteHandler.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/jetbrains/heroku/git/NewGitRemoteHandler.java" afterPath="$PROJECT_DIR$/src/com/jetbrains/heroku/git/NewGitRemoteHandler.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/jetbrains/heroku/git/OldGitRemoteHandler.java" afterPath="$PROJECT_DIR$/src/com/jetbrains/heroku/git/OldGitRemoteHandler.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/jetbrains/heroku/service/HerokuApplicationService.java" afterPath="$PROJECT_DIR$/src/com/jetbrains/heroku/service/HerokuApplicationService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/jetbrains/heroku/service/HerokuProjectService.java" afterPath="$PROJECT_DIR$/src/com/jetbrains/heroku/service/HerokuProjectService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/jetbrains/heroku/ui/GuiUtil.java" afterPath="$PROJECT_DIR$/src/com/jetbrains/heroku/ui/GuiUtil.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/jetbrains/heroku/ui/HerokuApplicationWindow.java" afterPath="$PROJECT_DIR$/src/com/jetbrains/heroku/ui/HerokuApplicationWindow.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/jetbrains/heroku/ui/HerokuSetupWindow.java" afterPath="$PROJECT_DIR$/src/com/jetbrains/heroku/ui/HerokuSetupWindow.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/jetbrains/heroku/ui/HerokuToolWindowFactory.java" afterPath="$PROJECT_DIR$/src/com/jetbrains/heroku/ui/HerokuToolWindowFactory.java" />
     </list>
     <ignored path="Heroku.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -242,16 +230,16 @@
       <file leaf-file-name="GuiUtil.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/jetbrains/heroku/ui/GuiUtil.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="44" column="56" selection-start="1543" selection-end="1543" vertical-scroll-proportion="0.33188722">
+            <state line="44" column="19" selection-start="1506" selection-end="1506" vertical-scroll-proportion="0.33188722">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="HerokuApplicationWindow.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/jetbrains/heroku/ui/HerokuApplicationWindow.java">
+      <file leaf-file-name="plugin.xml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/META-INF/plugin.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="41" column="49" selection-start="1252" selection-end="1252" vertical-scroll-proportion="0.0">
+            <state line="39" column="11" selection-start="1751" selection-end="1751" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -352,7 +340,6 @@
         <option value="$PROJECT_DIR$/src/com/jetbrains/heroku/ui/HerokuCollaboratorsWindow.java" />
         <option value="$PROJECT_DIR$/src/com/jetbrains/heroku/ui/AppsTableModel.java" />
         <option value="$PROJECT_DIR$/src/com/jetbrains/heroku/ui/OldHerokuToolWindowFactory.java" />
-        <option value="$PROJECT_DIR$/META-INF/plugin.xml" />
         <option value="$PROJECT_DIR$/src/com/jetbrains/heroku/ui/HerokuToolWindowFactory.java" />
         <option value="$PROJECT_DIR$/src/com/jetbrains/heroku/Notifications.java" />
         <option value="$PROJECT_DIR$/src/com/jetbrains/heroku/service/HerokuProjectService.java" />
@@ -364,6 +351,7 @@
         <option value="$PROJECT_DIR$/src/com/jetbrains/heroku/git/NewGitRemoteHandler.java" />
         <option value="$PROJECT_DIR$/src/com/jetbrains/heroku/git/GitHelper.java" />
         <option value="$PROJECT_DIR$/src/com/jetbrains/heroku/service/HerokuApplicationService.java" />
+        <option value="$PROJECT_DIR$/META-INF/plugin.xml" />
         <option value="$PROJECT_DIR$/src/com/jetbrains/heroku/ui/GuiUtil.java" />
       </list>
     </option>
@@ -1265,7 +1253,7 @@
     <option name="INCLUDE_TEXT_INTO_SHELF" value="false" />
     <option name="CREATE_PATCH_EXPAND_DETAILS_DEFAULT" value="true" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="updated settings to also handle keys, and create and destroy apps&#10;added Application setup&#10;new heroku tool window active&#10;introduced Updatable interface" />
+    <option name="LAST_COMMIT_MESSAGE" value="moved Notifications to plugin&#10;handling for existing heroku remotes&#10;fixed several bugs" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="true" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -1281,6 +1269,7 @@
     <MESSAGE value="renamed packages" />
     <MESSAGE value="updated to new UI&#10;extended Heroku integration to releases, processes, scaling, adding and removal of things&#10;a working log-viewer" />
     <MESSAGE value="updated settings to also handle keys, and create and destroy apps&#10;added Application setup&#10;new heroku tool window active&#10;introduced Updatable interface" />
+    <MESSAGE value="moved Notifications to plugin&#10;handling for existing heroku remotes&#10;fixed several bugs" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -1357,11 +1346,6 @@
     <entry file="jar://$APPLICATION_HOME_DIR$/plugins/git4idea/lib/git4idea.jar!/git4idea/ui/GitUIUtil.class">
       <provider selected="true" editor-type-id="text-editor">
         <state line="12" column="23" selection-start="695" selection-end="695" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/META-INF/plugin.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="16" selection-start="309" selection-end="309" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="jar:///Applications/RubyMine 3.0.1.app/plugins/git4idea/lib/git4idea.jar!/git4idea/ui/GitUIUtil.class">
@@ -1484,9 +1468,16 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/META-INF/plugin.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="39" column="11" selection-start="1751" selection-end="1751" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/jetbrains/heroku/ui/GuiUtil.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="44" column="56" selection-start="1543" selection-end="1543" vertical-scroll-proportion="0.33188722">
+        <state line="44" column="19" selection-start="1506" selection-end="1506" vertical-scroll-proportion="0.33188722">
           <folding />
         </state>
       </provider>
