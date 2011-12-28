@@ -1,6 +1,7 @@
 package com.jetbrains.heroku.notification;
 
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.ui.Messages;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -19,5 +20,12 @@ public class OldNotifier extends Notifier {
         } else {
             notifyModalInfo(title, toHtml(description, messages));
         }
+    }
+    public void notifyModalError(String title, String description) {
+        Messages.showErrorDialog(title, description);
+    }
+
+    public void notifyModalInfo(String title, String description) {
+        Messages.showInfoMessage(title, description);
     }
 }
