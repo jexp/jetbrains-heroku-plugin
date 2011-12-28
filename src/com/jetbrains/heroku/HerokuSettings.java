@@ -3,7 +3,6 @@ package com.jetbrains.heroku;
 import com.heroku.api.App;
 import com.heroku.api.Heroku;
 import com.heroku.api.Key;
-import com.intellij.notification.NotificationType;
 import com.intellij.openapi.util.Pair;
 import com.jetbrains.heroku.service.HerokuApplicationService;
 import com.jetbrains.heroku.herokuapi.Credentials;
@@ -13,7 +12,6 @@ import com.intellij.openapi.ui.Messages;
 import com.jetbrains.heroku.ui.AppsTableModel;
 import com.jgoodies.forms.builder.DefaultFormBuilder;
 import com.jgoodies.forms.layout.FormLayout;
-import git4idea.ui.GitUIUtil;
 import org.jetbrains.annotations.Nls;
 
 import javax.swing.*;
@@ -70,9 +68,11 @@ public class HerokuSettings implements Configurable {
         builder.append("Password", passwordField);
         builder.append(new JButton(new AbstractAction("Retrieve API-Token") {
             public void actionPerformed(ActionEvent e) {
-                final String apiKey = herokuApplicationService.obtainApiToken(emailField.getText(), passwordField.getPassword());
+                final String apiKey = obtainToken();
                 tokenField.setText(apiKey);
-                checkCredentials();
+                if (apiKey!=null) {
+                    checkCredentials();
+                }
             }
         }),1);
         builder.nextLine();
@@ -102,7 +102,7 @@ public class HerokuSettings implements Configurable {
                 Pair<String, Boolean> newApplicationInfo = Messages.showInputDialogWithCheckBox("Please enter the new Heroku Application Name or leave blank for default:", "New Heroku Application Name", "Cedar stack", true, true, Messages.getQuestionIcon(), null, null);
                 final Heroku.Stack stack = newApplicationInfo.second ? Heroku.Stack.Cedar : Heroku.Stack.Bamboo;
                 App newApp = herokuApplicationService.createApplication(newApplicationInfo.first, stack);
-                GitUIUtil.notifySuccess(null, "Created App", "Sucessfully created App " + newApp.getName() + " on " + newApp.getStack());
+                Notifications.notifyModalSuccess("Created App", "Sucessfully created App " + newApp.getName() + " on " + newApp.getStack());
                 appsModel.update(herokuApplicationService.listApps());
             }
         }), 1);
@@ -112,7 +112,7 @@ public class HerokuSettings implements Configurable {
                 if (app==null) return;
                 if (Messages.showYesNoDialog("Really destroy app "+app.getName()+" this is irrecoverable!","Destroy App",Messages.getWarningIcon())!=Messages.YES) return;
                 herokuApplicationService.destroyApp(app);
-                GitUIUtil.notifySuccess(null, "Created App", "Sucessfully Destroyed App " + app.getName());
+                Notifications.notifyModalSuccess("Created App", "Sucessfully Destroyed App " + app.getName());
                 appsModel.update(herokuApplicationService.listApps());
             }
         }), 1);
@@ -144,7 +144,7 @@ public class HerokuSettings implements Configurable {
     }
 
     private String getToken() {
-        return String.valueOf(tokenField.getText());
+        return tokenField.getText();
     }
 
     private String getName() {
@@ -160,21 +160,52 @@ public class HerokuSettings implements Configurable {
     public void reset() {
         final Credentials credentials = herokuApplicationService.getCredentials();
         this.emailField.setText(credentials != null ? credentials.getEmail() : null);
+        this.passwordField.setText(null);
         this.tokenField.setText(credentials != null ? credentials.getToken() : null);
     }
 
     public void disposeUIResources() {
         emailField = null;
+        passwordField = null;
         tokenField = null;
     }
 
     public void checkCredentials() {
         if (testLogin()) {
-            GitUIUtil.notifySuccess(null, "Heroku Login", "Heroku Login successful! Authorized: " + getName());
+            Notifications.notifyModalSuccess("Heroku Login", "Heroku Login successful! Authorized: " + getName());
         }
     }
 
+    private String obtainToken() {
+        String msg="";
+        if (getName()==null || getName().isEmpty()) {
+            msg = "Please input your Heroku email address";
+        }
+        if (getPassword()==null || getPassword().isEmpty()) {
+            if (msg.isEmpty()) msg = "Please input your Heroku password.";
+            else msg += " and password.";
+        }
+        if (!msg.isEmpty()) {
+            Notifications.notifyModalError("Missing Input", msg);
+            return null;
+        }
+        final String token = herokuApplicationService.obtainApiToken(getName(), getPassword());
+        if (token==null) {
+            Notifications.notifyModalError("Token Retrieval Failed", "Could noth retrieve token for Heroku email: " + getName());
+        }
+        return token;
+    }
+
+    private String getPassword() {
+        final String password = String.valueOf(passwordField.getPassword());
+        return password.isEmpty() ? null : password;
+    }
+
     private boolean testLogin() {
+        if (getToken()==null || getToken().isEmpty()) {
+            Notifications.notifyModalError("Missing API-Key", "Please retrieve the Heroku-API Key for the email address " + getName());
+            return false;
+        }
         final Credentials credentials = herokuApplicationService.login(getName(), getToken());
         final boolean validCredentials = credentials != null && credentials.valid();
 
@@ -184,6 +215,8 @@ public class HerokuSettings implements Configurable {
         }
         return validCredentials;
     }
+
+    
 
     private static class KeysTableModel extends AbstractTableModel {
         private final List<Key> keys=new ArrayList<Key>();

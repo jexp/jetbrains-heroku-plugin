@@ -6,8 +6,8 @@ import com.intellij.openapi.components.PersistentStateComponent;
 import com.intellij.openapi.components.State;
 import com.intellij.openapi.components.Storage;
 import com.intellij.openapi.ui.Messages;
+import com.jetbrains.heroku.Notifications;
 import com.jetbrains.heroku.herokuapi.Credentials;
-import git4idea.ui.GitUIUtil;
 
 import java.util.Collections;
 import java.util.List;
@@ -106,8 +106,8 @@ public class HerokuApplicationService implements PersistentStateComponent<Creden
         return this.herokuApi.listKeys();
     }
 
-    public String obtainApiToken(String email, char[] password) {
-        return HerokuAPI.obtainApiKey(email, String.valueOf(password));
+    public String obtainApiToken(String email, String password) {
+        return HerokuAPI.obtainApiKey(email, password);
     }
 
     public List<Key> listKeys() {
@@ -118,7 +118,7 @@ public class HerokuApplicationService implements PersistentStateComponent<Creden
         try {
             herokuApi.addKey(key);
         } catch (RequestFailedException rfe) {
-            GitUIUtil.notifyError(null, "Error Adding key", rfe.getResponseBody(), false, rfe);
+            Notifications.notifyError(null, "Error Adding key", rfe.getResponseBody(), true, rfe);
         }
     }
 
@@ -126,7 +126,7 @@ public class HerokuApplicationService implements PersistentStateComponent<Creden
         try {
             herokuApi.removeKey(key.getEmail());
         } catch (RequestFailedException rfe) {
-            GitUIUtil.notifyError(null, "Error Adding key", rfe.getResponseBody(), false, rfe);
+            Notifications.notifyError(null, "Error Adding key", rfe.getResponseBody(), false, rfe);
         }
     }
 
@@ -135,7 +135,7 @@ public class HerokuApplicationService implements PersistentStateComponent<Creden
             if (app == null) return;
             herokuApi.destroyApp(app.getName());
         } catch (RequestFailedException rfe) {
-            GitUIUtil.notifyError(null, "Error Destroying App "+app.getName(), rfe.getResponseBody(), true, rfe);
+            Notifications.notifyError(null, "Error Destroying App " + app.getName(), rfe.getResponseBody(), true, rfe);
         }
     }
 }

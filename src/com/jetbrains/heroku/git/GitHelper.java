@@ -8,9 +8,9 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Key;
 import com.intellij.openapi.vcs.VcsException;
 import com.intellij.openapi.vfs.VirtualFile;
+import com.jetbrains.heroku.Notifications;
 import git4idea.checkout.GitCheckoutProvider;
 import git4idea.commands.*;
-import git4idea.ui.GitUIUtil;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -45,17 +45,21 @@ public class GitHelper {
     }
 
     public static boolean addHerokuRemote(Project project, String remoteUrl) {
+        final GitRemoteInfo herokuOrigin = findHerokuOrigin(project);
         final GitSimpleHandler addRemoteHandler = new GitSimpleHandler(project, project.getBaseDir(), GitCommand.REMOTE);
         addRemoteHandler.setNoSSH(true);
-        addRemoteHandler.addParameters("add", HEROKU_REMOTE, remoteUrl);
+        if (herokuOrigin!=null)
+            addRemoteHandler.addParameters("set-url", HEROKU_REMOTE, remoteUrl);
+        else
+            addRemoteHandler.addParameters("add", HEROKU_REMOTE, remoteUrl);
         try {
             addRemoteHandler.run();
-            GitUIUtil.notifyMessage(project, "Added Heroku Remote", "Heroku remote <code>" + remoteUrl + "</code> added to project " + project.getName(), NotificationType.INFORMATION, true, null);
+            Notifications.notifyMessage(project, "Added Heroku Remote", "Heroku remote <code>" + remoteUrl + "</code> added to project " + project.getName(), NotificationType.INFORMATION, true, null);
             remoteHandler.updateRepository(project);
             return true;
         } catch (VcsException e) {
             LOG.info("addRemote ", e);
-            GitUIUtil.notifyError(project, "Couldn't clone", "Couldn't add remote <code>" + remoteUrl + "</code>", true, e);
+            Notifications.notifyError(project, "Couldn't clone", "Couldn't add remote <code>" + remoteUrl + "</code>", true, e);
             return false;
         }
     }
@@ -63,6 +67,9 @@ public class GitHelper {
     public static GitRemoteInfo findRemote(String gitUrl, final Project project) {
         if (gitUrl == null) return null;
         return remoteHandler.findRemote(gitUrl,project);
+    }
+    public static GitRemoteInfo findHerokuOrigin(final Project project) {
+        return remoteHandler.findOrigin("heroku", project);
     }
 
     private static List<GitRemoteInfo> getRemotes(final Project project) {

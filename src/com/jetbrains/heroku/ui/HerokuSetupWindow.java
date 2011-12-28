@@ -78,10 +78,11 @@ public class HerokuSetupWindow extends HerokuToolWindow {
                     public void actionPerformed(AnActionEvent anActionEvent) {
                         final App app = tableModel.getApplication(selectedRow.get());
                         if (app == null) return;
-                        herokuProjectService.update(app);
-                        GitHelper.attachRemote(herokuProjectService.getProject(), app);
-                        updatePanels();
-                        HerokuSetupWindow.this.update();
+                        if (GitHelper.attachRemote(herokuProjectService.getProject(), app) != null) {
+                            herokuProjectService.update(app);
+                            updatePanels();
+                            HerokuSetupWindow.this.update();
+                        }
                     }
                 },
                 new AnAction("New App", "Create new Heroku Application", icon("/general/add.png")) {

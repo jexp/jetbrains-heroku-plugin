@@ -76,21 +76,10 @@ public class HerokuApplicationWindow extends HerokuToolWindow {
         setEnabled(herokuProjectService.isHerokuProject());
 
         view.removeAll();
-        view.add(createApplicationView(),BorderLayout.CENTER);
+        final JComponent applicationView = createApplicationView();
+        if (applicationView!=null) view.add(applicationView,BorderLayout.CENTER);
     }
 
-        /*
-        builder.append("Remote", new JButton(new AbstractAction("Add: " + gitUrl) {
-            public void actionPerformed(ActionEvent actionEvent) {
-                final GitRemoteInfo herokuRemote = attachRemote(project, app);
-                if (herokuRemote != null) {
-                    setEnabled(false);
-                    this.putValue(NAME, herokuRemote.getName() + " : " + herokuRemote.getUrl());
-                    this.putValue(SHORT_DESCRIPTION, herokuRemote.getName() + " : " + herokuRemote.getUrl());
-                }
-            }
-        }));
-        */
     @Override
     protected List<AnAction> createActions() {
         return Arrays.asList(

@@ -27,6 +27,16 @@ public class NewGitRemoteHandler implements GitRemoteHandler{
         return null;
     }
 
+    @Override
+    public GitRemoteInfo findOrigin(String origin, Project project) {
+        if (origin == null) return null;
+        final List<GitRemoteInfo> remotes = getRemotes(project);
+        for (GitRemoteInfo remote : remotes) {
+            if (remote.getName().equalsIgnoreCase(origin)) return remote;
+        }
+        return null;
+    }
+
     public List<GitRemoteInfo> getRemotes(final Project project) {
         final GitRepository repo = getRepository(project);
         if (repo == null) return Collections.emptyList();

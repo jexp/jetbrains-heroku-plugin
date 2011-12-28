@@ -1,16 +1,30 @@
 package com.jetbrains.heroku.ui;
 
 import com.intellij.ide.BrowserUtil;
+import com.intellij.notification.Notification;
+import com.intellij.notification.NotificationGroup;
+import com.intellij.notification.NotificationType;
+import com.intellij.notification.Notifications;
+import com.intellij.openapi.project.Project;
+import com.intellij.openapi.util.text.StringUtil;
+import com.intellij.openapi.vcs.VcsException;
 import com.intellij.ui.HyperlinkAdapter;
 import com.intellij.ui.HyperlinkLabel;
 import com.intellij.ui.ScrollPaneFactory;
 import com.intellij.ui.table.JBTable;
+import git4idea.GitVcs;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.TableModel;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -18,6 +32,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @since 27.12.11
  */
 public class GuiUtil {
+
     public static HyperlinkLabel link(final String url) {
         if (url == null) {
             return new HyperlinkLabel();
@@ -25,11 +40,12 @@ public class GuiUtil {
         final HyperlinkLabel label = new HyperlinkLabel(url);
         label.setHyperlinkTarget(url);
         label.addHyperlinkListener(new HyperlinkAdapter() {
-              @Override
-              protected void hyperlinkActivated(final HyperlinkEvent e) {
+            @Override
+            protected void hyperlinkActivated(final HyperlinkEvent e) {
+                if (e==null || e.getURL()==null) return;
                 BrowserUtil.launchBrowser(e.getURL().toExternalForm());
-              }
-            });
+            }
+        });
         return label;
     }
 
@@ -59,6 +75,6 @@ public class GuiUtil {
     }
 
     public static JLabel label(Object value) {
-        return new JLabel(value==null ? "" : value.toString());
+        return new JLabel(value == null ? "" : value.toString());
     }
 }

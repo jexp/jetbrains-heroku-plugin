@@ -7,8 +7,8 @@ import com.intellij.openapi.components.PersistentStateComponent;
 import com.intellij.openapi.components.State;
 import com.intellij.openapi.components.Storage;
 import com.intellij.openapi.project.Project;
+import com.jetbrains.heroku.Notifications;
 import com.jetbrains.heroku.git.GitHelper;
-import git4idea.ui.GitUIUtil;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -65,7 +65,11 @@ public class HerokuProjectService implements  PersistentStateComponent<HerokuPro
         if (this.herokuApi ==null) {
             this.herokuApi = applicationService.getHerokuApi();
         }
+        try {
         this.app = this.herokuApi.getApp(newHerokuApp.name);
+        } catch(RequestFailedException rfe) {
+            Notifications.notifyError(project,"Request Error","Error retrieving app "+newHerokuApp.name,true,rfe);
+        }
     }
 
     public App getApplicationInfo() {
@@ -142,7 +146,7 @@ public class HerokuProjectService implements  PersistentStateComponent<HerokuPro
         try {
             this.herokuApi.scaleProcess(getHerokuAppName(), "Dyno", count);
         } catch (RequestFailedException rfe) {
-            GitUIUtil.notifyError(project, "Error scaling dynos", rfe.getResponseBody(), true, rfe);
+            Notifications.notifyError(project, "Error scaling dynos", rfe.getResponseBody(), true, rfe);
         }
     }
 
@@ -150,7 +154,7 @@ public class HerokuProjectService implements  PersistentStateComponent<HerokuPro
         try {
             this.herokuApi.scaleProcess(getHerokuAppName(),"Worker",count);
         } catch (RequestFailedException rfe) {
-            GitUIUtil.notifyError(project, "Error scaling workers", rfe.getResponseBody(), true, rfe);
+            Notifications.notifyError(project, "Error scaling workers", rfe.getResponseBody(), true, rfe);
         }
     }
 
@@ -158,7 +162,7 @@ public class HerokuProjectService implements  PersistentStateComponent<HerokuPro
         try {
             return this.herokuApi.listReleases(getHerokuAppName());
         } catch (RequestFailedException rfe) {
-            GitUIUtil.notifyError(project, "Error retrieving releases", rfe.getResponseBody(), false, rfe);
+            Notifications.notifyError(project, "Error retrieving releases", rfe.getResponseBody(), false, rfe);
             return Collections.emptyList();
         }
     }
@@ -166,7 +170,7 @@ public class HerokuProjectService implements  PersistentStateComponent<HerokuPro
         try {
             return this.herokuApi.getReleaseInfo(getHerokuAppName(), release.getName());
         } catch (RequestFailedException rfe) {
-            GitUIUtil.notifyError(project, "Error retrieving release: "+release.getName(), rfe.getResponseBody(), false, rfe);
+            Notifications.notifyError(project, "Error retrieving release: " + release.getName(), rfe.getResponseBody(), false, rfe);
             return null;
         }
     }
@@ -174,7 +178,7 @@ public class HerokuProjectService implements  PersistentStateComponent<HerokuPro
         try {
             this.herokuApi.rollback(getHerokuAppName(),release.getName());
         } catch (RequestFailedException rfe) {
-            GitUIUtil.notifyError(project, "Error retrieving releases", rfe.getResponseBody(), false, rfe);
+            Notifications.notifyError(project, "Error retrieving releases", rfe.getResponseBody(), false, rfe);
         }
     }
 

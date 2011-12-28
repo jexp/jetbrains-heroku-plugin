@@ -12,6 +12,7 @@ interface GitRemoteHandler {
     public void updateRepository(Project project);
 
     GitRemoteInfo findRemote(String gitUrl, Project project);
+    GitRemoteInfo findOrigin(String origin, Project project);
 
     List<GitRemoteInfo> getRemotes(Project project);
 

@@ -24,12 +24,10 @@ import java.util.Map;
  */
 public class HerokuToolWindowFactory implements ToolWindowFactory, Updateable {
     private final Map<Class,HerokuToolWindow> windows = new LinkedHashMap<Class, HerokuToolWindow>();
-    private Project project;
     private ToolWindow toolWindow;
 
     @Override
     public void createToolWindowContent(Project project, ToolWindow toolWindow) {
-        this.project = project;
         this.toolWindow = toolWindow;
         final HerokuProjectService herokuProjectService = ServiceManager.getService(project, HerokuProjectService.class);
         if (!herokuProjectService.isHerokuProject()) {

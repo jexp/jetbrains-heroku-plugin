@@ -29,6 +29,18 @@ public class OldGitRemoteHandler implements GitRemoteHandler {
         return null;
     }
 
+    @Override
+    public GitRemoteInfo findOrigin(String origin, Project project) {
+        try {
+            for (GitRemote remote : GitRemote.list(project, project.getBaseDir())) {
+                if (remote.name().equalsIgnoreCase(origin)) return new OldGitRemoteInfo(remote);
+            }
+        } catch (VcsException e) {
+            throw new RuntimeException("Error fetching git remotes", e);
+        }
+        return null;
+    }
+
     public List<GitRemoteInfo> getRemotes(Project project) {
         try {
             final ArrayList<GitRemoteInfo> result = new ArrayList<GitRemoteInfo>();
