@@ -175,7 +175,7 @@ public class HerokuProjectService implements  PersistentStateComponent<HerokuPro
         try {
             return this.herokuApi.listReleases(getHerokuAppName());
         } catch (RequestFailedException rfe) {
-            Notifications.notifyError(project, "Error retrieving releases", rfe.getResponseBody(), false, rfe);
+            // Notifications.notifyError(project, "Error retrieving releases", rfe.getResponseBody(), false, rfe);
             return Collections.emptyList();
         }
     }

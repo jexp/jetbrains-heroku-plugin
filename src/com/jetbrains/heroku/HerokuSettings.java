@@ -211,7 +211,8 @@ public class HerokuSettings implements Configurable {
         final boolean validCredentials = credentials != null && credentials.valid();
 
         if (validCredentials) {
-            this.appsModel.update(herokuApplicationService.allApps(credentials));
+            herokuApplicationService.update(credentials.getEmail(),credentials.getToken());
+            this.appsModel.update(herokuApplicationService.listApps());
             this.keyModel.update(herokuApplicationService.listKeys());
         }
         return validCredentials;
