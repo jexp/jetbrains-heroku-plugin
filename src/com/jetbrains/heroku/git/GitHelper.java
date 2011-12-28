@@ -2,13 +2,13 @@ package com.jetbrains.heroku.git;
 
 import com.heroku.api.App;
 import com.intellij.execution.process.ProcessOutputTypes;
-import com.intellij.notification.NotificationType;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Key;
 import com.intellij.openapi.vcs.VcsException;
 import com.intellij.openapi.vfs.VirtualFile;
-import com.jetbrains.heroku.Notifications;
+import com.jetbrains.heroku.notification.Notifications;
+import com.jetbrains.heroku.notification.Type;
 import git4idea.checkout.GitCheckoutProvider;
 import git4idea.commands.*;
 import org.jetbrains.annotations.Nullable;
@@ -54,7 +54,7 @@ public class GitHelper {
             addRemoteHandler.addParameters("add", HEROKU_REMOTE, remoteUrl);
         try {
             addRemoteHandler.run();
-            Notifications.notifyMessage(project, "Added Heroku Remote", "Heroku remote <code>" + remoteUrl + "</code> added to project " + project.getName(), NotificationType.INFORMATION, true, null);
+            Notifications.notifyMessage(project, "Added Heroku Remote", "Heroku remote <code>" + remoteUrl + "</code> added to project " + project.getName(), Type.INFORMATION, true, null);
             remoteHandler.updateRepository(project);
             return true;
         } catch (VcsException e) {

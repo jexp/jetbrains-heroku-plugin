@@ -4,6 +4,7 @@ import com.heroku.api.App;
 import com.heroku.api.Heroku;
 import com.heroku.api.Key;
 import com.intellij.openapi.util.Pair;
+import com.jetbrains.heroku.notification.Notifications;
 import com.jetbrains.heroku.service.HerokuApplicationService;
 import com.jetbrains.heroku.herokuapi.Credentials;
 import com.intellij.openapi.options.Configurable;
@@ -99,10 +100,10 @@ public class HerokuSettings implements Configurable {
         builder.append(table(appsModel,selectedApp), 10);
         builder.append(new JButton(new AbstractAction("Add Application") {
             public void actionPerformed(ActionEvent e) {
-                Pair<String, Boolean> newApplicationInfo = Messages.showInputDialogWithCheckBox("Please enter the new Heroku Application Name or leave blank for default:", "New Heroku Application Name", "Cedar stack", true, true, Messages.getQuestionIcon(), null, null);
-                final Heroku.Stack stack = newApplicationInfo.second ? Heroku.Stack.Cedar : Heroku.Stack.Bamboo;
-                App newApp = herokuApplicationService.createApplication(newApplicationInfo.first, stack);
-                Notifications.notifyModalSuccess("Created App", "Sucessfully created App " + newApp.getName() + " on " + newApp.getStack());
+                Pair<String,Heroku.Stack> newApplicationInfo = Notifications.showCreateNewAppDialog();
+                if (newApplicationInfo==null) return;
+                App newApp = herokuApplicationService.createApplication(newApplicationInfo.first, newApplicationInfo.second);
+                Notifications.notifyModalInfo("Created App", "Sucessfully created App " + newApp.getName() + " on " + newApp.getStack());
                 appsModel.update(herokuApplicationService.listApps());
             }
         }), 1);
@@ -112,7 +113,7 @@ public class HerokuSettings implements Configurable {
                 if (app==null) return;
                 if (Messages.showYesNoDialog("Really destroy app "+app.getName()+" this is irrecoverable!","Destroy App",Messages.getWarningIcon())!=Messages.YES) return;
                 herokuApplicationService.destroyApp(app);
-                Notifications.notifyModalSuccess("Created App", "Sucessfully Destroyed App " + app.getName());
+                Notifications.notifyModalInfo("Destroyed App", "Sucessfully Destroyed App " + app.getName());
                 appsModel.update(herokuApplicationService.listApps());
             }
         }), 1);
@@ -172,7 +173,7 @@ public class HerokuSettings implements Configurable {
 
     public void checkCredentials() {
         if (testLogin()) {
-            Notifications.notifyModalSuccess("Heroku Login", "Heroku Login successful! Authorized: " + getName());
+            Notifications.notifyModalInfo("Heroku Login", "Heroku Login successful! Authorized: " + getName());
         }
     }
 

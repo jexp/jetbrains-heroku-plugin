@@ -8,6 +8,7 @@ import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.util.Pair;
 import com.jetbrains.heroku.git.GitHelper;
+import com.jetbrains.heroku.notification.Notifications;
 import com.jetbrains.heroku.service.HerokuProjectService;
 
 import javax.swing.*;
@@ -97,9 +98,9 @@ public class HerokuSetupWindow extends HerokuToolWindow {
 
                     public void actionPerformed(AnActionEvent anActionEvent) {
                         try {
-                            Pair<String, Boolean> newApplicationInfo = Messages.showInputDialogWithCheckBox("Please enter the new Heroku Application Name or leave blank for default:", "New Heroku Application Name", "Cedar stack", true, true, Messages.getQuestionIcon(), null, null);
-                            final Heroku.Stack stack = newApplicationInfo.second ? Heroku.Stack.Cedar : Heroku.Stack.Bamboo;
-                            App newApp = herokuProjectService.getApplicationService().createApplication(newApplicationInfo.first, stack);
+                            Pair<String,Heroku.Stack> newApplicationInfo = Notifications.showCreateNewAppDialog();
+                            if (newApplicationInfo==null) return;
+                            App newApp = herokuProjectService.getApplicationService().createApplication(newApplicationInfo.first, newApplicationInfo.second);
                             herokuProjectService.update(newApp);
                             GitHelper.attachRemote(herokuProjectService.getProject(), newApp);
                             updatePanels();

@@ -6,7 +6,7 @@ import com.intellij.openapi.components.PersistentStateComponent;
 import com.intellij.openapi.components.State;
 import com.intellij.openapi.components.Storage;
 import com.intellij.openapi.ui.Messages;
-import com.jetbrains.heroku.Notifications;
+import com.jetbrains.heroku.notification.Notifications;
 import com.jetbrains.heroku.herokuapi.Credentials;
 
 import java.util.Collections;
