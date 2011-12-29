@@ -4,7 +4,7 @@
         Stores credentials and API-token, lists existing apps, allows current project to be connected to an app, new app creation, deploy.
         Handling of addons, processes, scaling, collaborators, logs, environment and releases.
     </description>
-    <version>0.3.3</version>
+    <version>0.3.4</version>
     <idea-version since-build="8000"/>
     <vendor>Michael Hunger</vendor>
     <depends>com.intellij.modules.lang</depends>
