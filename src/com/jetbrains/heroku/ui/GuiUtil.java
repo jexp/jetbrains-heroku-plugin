@@ -1,30 +1,19 @@
 package com.jetbrains.heroku.ui;
 
 import com.intellij.ide.BrowserUtil;
-import com.intellij.notification.Notification;
-import com.intellij.notification.NotificationGroup;
-import com.intellij.notification.NotificationType;
-import com.intellij.notification.Notifications;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.openapi.vcs.VcsException;
+import com.intellij.openapi.util.IconLoader;
 import com.intellij.ui.HyperlinkAdapter;
 import com.intellij.ui.HyperlinkLabel;
 import com.intellij.ui.ScrollPaneFactory;
 import com.intellij.ui.table.JBTable;
-import git4idea.GitVcs;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableModel;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
+import java.awt.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -54,9 +43,15 @@ public class GuiUtil {
     }
 
     public static JScrollPane table(TableModel model, final AtomicInteger selectedRow) {
-        final JBTable table = new JBTable(model);
+        final JBTable table = createTable(model);
         table.setAutoCreateRowSorter(true);
         return ScrollPaneFactory.createScrollPane(withSelectionCallback(table, selectedRow));
+    }
+
+    private static JBTable createTable(TableModel model) {
+        final JBTable table = new JBTable(model);
+        table.setDefaultRenderer(Boolean.class, new BooleanCellRenderer());
+        return table;
     }
 
     public static JTable withSelectionCallback(final JTable table, final AtomicInteger selectedRow) {
@@ -76,5 +71,19 @@ public class GuiUtil {
 
     public static JLabel label(Object value) {
         return new JLabel(value == null ? "" : value.toString());
+    }
+
+    private static class BooleanCellRenderer implements TableCellRenderer {
+        private final Icon checkIcon = IconLoader.getIcon("/actions/check_16.png");
+        final JLabel iconLabel = new JLabel(checkIcon,JLabel.CENTER);
+
+        @Override
+        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+            final boolean isTrue = value instanceof Boolean && ((Boolean) value);
+            iconLabel.setIcon(isTrue ? checkIcon : null);
+            iconLabel.setForeground(isSelected ? table.getSelectionForeground() : table.getForeground());
+            iconLabel.setBackground(isSelected ? table.getSelectionBackground() : table.getBackground());
+            return iconLabel;
+        }
     }
 }

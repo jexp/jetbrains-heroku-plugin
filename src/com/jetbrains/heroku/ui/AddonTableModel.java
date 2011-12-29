@@ -25,6 +25,7 @@ public class AddonTableModel extends AbstractTableModel {
         for (Addon addon : data) {
             this.appAddons.put(addon.getName(),addon);
         }
+        Collections.sort(addons, new AddonComparator());
         fireTableDataChanged();
     }
 

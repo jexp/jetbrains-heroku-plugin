@@ -1,6 +1,8 @@
 package com.jetbrains.heroku.git;
 
+import com.intellij.notification.impl.NotificationSettings;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.ui.Messages;
 import git4idea.repo.GitRemote;
 import git4idea.repo.GitRepository;
 import git4idea.repo.GitRepositoryManager;
@@ -18,11 +20,11 @@ public class NewGitRemoteHandler implements GitRemoteHandler{
         getRepository(project).update(GitRepository.TrackedTopic.CONFIG);
     }
 
-    public GitRemoteInfo findRemote(String gitUrl, final Project project) {
-        if (gitUrl == null) return null;
+    public GitRemoteInfo findRemote(String pattern, final Project project) {
+        if (pattern == null) return null;
         final List<GitRemoteInfo> remotes = getRemotes(project);
         for (GitRemoteInfo remote : remotes) {
-            if (remote.getUrl().equals(gitUrl)) return remote;
+            if (remote.getUrl().matches(pattern) || remote.getName().matches(pattern)) return remote;
         }
         return null;
     }
@@ -71,6 +73,11 @@ public class NewGitRemoteHandler implements GitRemoteHandler{
 
         public String getUrl() {
             return remote.getFirstUrl();
+        }
+
+        @Override
+        public String toString() {
+            return getName()+":"+getUrl();
         }
     }
 }

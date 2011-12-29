@@ -39,7 +39,7 @@ public class GitHelper {
         try {
             return (GitRemoteHandler)Class.forName(GitRemoteHandler.class.getPackage().getName()+"."+className).newInstance();
         } catch (Exception e) {
-            System.err.println("Error creating instance of class "+className+ " "+e.getMessage());
+            LOG.warn("Error creating instance of class " + className + " " + e.getMessage());
             return null;
         }
     }
@@ -48,25 +48,29 @@ public class GitHelper {
         final GitRemoteInfo herokuOrigin = findHerokuOrigin(project);
         final GitSimpleHandler addRemoteHandler = new GitSimpleHandler(project, project.getBaseDir(), GitCommand.REMOTE);
         addRemoteHandler.setNoSSH(true);
-        if (herokuOrigin!=null)
-            addRemoteHandler.addParameters("set-url", HEROKU_REMOTE, remoteUrl);
-        else
+        if (herokuOrigin!=null) {
+            LOG.warn("replacing remote "+herokuOrigin+" with "+remoteUrl);
+            addRemoteHandler.addParameters("set-url", herokuOrigin.getName(), remoteUrl);
+        }
+        else {
+            LOG.info("adding remote "+HEROKU_REMOTE+" with "+remoteUrl);
             addRemoteHandler.addParameters("add", HEROKU_REMOTE, remoteUrl);
+        }
         try {
             addRemoteHandler.run();
             Notifications.notifyMessage(project, "Added Heroku Remote", "Heroku remote <code>" + remoteUrl + "</code> added to project " + project.getName(), Type.INFORMATION, true, null);
             remoteHandler.updateRepository(project);
             return true;
         } catch (VcsException e) {
-            LOG.info("addRemote ", e);
-            Notifications.notifyError(project, "Couldn't clone", "Couldn't add remote <code>" + remoteUrl + "</code>", true, e);
+            LOG.error("error adding remote " + remoteUrl, e);
+            Notifications.notifyError(project, "Error adding Remote", "Couldn't add remote <code>" + remoteUrl + "</code>", true, e);
             return false;
         }
     }
 
-    public static GitRemoteInfo findRemote(String gitUrl, final Project project) {
-        if (gitUrl == null) return null;
-        return remoteHandler.findRemote(gitUrl,project);
+    public static GitRemoteInfo findRemote(String pattern, final Project project) {
+        if (pattern == null) return null;
+        return remoteHandler.findRemote(pattern,project);
     }
     public static GitRemoteInfo findHerokuOrigin(final Project project) {
         return remoteHandler.findOrigin("heroku", project);
@@ -80,11 +84,16 @@ public class GitHelper {
     }
 
 
-    @Nullable
     public static void pushToHeroku(Project project) {
         final VirtualFile vcsRoot = project.getBaseDir();
         final GitLineHandler handler = new GitLineHandler(project, vcsRoot, GitCommand.PUSH);
-        handler.addParameters("-v", HEROKU_REMOTE, HEROKU_DEFAULT_BRANCH);
+        LOG.info("pushing to heroku adding remote " + project.getBaseDir());
+        final GitRemoteInfo herokuRemote = findRemote(".*heroku.*", project);
+        String remoteName = herokuRemote==null ? HEROKU_REMOTE : herokuRemote.getName();
+
+        handler.addParameters("-v", remoteName, HEROKU_DEFAULT_BRANCH);
+
+        LOG.info("git push to heroku vcs-root " + vcsRoot+" remote "+remoteName);
         trackPushRejectedAsError(handler, "Rejected push (" + vcsRoot.getPresentableUrl() + "): ");
         GitHandlerUtil.doSynchronously(handler, "deploying project to heroku", "git push");
     }
@@ -111,9 +120,11 @@ public class GitHelper {
         final String gitUrl = app.getGitUrl();
         final GitRemoteInfo remote = findRemote(gitUrl, project);
         if (remote == null) {
+            LOG.info("no remote found for url " + gitUrl+" adding to project root "+project.getBaseDir());
             addHerokuRemote(project, gitUrl);
             return findRemote(gitUrl, project);
         }
-        return null;
+        LOG.info("found remote for url " + gitUrl+" remote "+remote);
+        return remote;
     }
 }

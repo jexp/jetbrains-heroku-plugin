@@ -11,6 +11,7 @@ import com.intellij.openapi.wm.ToolWindowFactory;
 import com.intellij.ui.ScrollPaneFactory;
 import com.intellij.ui.content.Content;
 import com.intellij.ui.content.ContentManager;
+import com.jetbrains.heroku.notification.Notifications;
 import com.jetbrains.heroku.service.HerokuProjectService;
 
 import javax.swing.*;
@@ -29,19 +30,25 @@ public class HerokuToolWindowFactory implements ToolWindowFactory, Updateable {
     @Override
     public void createToolWindowContent(Project project, ToolWindow toolWindow) {
         this.toolWindow = toolWindow;
-        final HerokuProjectService herokuProjectService = ServiceManager.getService(project, HerokuProjectService.class);
-        if (!herokuProjectService.isHerokuProject()) {
-            add(new HerokuSetupWindow(herokuProjectService, this));
+        try {
+            createToolWindow(project);
+        } catch (Exception e) {
+            Notifications.notifyModalError("Error creating Heroku Tool Window",e.getMessage());
+            e.printStackTrace();
         }
+    }
+
+    private void createToolWindow(Project project) {
+        final HerokuProjectService herokuProjectService = ServiceManager.getService(project, HerokuProjectService.class);
         addAll(new HerokuApplicationWindow(herokuProjectService),
                 new HerokuProcessesWindow(herokuProjectService), new HerokuConfigWindow(herokuProjectService),
                 new HerokuAddonsWindow(herokuProjectService), new HerokuCollaboratorsWindow(herokuProjectService),
-                new HerokuLogsWindow(herokuProjectService), new HerokuReleasesWindow(herokuProjectService));
+                new HerokuLogsWindow(herokuProjectService), new HerokuReleasesWindow(herokuProjectService),
+                new HerokuSetupWindow(herokuProjectService, this));
         if (herokuProjectService.isHerokuProject())
             getContentManager().setSelectedContent(getContent(HerokuApplicationWindow.class));
         else
             getContentManager().setSelectedContent(getContent(HerokuSetupWindow.class));
-
     }
 
     private Content getContent(Class<? extends HerokuToolWindow> type) {

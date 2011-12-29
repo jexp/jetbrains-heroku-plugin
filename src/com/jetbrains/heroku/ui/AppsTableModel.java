@@ -5,14 +5,20 @@ import com.heroku.api.App;
 import javax.swing.table.AbstractTableModel;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @author mh
  * @since 18.12.11
  */
 public class AppsTableModel extends AbstractTableModel {
-    enum cols {Name, Owner, Url, Created, Dynos, Workers}
+
+    private App hightlightedApp;
+
+    public void highlight(App hightlightedApp) {
+        this.hightlightedApp = hightlightedApp;
+    }
+
+    enum Columns {InProject, Name, Owner, Url, Created, Dynos, Workers}
 
     private List<App> apps = Collections.emptyList();
 
@@ -20,13 +26,22 @@ public class AppsTableModel extends AbstractTableModel {
         return apps.size();
     }
 
+    @Override
+    public Class<?> getColumnClass(int columnIndex) {
+        final Columns columns = columnFor(columnIndex);
+        if (columns==Columns.InProject) return Boolean.class;
+        return super.getColumnClass(columnIndex);
+    }
+
     public int getColumnCount() {
-        return cols.values().length;
+        return Columns.values().length;
     }
 
     public Object getValueAt(int row, int column) {
         App app = getApplication(row);
-        switch (columnFor(cols.values()[column])) {
+        switch (columnFor(column)) {
+            case InProject:
+                return hightlightedApp !=null && app.getName().equals(hightlightedApp.getName());
             case Name:
                 return app.getName();
             case Owner:
@@ -43,13 +58,13 @@ public class AppsTableModel extends AbstractTableModel {
         return null;
     }
 
-    private cols columnFor(cols cols) {
-        return cols;
+    private Columns columnFor(int column) {
+        return Columns.values()[column];
     }
 
     @Override
     public String getColumnName(int column) {
-        return columnFor(cols.values()[column]).name();
+        return columnFor(column).name();
     }
 
     public AppsTableModel update(List<App> applications) {

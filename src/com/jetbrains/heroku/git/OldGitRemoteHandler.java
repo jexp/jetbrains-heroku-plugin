@@ -18,10 +18,10 @@ public class OldGitRemoteHandler implements GitRemoteHandler {
     public void updateRepository(Project project) {
     }
 
-    public GitRemoteInfo findRemote(String gitUrl, Project project) {
+    public GitRemoteInfo findRemote(String pattern, Project project) {
         try {
             for (GitRemote remote : GitRemote.list(project, project.getBaseDir())) {
-                if (remote.pushUrl().equals(gitUrl)) return new OldGitRemoteInfo(remote);
+                if (remote.pushUrl().matches(pattern) || remote.name().matches(pattern)) return new OldGitRemoteInfo(remote);
             }
         } catch (VcsException e) {
             throw new RuntimeException("Error fetching git remotes", e);
@@ -66,6 +66,10 @@ public class OldGitRemoteHandler implements GitRemoteHandler {
 
         public String getUrl() {
             return remote.pushUrl();
+        }
+        @Override
+        public String toString() {
+            return getName()+":"+getUrl();
         }
     }
 
