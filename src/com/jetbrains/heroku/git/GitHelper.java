@@ -73,7 +73,7 @@ public class GitHelper {
         return remoteHandler.findRemote(pattern,project);
     }
     public static GitRemoteInfo findHerokuOrigin(final Project project) {
-        return remoteHandler.findOrigin("heroku", project);
+        return remoteHandler.findRemote(".*heroku.*", project);
     }
 
     private static List<GitRemoteInfo> getRemotes(final Project project) {

@@ -1,6 +1,7 @@
 package com.jetbrains.heroku.notification;
 
 import com.intellij.notification.*;
+import com.intellij.notification.Notifications;
 import com.intellij.openapi.project.Project;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

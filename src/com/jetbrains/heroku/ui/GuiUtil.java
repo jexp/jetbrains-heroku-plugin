@@ -1,11 +1,17 @@
 package com.jetbrains.heroku.ui;
 
 import com.intellij.ide.BrowserUtil;
+import com.intellij.openapi.actionSystem.AnAction;
+import com.intellij.openapi.actionSystem.AnActionEvent;
+import com.intellij.openapi.actionSystem.Presentation;
+import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.util.IconLoader;
+import com.intellij.openapi.vcs.impl.BackgroundableActionEnabledHandler;
 import com.intellij.ui.HyperlinkAdapter;
 import com.intellij.ui.HyperlinkLabel;
 import com.intellij.ui.ScrollPaneFactory;
 import com.intellij.ui.table.JBTable;
+import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
 import javax.swing.event.HyperlinkEvent;
@@ -14,7 +20,9 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableModel;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.logging.ErrorManager;
 
 /**
  * @author mh
@@ -85,5 +93,9 @@ public class GuiUtil {
             iconLabel.setBackground(isSelected ? table.getSelectionBackground() : table.getBackground());
             return iconLabel;
         }
+    }
+    
+    public static JButton button(Action action) {
+        return new JButton(action);
     }
 }

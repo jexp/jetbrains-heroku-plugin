@@ -1,8 +1,7 @@
 package com.jetbrains.heroku.git;
 
-import com.intellij.notification.impl.NotificationSettings;
+import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.ui.Messages;
 import git4idea.repo.GitRemote;
 import git4idea.repo.GitRepository;
 import git4idea.repo.GitRepositoryManager;
@@ -16,6 +15,8 @@ import java.util.List;
  * @since 19.12.11
  */
 public class NewGitRemoteHandler implements GitRemoteHandler{
+    private static final Logger LOG = Logger.getInstance(NewGitRemoteHandler.class);
+
     public void updateRepository(Project project) {
         getRepository(project).update(GitRepository.TrackedTopic.CONFIG);
     }
@@ -56,7 +57,14 @@ public class NewGitRemoteHandler implements GitRemoteHandler{
 
     private GitRepository getRepository(final Project project) {
         final GitRepositoryManager repositoryManager = GitRepositoryManager.getInstance(project);
-        return repositoryManager.getRepositoryForRoot(project.getBaseDir());
+        if (repositoryManager==null) {
+            LOG.error("Could not retrieve repository manager for project "+project.getName()+" vcsRoot "+project.getBaseDir());
+        }
+        final GitRepository repository = repositoryManager.getRepositoryForRoot(project.getBaseDir());
+        if (repository==null) {
+            LOG.error("Could not retrieve repository for project "+project.getName()+" vcsRoot "+project.getBaseDir());
+        }
+        return repository;
     }
 
     private static class NewGitRemoteInfo implements GitRemoteInfo {

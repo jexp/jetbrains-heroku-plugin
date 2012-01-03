@@ -6,8 +6,10 @@ import com.intellij.ide.actions.StartUseVcsAction;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.diagnostic.Logger;
+import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.util.Pair;
+import com.intellij.ui.components.JBLabel;
 import com.jetbrains.heroku.git.GitHelper;
 import com.jetbrains.heroku.git.GitRemoteInfo;
 import com.jetbrains.heroku.notification.Notifications;
@@ -20,7 +22,6 @@ import java.awt.*;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.logging.Level;
 
 import static com.jetbrains.heroku.ui.GuiUtil.table;
 
@@ -35,6 +36,7 @@ public class HerokuSetupWindow extends HerokuToolWindow {
     private AppsTableModel tableModel;
     private Updateable panels;
     private JLabel remoteLabel;
+    private JLabel gitIntegration;
 
     @Override
     protected void setWindowInfo(ContentInfo contentInfo) {
@@ -46,7 +48,8 @@ public class HerokuSetupWindow extends HerokuToolWindow {
         final JPanel panel = new JPanel(new BorderLayout());
         panel.add(table(tableModel = new AppsTableModel(), selectedRow = new AtomicInteger(-1)),BorderLayout.CENTER);
         DefaultFormBuilder builder=new DefaultFormBuilder(new FormLayout("right:pref, 6dlu, pref","pref"));
-        builder.append("Current Heroku-Git-Remote:", remoteLabel = new JLabel());
+        builder.append("Git-Integration", gitIntegration = new JBLabel());
+        builder.append("Current Heroku-Git-Remote:", remoteLabel = new JBLabel());
         panel.add(builder.getPanel(), BorderLayout.NORTH);
         update();
         return panel;
@@ -57,12 +60,25 @@ public class HerokuSetupWindow extends HerokuToolWindow {
     }
 
     public void update() {
-        final GitRemoteInfo existingRemote = GitHelper.findRemote(".*heroku.*", herokuProjectService.getProject());
+        final Project project = herokuProjectService.getProject();
+        final boolean gitEnabled = GitHelper.isGitEnabled(project);
+        presentGitStatus(gitEnabled);
+        final GitRemoteInfo existingRemote = GitHelper.findHerokuOrigin(project);
         final List<App> apps = load();
         tableModel.update(apps);
         final App appWithRemote = findAppForRemote(apps, existingRemote);
         tableModel.highlight(appWithRemote);
         representExistingRemote(existingRemote, appWithRemote!=null);
+    }
+
+    private void presentGitStatus(boolean gitEnabled) {
+        if (gitEnabled) {
+            gitIntegration.setText("enabled");
+            gitIntegration.setForeground(null);
+        } else {
+            gitIntegration.setText("disabled (please enable)");
+            gitIntegration.setForeground(Color.red);
+        }
     }
 
     private void representExistingRemote(GitRemoteInfo existingRemote, boolean appExists) {
@@ -96,13 +112,13 @@ public class HerokuSetupWindow extends HerokuToolWindow {
     @Override
     protected List<AnAction> createActions() {
         final List<AnAction> actions = Arrays.<AnAction>asList(
-                new AnAction("Enable Git Integration", "Enable Git VCS integration for project", icon("/vcs/addToVcs.png")) {
+                new JBBackgroundAction("Enable Git Integration", "Enable Git VCS integration for project", icon("/vcs/addToVcs.png")) {
                     @Override
                     public void update(AnActionEvent e) {
                         setEnabled(!GitHelper.isGitEnabled(herokuProjectService.getProject()));
                     }
 
-                    public void actionPerformed(AnActionEvent anActionEvent) {
+                    public void runActionPerformed(AnActionEvent anActionEvent) {
                         new StartUseVcsAction().actionPerformed(anActionEvent);
                         HerokuSetupWindow.this.update();
                         updatePanels();
@@ -110,7 +126,7 @@ public class HerokuSetupWindow extends HerokuToolWindow {
                 },
                 // /general/getProjectfromVCS.png
 
-                new AnAction("Attach", "Attach to existing Heroku Application", icon("/general/vcsSmallTab.png")) {
+                new JBBackgroundAction("Attach", "Attach to existing Heroku Application", icon("/general/vcsSmallTab.png")) {
                     {
                         update(null);
                     }
@@ -120,7 +136,7 @@ public class HerokuSetupWindow extends HerokuToolWindow {
                         setEnabled(!herokuProjectService.isHerokuProject());
                     }
 
-                    public void actionPerformed(AnActionEvent anActionEvent) {
+                    public void runActionPerformed(AnActionEvent anActionEvent) {
                         final App app = tableModel.getApplication(selectedRow.get());
                         if (app == null) return;
                         final GitRemoteInfo attachedRemote = GitHelper.attachRemote(herokuProjectService.getProject(), app);
@@ -130,12 +146,12 @@ public class HerokuSetupWindow extends HerokuToolWindow {
                             updatePanels();
                             HerokuSetupWindow.this.update();
                         } else {
-                            logger.warn("No attached remote attached to project "+herokuProjectService.getProject().getName());
+                            logger.warn("No attached remote attached to project " + herokuProjectService.getProject().getName());
                         }
 
                     }
                 },
-                new AnAction("New App", "Create new Heroku Application", icon("/general/add.png")) {
+                new JBBackgroundAction("New App", "Create new Heroku Application", icon("/general/add.png")) {
                     {
                         update(null);
                     }
@@ -145,7 +161,7 @@ public class HerokuSetupWindow extends HerokuToolWindow {
                         setEnabled(!herokuProjectService.isHerokuProject());
                     }
 
-                    public void actionPerformed(AnActionEvent anActionEvent) {
+                    public void runActionPerformed(AnActionEvent anActionEvent) {
                         try {
                             Pair<String,Heroku.Stack> newApplicationInfo = Notifications.showCreateNewAppDialog();
                             if (newApplicationInfo==null) return;

@@ -1,10 +1,12 @@
 package com.jetbrains.heroku.service;
 
 import com.heroku.api.*;
+import com.heroku.api.exception.LoginFailedException;
 import com.heroku.api.exception.RequestFailedException;
 import com.intellij.openapi.components.PersistentStateComponent;
 import com.intellij.openapi.components.State;
 import com.intellij.openapi.components.Storage;
+import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.ui.Messages;
 import com.jetbrains.heroku.notification.Notifications;
 import com.jetbrains.heroku.herokuapi.Credentials;
@@ -20,6 +22,7 @@ import java.util.List;
 public class HerokuApplicationService implements PersistentStateComponent<Credentials> {
     private Credentials credentials = null;
     private transient HerokuAPI herokuApi;
+    private static final Logger LOG = Logger.getInstance(HerokuApplicationService.class);
 
     public HerokuApplicationService() { // inject dependencies
     }
@@ -107,7 +110,12 @@ public class HerokuApplicationService implements PersistentStateComponent<Creden
     }
 
     public String obtainApiToken(String email, String password) {
-        return HerokuAPI.obtainApiKey(email, password);
+        try {
+            return HerokuAPI.obtainApiKey(email, password);
+        } catch(LoginFailedException lfe) {
+            LOG.warn("Failed to authenticate "+email,lfe);
+            return null;
+        }
     }
 
     public List<Key> listKeys() {

@@ -11,6 +11,7 @@ import com.intellij.openapi.options.Configurable;
 import com.intellij.openapi.options.ConfigurationException;
 import com.intellij.openapi.ui.Messages;
 import com.jetbrains.heroku.ui.AppsTableModel;
+import com.jetbrains.heroku.ui.BackgroundAction;
 import com.jgoodies.forms.builder.DefaultFormBuilder;
 import com.jgoodies.forms.layout.FormLayout;
 import org.jetbrains.annotations.Nls;
@@ -67,8 +68,8 @@ public class HerokuSettings implements Configurable {
         builder.appendSeparator("Heroku Credentials");
         builder.append("Heroku-Email", emailField);
         builder.append("Password", passwordField);
-        builder.append(new JButton(new AbstractAction("Retrieve API-Token") {
-            public void actionPerformed(ActionEvent e) {
+        builder.append(new JButton(new BackgroundAction("Retrieve API-Token") {
+            public void runActionPerformed(ActionEvent e) {
                 final String apiKey = obtainToken();
                 tokenField.setText(apiKey);
                 if (apiKey!=null) {
@@ -79,8 +80,8 @@ public class HerokuSettings implements Configurable {
         builder.nextLine();
         builder.append("API-Token");
         builder.append(tokenField, 5);
-        builder.append(new JButton(new AbstractAction("Check Credentials") {
-            public void actionPerformed(ActionEvent e) {
+        builder.append(new JButton(new BackgroundAction("Check Credentials") {
+            public void runActionPerformed(ActionEvent e) {
                 checkCredentials();
             }
         }), 1);
@@ -98,8 +99,8 @@ public class HerokuSettings implements Configurable {
     private void appendAppsTable(DefaultFormBuilder builder) {
         selectedApp = new AtomicInteger(-1);
         builder.append(table(appsModel,selectedApp), 10);
-        builder.append(new JButton(new AbstractAction("Add Application") {
-            public void actionPerformed(ActionEvent e) {
+        builder.append(new JButton(new BackgroundAction("Add Application") {
+            public void runActionPerformed(ActionEvent e) {
                 Pair<String,Heroku.Stack> newApplicationInfo = Notifications.showCreateNewAppDialog();
                 if (newApplicationInfo==null) return;
                 App newApp = herokuApplicationService.createApplication(newApplicationInfo.first, newApplicationInfo.second);
@@ -107,8 +108,8 @@ public class HerokuSettings implements Configurable {
                 appsModel.update(herokuApplicationService.listApps());
             }
         }), 1);
-        builder.append(new JButton(new AbstractAction("Destroy App") {
-            public void actionPerformed(ActionEvent e) {
+        builder.append(new JButton(new BackgroundAction("Destroy App") {
+            public void runActionPerformed(ActionEvent e) {
                 App app = appsModel.getApplication(selectedApp.get());
                 if (app==null) return;
                 if (Messages.showYesNoDialog("Really destroy app "+app.getName()+" this is irrecoverable!","Destroy App",Messages.getWarningIcon())!=Messages.YES) return;
@@ -123,15 +124,15 @@ public class HerokuSettings implements Configurable {
     private void appendKeysTable(DefaultFormBuilder builder) {
         selectedKey = new AtomicInteger(-1);
         builder.append(table(keyModel, selectedKey), 10);
-        builder.append(new JButton(new AbstractAction("Add Key") {
-            public void actionPerformed(ActionEvent e) {
+        builder.append(new JButton(new BackgroundAction("Add Key") {
+            public void runActionPerformed(ActionEvent e) {
                 final String key = Messages.showMultilineInputDialog(null, "Input public ssh key", "Add SSH-KEy", null, Messages.getQuestionIcon(), null);
                 herokuApplicationService.addKey(key);
                 keyModel.update(herokuApplicationService.listKeys());
             }
         }), 1);
-        builder.append(new JButton(new AbstractAction("Remove Key") {
-            public void actionPerformed(ActionEvent e) {
+        builder.append(new JButton(new BackgroundAction("Remove Key") {
+            public void runActionPerformed(ActionEvent e) {
                 Key key = keyModel.getKey(selectedKey.get());
                 if (key==null) return;
                 herokuApplicationService.removeKey(key);
