@@ -69,8 +69,8 @@ public class HerokuApiTest {
     @Test
     public void testGetApplicationCollaborators() throws Exception {
         final List<Collaborator> result = herokuApi.listCollaborators(IDEA_TEST);
-        assertEquals(2, result.size());
-        assertNotNull(result.get(0).getEmail().equals("heroku-test@mesirii.de") || result.get(1).getEmail().equals("heroku-test@mesirii.de"));
+        assertEquals(1, result.size());
+        assertEquals("heroku-test@mesirii.de",result.get(0).getEmail());
     }
     @Test
     public void testGetApplicationLogs() throws Exception {
@@ -80,7 +80,7 @@ public class HerokuApiTest {
     @Test
     public void testGetApplications() throws Exception {
         final List<App> apps = herokuApi.listApps();
-        assertEquals(1,apps.size());
+        assertTrue(apps.size()>0);
         assertEquals("http://idea-test.heroku.com/",apps.get(0).getWebUrl());
     }
 
