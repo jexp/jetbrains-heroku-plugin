@@ -3,6 +3,8 @@ package com.jetbrains.heroku.herokuapi;
 import com.heroku.api.App;
 import com.heroku.api.Collaborator;
 import com.heroku.api.HerokuAPI;
+import com.heroku.api.connection.Connection;
+import com.heroku.api.exception.RequestFailedException;
 import com.heroku.api.request.log.LogStreamResponse;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
@@ -21,6 +23,7 @@ public class HerokuApiTest {
 
     private static HerokuAPI herokuApi;
     private static final String API_KEY = "8e8d207358c24f68314ccfb7b47e93f6f298f7c8";
+    private static final String INVALID_API_KEY = API_KEY.substring(1);
     private static final String IDEA_TEST = "idea-test";
 
     @BeforeClass
@@ -28,6 +31,27 @@ public class HerokuApiTest {
         HerokuApiTest.herokuApi = new HerokuAPI(API_KEY);
     }
 
+    @Test(expected = RequestFailedException.class)
+    public void testInvalidApiToken() {
+        new HerokuAPI(INVALID_API_KEY).listApps();
+    }
+    @Test(expected = RequestFailedException.class)
+    public void testInvalidApiListKeysToken() {
+        new HerokuAPI(INVALID_API_KEY).listKeys();
+    }
+
+    @Test(expected = RequestFailedException.class)
+    public void testEmtpyApiKey() {
+        new HerokuAPI("").listApps();
+    }
+    @Test(expected = RequestFailedException.class)
+    public void testSpaceOnlyApiKey() {
+        new HerokuAPI(" ").listApps();
+    }
+    @Test(expected = RequestFailedException.class)
+    public void testNullApiKey() {
+        new HerokuAPI((String)null).listApps();
+    }
 
     @Test
     public void testGetApplication() throws Exception {

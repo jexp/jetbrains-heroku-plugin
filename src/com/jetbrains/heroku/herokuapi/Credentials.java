@@ -34,6 +34,6 @@ public class Credentials {
     }
 
     public boolean valid() {
-        return getToken() != null && getEmail() != null; //data.containsKey("verified") && data.get("verfied").equals(true);
+        return getToken() != null && !getToken().isEmpty() && getEmail() != null; //data.containsKey("verified") && data.get("verfied").equals(true);
     }
 }

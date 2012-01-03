@@ -29,12 +29,25 @@ public class HerokuApplicationService implements PersistentStateComponent<Creden
 
     // todo move to config
     public Credentials login(final String email, final String token) {
-        final HerokuAPI herokuAPI = new HerokuAPI(token);
-        final String apiKey = herokuAPI.getApiKey();
+        final String apiKey = validateToken(token);
         if (apiKey == null || apiKey.isEmpty()) {
             showCredentialsError();
         }
         return new Credentials(email, apiKey);
+    }
+
+    private String validateToken(String token) {
+        try {
+            final HerokuAPI herokuAPI = new HerokuAPI(token);
+            herokuAPI.listKeys();
+            return herokuAPI.getApiKey();
+        } catch (RequestFailedException rfe) {
+            LOG.warn("Error validating token "+token,rfe);
+            return null;
+        } catch (IllegalStateException ise) {
+            LOG.warn("Error validating token "+token,ise);
+            return null;
+        }
     }
 
     private static void showCredentialsError() {
@@ -52,7 +65,7 @@ public class HerokuApplicationService implements PersistentStateComponent<Creden
     private void initApi(Credentials newCredentials) {
         this.credentials = newCredentials;
         this.herokuApi = null;
-        if (this.credentials != null) {
+        if (this.credentials != null && this.credentials.valid()) {
             herokuApi = new HerokuAPI(this.credentials.getToken()); // todo make sure that escaped herokuApi instances are kept in sync
         }
     }
