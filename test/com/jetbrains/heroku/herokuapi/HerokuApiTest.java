@@ -1,10 +1,12 @@
 package com.jetbrains.heroku.herokuapi;
 
+import com.google.gson.Gson;
 import com.heroku.api.App;
 import com.heroku.api.Collaborator;
 import com.heroku.api.HerokuAPI;
 import com.heroku.api.connection.Connection;
 import com.heroku.api.exception.RequestFailedException;
+import com.heroku.api.parser.TypeReference;
 import com.heroku.api.request.log.LogStreamResponse;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
@@ -70,7 +72,7 @@ public class HerokuApiTest {
     public void testGetApplicationCollaborators() throws Exception {
         final List<Collaborator> result = herokuApi.listCollaborators(IDEA_TEST);
         assertEquals(1, result.size());
-        assertEquals("heroku-test@mesirii.de",result.get(0).getEmail());
+        assertEquals("heroku-test@mesirii.de", result.get(0).getEmail());
     }
     @Test
     public void testGetApplicationLogs() throws Exception {
@@ -80,10 +82,18 @@ public class HerokuApiTest {
     @Test
     public void testGetApplications() throws Exception {
         final List<App> apps = herokuApi.listApps();
-        assertTrue(apps.size()>0);
-        assertEquals("http://idea-test.heroku.com/",apps.get(0).getWebUrl());
+        assertTrue(apps.size() > 0);
+        int count=0;
+        for (App app : apps) {
+            if (app.getWebUrl().equals("http://idea-test.heroku.com/")) count++;
+        }
+        assertEquals(1,count);
     }
-
+    @Test
+    public void testParseComplexJsonResponse() {
+        String invalidJson="[{\"name\":\"dropphotos\",\"stack\":\"bamboo-ree-1.8.7\",\"slug_size\":2383872,\"requested_stack\":null,\"created_at\":\"2010/06/01 07:48:24 -0700\",\"web_url\":\"http://dropphotos.heroku.com/\",\"owner_email\":\"shane@digitalsanctum.com\",\"create_status\":\"complete\",\"id\":200391,\"domain_name\":{\"created_at\":\"2010/06/03 19:25:08 -0700\",\"updated_at\":\"2010/06/03 19:25:08 -0700\",\"default\":null,\"domain\":\"dropphotos.com\",\"id\":27324,\"app_id\":200391,\"base_domain\":\"dropphotos.com\"},\"repo_size\":630784,\"git_url\":\"git@heroku.com:dropphotos.git\",\"repo_migrate_status\":\"complete\",\"dynos\":1,\"workers\":0},{\"name\":\"digitalsanctum\",\"stack\":\"bamboo-ree-1.8.7\",\"slug_size\":4755456,\"requested_stack\":null,\"created_at\":\"2010/09/11 13:46:15 -0700\",\"web_url\":\"http://digitalsanctum.heroku.com/\",\"owner_email\":\"shane@digitalsanctum.com\",\"create_status\":\"complete\",\"id\":287273,\"domain_name\":null,\"repo_size\":6066176,\"git_url\":\"git@heroku.com:digitalsanctum.git\",\"repo_migrate_status\":\"complete\",\"dynos\":1,\"workers\":0},{\"name\":\"voxplanner\",\"stack\":\"bamboo-ree-1.8.7\",\"slug_size\":4284416,\"requested_stack\":null,\"created_at\":\"2011/02/03 12:01:02 -0800\",\"web_url\":\"http://voxplanner.heroku.com/\",\"owner_email\":\"shane@digitalsanctum.com\",\"create_status\":\"complete\",\"id\":431577,\"domain_name\":null,\"repo_size\":7344128,\"git_url\":\"git@heroku.com:voxplanner.git\",\"repo_migrate_status\":\"complete\",\"dynos\":1,\"workers\":0},{\"name\":\"manualpt\",\"stack\":\"cedar\",\"slug_size\":64991232,\"requested_stack\":null,\"created_at\":\"2011/09/05 04:52:13 -0700\",\"web_url\":\"http://manualpt.herokuapp.com/\",\"owner_email\":\"shane@digitalsanctum.com\",\"create_status\":\"complete\",\"id\":927556,\"domain_name\":{\"created_at\":\"2011/09/10 06:01:20 -0700\",\"updated_at\":\"2011/09/10 06:01:20 -0700\",\"default\":null,\"domain\":\"manualpt.com\",\"id\":174602,\"app_id\":927556,\"base_domain\":\"manualpt.com\"},\"repo_size\":81727488,\"git_url\":\"git@heroku.com:manualpt.git\",\"repo_migrate_status\":\"complete\",\"dynos\":0,\"workers\":0},{\"name\":\"javamatters-staging\",\"stack\":\"cedar\",\"slug_size\":22073344,\"requested_stack\":null,\"created_at\":\"2011/12/31 13:54:07 -0800\",\"web_url\":\"http://javamatters-staging.herokuapp.com/\",\"owner_email\":\"shane@digitalsanctum.com\",\"create_status\":\"complete\",\"id\":2290626,\"domain_name\":null,\"repo_size\":64675840,\"git_url\":\"git@heroku.com:javamatters-staging.git\",\"repo_migrate_status\":\"complete\",\"dynos\":0,\"workers\":0}]";
+        new Gson().fromJson(invalidJson,new TypeReference<List<App>>(){}.getType());
+    }
     @Test
     public void testCreateApplication() {
         final String prefix = "test-create";

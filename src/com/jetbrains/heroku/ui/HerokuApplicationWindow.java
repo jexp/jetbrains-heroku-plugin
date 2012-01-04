@@ -1,10 +1,12 @@
 package com.jetbrains.heroku.ui;
 
 import com.heroku.api.App;
+import com.heroku.api.Domain;
 import com.heroku.api.Heroku;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.ui.Messages;
+import com.intellij.ui.HyperlinkLabel;
 import com.jetbrains.heroku.git.GitHelper;
 import com.jetbrains.heroku.git.GitRemoteInfo;
 import com.jetbrains.heroku.service.HerokuProjectService;
@@ -50,7 +52,7 @@ public class HerokuApplicationWindow extends HerokuToolWindow {
         builder.append("URL", link(app.getWebUrl()));
         builder.append("Owner", label(app.getOwnerEmail()));
         builder.append("Id", label(app.getId()));
-        builder.append("Domain", link(app.getDomainName()));
+        builder.append("Domain", domainLabel(app));
         builder.append("Requested Stack", label(app.getRequestedStack()));
         builder.append("Stack", label(app.getStack()));
         builder.append("Dynos", label(getDynos(app)));
@@ -63,6 +65,12 @@ public class HerokuApplicationWindow extends HerokuToolWindow {
         builder.append("Remote", label(getGitRemote(app)));
 
         return builder.getPanel();
+    }
+
+    private JComponent domainLabel(App app) {
+        final Domain domain = app.getDomain();
+        if (domain==null) return new JLabel();
+        return link(domain.getDomain());
     }
 
     private int getWorkers(App app) {
