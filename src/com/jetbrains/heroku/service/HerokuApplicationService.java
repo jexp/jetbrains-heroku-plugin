@@ -28,26 +28,25 @@ public class HerokuApplicationService implements PersistentStateComponent<Creden
     }
 
     // todo move to config
-    public Credentials login(final String email, final String token) {
-        final String apiKey = validateToken(token);
-        if (apiKey == null || apiKey.isEmpty()) {
+    public Credentials login(final String token) {
+        if (!validateToken(token)) {
             showCredentialsError();
+            return new Credentials(null);
         }
-        return new Credentials(email, apiKey);
+        return new Credentials(token);
     }
 
-    private String validateToken(String token) {
+    public boolean validateToken(String token) {
         try {
             final HerokuAPI herokuAPI = new HerokuAPI(token);
             herokuAPI.listKeys();
-            return herokuAPI.getApiKey();
+            return true;
         } catch (RequestFailedException rfe) {
             LOG.warn("Error validating token "+token,rfe);
-            return null;
         } catch (IllegalStateException ise) {
             LOG.warn("Error validating token "+token,ise);
-            return null;
         }
+        return false;
     }
 
     private static void showCredentialsError() {
@@ -82,8 +81,8 @@ public class HerokuApplicationService implements PersistentStateComponent<Creden
         return herokuApi;
     }
 
-    public void update(String name, String password) {
-        initApi(login(name, password));
+    public void update(String token) {
+        initApi(login(token));
     }
 
     public Credentials getCredentials() {
@@ -126,7 +125,7 @@ public class HerokuApplicationService implements PersistentStateComponent<Creden
         try {
             return HerokuAPI.obtainApiKey(email, password);
         } catch(LoginFailedException lfe) {
-            LOG.warn("Failed to authenticate "+email,lfe);
+            LOG.warn("Failed to authenticate "+email+" "+lfe.getMessage());
             return null;
         }
     }

@@ -2,16 +2,18 @@ package com.jetbrains.heroku;
 
 import com.heroku.api.App;
 import com.heroku.api.Heroku;
+import com.heroku.api.HerokuAPI;
 import com.heroku.api.Key;
-import com.intellij.openapi.util.Pair;
-import com.jetbrains.heroku.notification.Notifications;
-import com.jetbrains.heroku.service.HerokuApplicationService;
-import com.jetbrains.heroku.herokuapi.Credentials;
 import com.intellij.openapi.options.Configurable;
 import com.intellij.openapi.options.ConfigurationException;
+import com.intellij.openapi.ui.DialogWrapper;
 import com.intellij.openapi.ui.Messages;
-import com.jetbrains.heroku.ui.AppsTableModel;
+import com.intellij.openapi.util.Pair;
+import com.jetbrains.heroku.herokuapi.Credentials;
+import com.jetbrains.heroku.notification.Notifications;
+import com.jetbrains.heroku.service.HerokuApplicationService;
 import com.jetbrains.heroku.ui.BackgroundAction;
+import com.jetbrains.heroku.ui.SimpleAppsTableModel;
 import com.jgoodies.forms.builder.DefaultFormBuilder;
 import com.jgoodies.forms.layout.FormLayout;
 import org.jetbrains.annotations.Nls;
@@ -20,6 +22,7 @@ import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -31,10 +34,43 @@ import static com.jetbrains.heroku.ui.GuiUtil.table;
  */
 public class HerokuSettings implements Configurable {
 
-    private JTextField emailField = new JTextField();
-    private JPasswordField passwordField = new JPasswordField();
+    static class CredentialsDialog extends DialogWrapper {
+
+        private JTextField emailField;
+        private JPasswordField passwordField;
+
+        protected CredentialsDialog() {
+            super(true);
+            setTitle("Retrieve API-Token");
+            init();
+        }
+
+        @Override
+        protected JComponent createCenterPanel() {
+            final DefaultFormBuilder builder = new DefaultFormBuilder(new FormLayout("right:pref, 6dlu, pref:grow", "pref"));
+            builder.append("E-Mail:", emailField = new JTextField(30));
+            builder.append("Password:", passwordField = new JPasswordField(12));
+            return builder.getPanel();
+        }
+
+        @Override
+        protected ValidationInfo doValidate() {
+            if (getEmail().isEmpty()) return new ValidationInfo("Email is empty",emailField);
+            if (getPassword().isEmpty()) return new ValidationInfo("Password is empty",passwordField);
+            return super.doValidate();
+        }
+
+        private String getPassword() {
+            return String.valueOf(passwordField.getPassword());
+        }
+
+        public String getEmail() {
+            return emailField.getText();
+        }
+
+    }
     private JTextField tokenField = new JTextField();
-    private final AppsTableModel appsModel= new AppsTableModel();
+    private final SimpleAppsTableModel appsModel= new SimpleAppsTableModel();
     private final HerokuApplicationService herokuApplicationService;
     private KeysTableModel keyModel= new KeysTableModel();
     private AtomicInteger selectedKey;
@@ -58,39 +94,38 @@ public class HerokuSettings implements Configurable {
     }
 
     public JComponent createComponent() {
-        emailField.setColumns(20);
-        tokenField.setColumns(20);
-        passwordField.setColumns(10);
+        tokenField.setColumns(50);
         reset();
         final DefaultFormBuilder builder = new DefaultFormBuilder(new FormLayout(
-                "right:pref, 6dlu, pref, 10dlu, right:pref, 6dlu, pref, 10dlu, pref, 10dlu:grow(0.1)", // columns
-                "pref, pref, pref, min(pref;100dlu), pref, min(pref;50dlu)"));// rows
+                "right:pref, 6dlu, pref, 10dlu, right:pref:g(0.2), 6dlu, pref, 10dlu, pref, 10dlu:g(0.1)", // columns
+                "pref, pref, min(pref;100dlu), pref, min(pref;50dlu)"));// rows
         builder.appendSeparator("Heroku Credentials");
-        builder.append("Heroku-Email", emailField);
-        builder.append("Password", passwordField);
-        builder.append(new JButton(new BackgroundAction("Retrieve API-Token") {
+        builder.append("API-Token");
+        builder.append(tokenField, 3);
+        builder.append(new JButton(new BackgroundAction("Resolve Credentials") {
             public void runActionPerformed(ActionEvent e) {
-                final String apiKey = obtainToken();
-                tokenField.setText(apiKey);
-                if (apiKey!=null) {
-                    checkCredentials();
+                String token = getToken();
+                if (token.isEmpty()) {
+                    final CredentialsDialog dialog = new CredentialsDialog();
+                    dialog.show();
+                    if (dialog.getExitCode() == CredentialsDialog.OK_EXIT_CODE) {
+                        token = obtainToken(dialog.getEmail(), dialog.getPassword());
+                        tokenField.setText(token);
+                    }
+                }
+                if (token != null && !token.isEmpty()) {
+                    if (testLogin()) {
+                        Notifications.notifyModalInfo("Heroku Login", "Heroku Login successful! Authorized: " + token);
+                    }
                 }
             }
         }),1);
-        builder.nextLine();
-        builder.append("API-Token");
-        builder.append(tokenField, 5);
-        builder.append(new JButton(new BackgroundAction("Check Credentials") {
-            public void runActionPerformed(ActionEvent e) {
-                checkCredentials();
-            }
-        }), 1);
         builder.nextLine();
         appendAppsTable(builder);
         appendKeysTable(builder);
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                checkCredentials();
+                testLogin();
             }
         });
         return builder.getPanel();
@@ -134,7 +169,7 @@ public class HerokuSettings implements Configurable {
         builder.append(new JButton(new BackgroundAction("Remove Key") {
             public void runActionPerformed(ActionEvent e) {
                 Key key = keyModel.getKey(selectedKey.get());
-                if (key==null) return;
+                if (key == null) return;
                 herokuApplicationService.removeKey(key);
                 keyModel.update(herokuApplicationService.listKeys());
             }
@@ -149,77 +184,51 @@ public class HerokuSettings implements Configurable {
         return tokenField.getText();
     }
 
-    private String getName() {
-        return emailField.getText();
-    }
-
     public void apply() throws ConfigurationException {
         if (testLogin()) {
-            herokuApplicationService.update(getName(), getToken());
+            herokuApplicationService.update(getToken());
         }
     }
 
     public void reset() {
         final Credentials credentials = herokuApplicationService.getCredentials();
-        this.emailField.setText(credentials != null ? credentials.getEmail() : null);
-        this.passwordField.setText(null);
         this.tokenField.setText(credentials != null ? credentials.getToken() : null);
     }
 
     public void disposeUIResources() {
-        emailField = null;
-        passwordField = null;
         tokenField = null;
     }
 
-    public void checkCredentials() {
-        if (testLogin()) {
-            Notifications.notifyModalInfo("Heroku Login", "Heroku Login successful! Authorized: " + getName());
-        }
-    }
-
-    private String obtainToken() {
-        String msg="";
-        if (getName()==null || getName().isEmpty()) {
-            msg = "Please input your Heroku email address";
-        }
-        if (getPassword()==null || getPassword().isEmpty()) {
-            if (msg.isEmpty()) msg = "Please input your Heroku password.";
-            else msg += " and password.";
-        }
-        if (!msg.isEmpty()) {
-            Notifications.notifyModalError("Missing Input", msg);
-            return null;
-        }
-        final String token = herokuApplicationService.obtainApiToken(getName(), getPassword());
+    private String obtainToken(String email, String password) {
+        final String token = herokuApplicationService.obtainApiToken(email, password);
         if (token==null) {
-            Notifications.notifyModalError("Token Retrieval Failed", "Could noth retrieve token for Heroku email: " + getName());
+            Notifications.notifyModalError("Token Retrieval Failed", "Could noth retrieve token for Heroku email: " + email);
         }
         return token;
     }
 
-    private String getPassword() {
-        final String password = String.valueOf(passwordField.getPassword());
-        return password.isEmpty() ? null : password;
-    }
-
     private boolean testLogin() {
-        if (getToken()==null || getToken().isEmpty()) {
-            Notifications.notifyModalError("Missing API-Key", "Please retrieve the Heroku-API Key for the email address " + getName());
+        this.appsModel.update(Collections.<App>emptyList());
+        this.keyModel.update(Collections.<Key>emptyList());
+
+        final String token = getToken();
+        if (token ==null || token.isEmpty()) {
+            Notifications.notifyModalError("Missing API-Key", "Please retrieve the Heroku-API Key with your email address and password.");
             return false;
         }
-        final Credentials credentials = herokuApplicationService.login(getName(), getToken());
-        final boolean validCredentials = credentials != null && credentials.valid();
 
-        if (validCredentials) {
-            herokuApplicationService.update(credentials.getEmail(),credentials.getToken());
-            this.appsModel.update(herokuApplicationService.listApps());
-            this.keyModel.update(herokuApplicationService.listKeys());
+        if (herokuApplicationService.validateToken(token)) {
+            final HerokuAPI api = new HerokuAPI(token);
+            this.appsModel.update(api.listApps());
+            this.keyModel.update(api.listKeys());
+            return true;
+        } else {
+            Notifications.notifyModalError("Heroku Login", "Heroku Login not successful! Could not authorize: " + token);
+            return false;
         }
-        return validCredentials;
     }
 
-    
+
 
     private static class KeysTableModel extends AbstractTableModel {
         private final List<Key> keys=new ArrayList<Key>();
