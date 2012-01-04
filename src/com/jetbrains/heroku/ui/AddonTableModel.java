@@ -80,30 +80,6 @@ public class AddonTableModel extends AbstractTableModel {
         }
         return null;
     }
-    
-    static class Price implements Comparable<Price> {
-        int cents;
-        String unit;
-        private final String toString;
-
-        Price(int cents, String unit) {
-            this.cents = cents;
-            this.unit = unit;
-            this.toString = String.format("%.2f USD%s", cents / 100f, unit == null ? "" : "/" + unit);
-        }
-
-        @Override
-        public String toString() {
-            return toString;
-        }
-
-        @Override
-        public int compareTo(Price o) {
-            if (this.cents == o.cents) return 0;
-            if (this.cents < o.cents) return -1;
-            return 1;
-        }
-    }
 
     public boolean isInstalled(Addon addon) {
         return appAddons.containsKey(addon.getName());

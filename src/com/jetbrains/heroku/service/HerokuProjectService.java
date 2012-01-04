@@ -6,9 +6,12 @@ import com.heroku.api.request.log.LogStreamResponse;
 import com.intellij.openapi.components.PersistentStateComponent;
 import com.intellij.openapi.components.State;
 import com.intellij.openapi.components.Storage;
+import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
 import com.jetbrains.heroku.notification.Notifications;
 import com.jetbrains.heroku.git.GitHelper;
+import com.jetbrains.heroku.ui.HerokuSetupWindow;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -21,6 +24,9 @@ import java.util.Map;
 
 @State(name = "heroku-plugin-app", storages = @Storage(id = "heroku-plugin-app-name", file = "$WORKSPACE_FILE$"))
 public class HerokuProjectService implements  PersistentStateComponent<HerokuProjectService.HerokuAppName> {
+
+    private final static Logger LOG =Logger.getInstance(HerokuProjectService.class);
+
     public void stopApplication() {
         //this.herokuApi.stop(getHerokuAppName());
     }
@@ -75,13 +81,18 @@ public class HerokuProjectService implements  PersistentStateComponent<HerokuPro
 
     public void loadState(HerokuAppName newHerokuApp) {
         this.herokuAppName = newHerokuApp;
-        if (this.herokuApi ==null) {
+        if (this.herokuApi == null) {
             this.herokuApi = applicationService.getHerokuApi();
         }
+        final String newAppName = newHerokuApp.name;
         try {
-        this.app = this.herokuApi.getApp(newHerokuApp.name);
+            if (newAppName !=null)
+                this.app = this.herokuApi.getApp(newAppName);
+            else
+                this.app = null;
         } catch(RequestFailedException rfe) {
-            Notifications.notifyError(project,"Request Error","Error retrieving app "+newHerokuApp.name,true,rfe);
+            LOG.error("Error updating app "+newAppName,rfe);
+            Notifications.notifyError(project,"Request Error","Error retrieving app "+ newAppName,true,rfe);
         }
     }
 
@@ -147,8 +158,9 @@ public class HerokuProjectService implements  PersistentStateComponent<HerokuPro
         return this.app;
     }
 
-    public void update(App app) {
-        loadState(HerokuAppName.named(app.getName()));
+    public void update(@Nullable App app) {
+        final String appName = app == null ? null : app.getName();
+        loadState(HerokuAppName.named(appName));
     }
 
     public List<Proc> getProcesses() {

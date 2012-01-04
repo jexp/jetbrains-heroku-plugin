@@ -52,7 +52,8 @@ public class HerokuAddonsWindow extends HerokuToolWindow {
                     public void actionPerformed(AnActionEvent anActionEvent) {
                         final Addon addon = tableModel.getAddOn(selectedRow.get());
                         if (addon==null || tableModel.isInstalled(addon)) return;
-                        if (Messages.showYesNoDialog("Add the Add-On:"+addon.getName()+" "+addon.getPriceCents()+" "+addon.getPriceUnit(),"Add Add-On",Messages.getQuestionIcon())!=Messages.YES) return;
+                        final Price price = new Price(addon.getPriceCents(), addon.getPriceUnit());
+                        if (Messages.showYesNoDialog("Add the Add-On: "+addon.getName()+" for "+price,"Add Add-On",Messages.getQuestionIcon())!=Messages.YES) return;
                         // ask confirmation
                         herokuProjectService.addAddon(addon);
                         HerokuAddonsWindow.this.update();
@@ -72,7 +73,7 @@ public class HerokuAddonsWindow extends HerokuToolWindow {
                     public void actionPerformed(AnActionEvent anActionEvent) {
                         final Addon addon = tableModel.getAddOn(selectedRow.get());
                         if (addon==null) return;
-                        BrowserUtil.launchBrowser(addon.getUrl().toExternalForm());
+                        BrowserUtil.launchBrowser(addonUrl(addon));
                     }
                 },
                 new AnAction("Update", "", icon("/actions/sync.png")) {
@@ -81,6 +82,17 @@ public class HerokuAddonsWindow extends HerokuToolWindow {
                     }
                 }
         );
+    }
+
+    private static String addonUrl(Addon addon) {
+        return "http://addons.heroku.com/"+ addonName(addon);
+        // addon.getUrl();
+    }
+
+    private static String addonName(Addon addon) {
+        final String name = addon.getName();
+        if (name.contains(":")) return name.substring(0, name.indexOf(":"));
+        return name;
     }
 
     public HerokuAddonsWindow(HerokuProjectService herokuProjectService) {

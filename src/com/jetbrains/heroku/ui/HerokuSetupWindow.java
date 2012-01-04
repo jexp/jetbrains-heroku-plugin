@@ -30,7 +30,7 @@ import static com.jetbrains.heroku.ui.GuiUtil.table;
  * @since 26.12.11
  */
 public class HerokuSetupWindow extends HerokuToolWindow {
-    private final static Logger logger=Logger.getInstance(HerokuSetupWindow.class);
+    private final static Logger LOG = Logger.getInstance(HerokuSetupWindow.class);
 
     private AtomicInteger selectedRow;
     private AppsTableModel tableModel;
@@ -141,17 +141,17 @@ public class HerokuSetupWindow extends HerokuToolWindow {
                         if (app == null) return;
                         final GitRemoteInfo attachedRemote = GitHelper.attachRemote(herokuProjectService.getProject(), app);
                         if (attachedRemote != null) {
-                            logger.info("Attached remote "+attachedRemote.getName()+":"+attachedRemote.getUrl()+" to project "+herokuProjectService.getProject().getName());
+                            LOG.info("Attached remote " + attachedRemote.getName() + ":" + attachedRemote.getUrl() + " to project " + herokuProjectService.getProject().getName());
                             herokuProjectService.update(app);
                             updatePanels();
                             HerokuSetupWindow.this.update();
                         } else {
-                            logger.warn("No attached remote attached to project " + herokuProjectService.getProject().getName());
+                            LOG.warn("No attached remote attached to project " + herokuProjectService.getProject().getName());
                         }
 
                     }
                 },
-                new JBBackgroundAction("New App", "Create new Heroku Application", icon("/general/add.png")) {
+                new JBBackgroundAction("New App", "Create and Attach Heroku Application", icon("/general/add.png")) {
                     {
                         update(null);
                     }
@@ -170,7 +170,37 @@ public class HerokuSetupWindow extends HerokuToolWindow {
                             GitHelper.attachRemote(herokuProjectService.getProject(), newApp);
                             updatePanels();
                         } catch (Exception e) {
+                            LOG.warn("Error creating application: "+e.getMessage(),e);
                             Messages.showErrorDialog("Error creating application: " + e.getMessage(), "Error Creating Heroku Application");
+                        }
+                    }
+                },
+                new JBBackgroundAction("Destroy App", "Destroy Heroku Application", icon("/general/remove.png")) {
+                    {
+                        update(null);
+                    }
+
+                    @Override
+                    public void update(AnActionEvent e) {
+                        setEnabled(herokuProjectService.isHerokuProject());
+                    }
+
+                    public void runActionPerformed(AnActionEvent anActionEvent) {
+                        try {
+                            App app = tableModel.getApplication(selectedRow.get());
+                            if (app==null) return;
+                            if (Messages.showYesNoDialog("Really destroy app "+app.getName()+" this is irrecoverable!","Destroy App",Messages.getWarningIcon())!=Messages.YES) return;
+                            herokuProjectService.getApplicationService().destroyApp(app);
+                            Notifications.notifyModalInfo("Destroyed App", "Sucessfully Destroyed App " + app.getName());
+                            HerokuSetupWindow.this.update();
+                            if (app.getName().equals(herokuProjectService.getApp().getName())) {
+                                herokuProjectService.update(null);
+                                GitHelper.removeRemote(herokuProjectService.getProject(), app);
+                                updatePanels();
+                            }
+                        } catch (Exception e) {
+                            LOG.warn("Error destroying application: "+e.getMessage(),e);
+                            Messages.showErrorDialog("Error destroying application: " + e.getMessage(), "Error Destroying Heroku Application");
                         }
                     }
                 },

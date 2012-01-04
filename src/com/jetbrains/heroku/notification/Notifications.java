@@ -2,13 +2,15 @@ package com.jetbrains.heroku.notification;
 
 import com.heroku.api.Heroku;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.ui.DialogWrapper;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.util.Pair;
-import com.jetbrains.heroku.notification.Notifier;
-import com.jetbrains.heroku.notification.Type;
+import com.jgoodies.forms.builder.DefaultFormBuilder;
+import com.jgoodies.forms.layout.FormLayout;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import javax.swing.*;
 import java.util.Collection;
 import java.util.Set;
 
@@ -71,17 +73,36 @@ public class Notifications {
         notifier.notifyModalInfo(description, title);
     }
 
-    public static Pair<String, Heroku.Stack> showCreateNewAppDialog() {
-        final Heroku.Stack[] stacks = Heroku.Stack.values();
-        String[] stackNames = new String[stacks.length];
-        for (int i = 0; i < stacks.length; i++) {
-            stackNames[i] = stacks[i].name();
+    static class CreateNewAppDialog extends DialogWrapper {
+
+        private JComboBox stackField;
+        private JTextField appNameField;
+
+        protected CreateNewAppDialog() {
+            super(true);
+            setTitle("Add Config Variable");
+            init();
         }
-        final String initialStack = stackNames[Heroku.Stack.Cedar.ordinal()];
-        final int index = Messages.showChooseDialog("Please enter the Stack of the new Application", "Application Stack", stackNames, initialStack, Messages.getQuestionIcon());
-        if (index<0 || index>= stacks.length) return null;
-        final String appName = Messages.showInputDialog("Please enter the new Heroku Application Name or leave blank for default:", "New Heroku Application Name", Messages.getQuestionIcon());
-        if (appName==null) return null;
-        return Pair.create(appName,stacks[index]);
+
+        @Override
+        protected JComponent createCenterPanel() {
+            final DefaultFormBuilder builder = new DefaultFormBuilder(new FormLayout("right:pref, 6dlu, pref, pref:grow", "pref"));
+            builder.append("Heroku Stack", stackField = new JComboBox(Heroku.Stack.values()),1);
+            stackField.setSelectedItem(Heroku.Stack.Cedar);
+            builder.nextLine();
+            builder.append("Application Name", appNameField = new JTextField(50),2);
+            return builder.getPanel();
+        }
+
+        public Pair<String,Heroku.Stack> getApplicationInfo() {
+            return Pair.create(appNameField.getText(), (Heroku.Stack) stackField.getSelectedItem());
+        }
+    }
+    
+    public static Pair<String, Heroku.Stack> showCreateNewAppDialog() {
+        final CreateNewAppDialog dialog = new CreateNewAppDialog();
+        dialog.show();
+        if (dialog.getExitCode()==CreateNewAppDialog.OK_EXIT_CODE) return dialog.getApplicationInfo();
+        return null;
     }
 }

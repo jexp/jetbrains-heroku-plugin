@@ -67,6 +67,22 @@ public class GitHelper {
             return false;
         }
     }
+    public static boolean removeHerokuRemote(Project project, GitRemoteInfo remoteInfo) {
+        final GitSimpleHandler removeRemoteHandler = new GitSimpleHandler(project, project.getBaseDir(), GitCommand.REMOTE);
+        removeRemoteHandler.setNoSSH(true);
+        LOG.info("removing remote "+remoteInfo);
+        removeRemoteHandler.addParameters("rm", remoteInfo.getName());
+        try {
+            removeRemoteHandler.run();
+            Notifications.notifyMessage(project, "Removed Heroku Remote", "Heroku remote <code>" + remoteInfo + "</code> added to project " + project.getName(), Type.INFORMATION, true, null);
+            remoteHandler.updateRepository(project);
+            return true;
+        } catch (VcsException e) {
+            LOG.error("error removing remote " + remoteInfo, e);
+            Notifications.notifyError(project, "Error Removing Remote", "Couldn't remove remote <code>" + remoteInfo + "</code>", true, e);
+            return false;
+        }
+    }
 
     public static GitRemoteInfo findRemote(String pattern, final Project project) {
         if (pattern == null) return null;
@@ -126,5 +142,17 @@ public class GitHelper {
         }
         LOG.info("found remote for url " + gitUrl+" remote "+remote);
         return remote;
+    }
+
+    public static boolean removeRemote(Project project, App app) {
+        final String gitUrl = app.getGitUrl();
+        final GitRemoteInfo remote = findRemote(gitUrl, project);
+        if (remote == null) {
+            LOG.warn("no remote found for url " + gitUrl);
+            return false;
+        }
+        removeHerokuRemote(project, remote);
+        LOG.info("removed remote for url " + gitUrl);
+        return true;
     }
 }
