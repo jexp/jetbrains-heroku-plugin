@@ -4,6 +4,7 @@ import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.ui.DialogWrapper;
 import com.intellij.openapi.ui.Messages;
+import com.intellij.openapi.ui.ValidationInfo;
 import com.intellij.openapi.util.AsyncResult;
 import com.intellij.openapi.util.Pair;
 import com.jetbrains.heroku.service.HerokuProjectService;

@@ -1,16 +1,18 @@
 package com.jetbrains.heroku.service;
 
 import com.heroku.api.*;
-import com.heroku.api.exception.LoginFailedException;
 import com.heroku.api.exception.RequestFailedException;
+import com.intellij.openapi.application.ApplicationInfo;
 import com.intellij.openapi.components.PersistentStateComponent;
 import com.intellij.openapi.components.State;
 import com.intellij.openapi.components.Storage;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.ui.Messages;
+import com.intellij.openapi.util.BuildNumber;
 import com.jetbrains.heroku.notification.Notifications;
 import com.jetbrains.heroku.herokuapi.Credentials;
 
+import java.net.URLEncoder;
 import java.util.Collections;
 import java.util.List;
 
@@ -25,6 +27,8 @@ public class HerokuApplicationService implements PersistentStateComponent<Creden
     private static final Logger LOG = Logger.getInstance(HerokuApplicationService.class);
 
     public HerokuApplicationService() { // inject dependencies
+        BuildNumber build = ApplicationInfo.getInstance().getBuild();
+        System.out.println("build = " + build);
     }
 
     // todo move to config
@@ -121,15 +125,6 @@ public class HerokuApplicationService implements PersistentStateComponent<Creden
         return this.herokuApi.listKeys();
     }
 
-    public String obtainApiToken(String email, String password) {
-        try {
-            return HerokuAPI.obtainApiKey(email, password);
-        } catch(LoginFailedException lfe) {
-            LOG.warn("Failed to authenticate "+email+" "+lfe.getMessage());
-            return null;
-        }
-    }
-
     public List<Key> listKeys() {
         return herokuApi.listKeys();
     }
@@ -138,17 +133,26 @@ public class HerokuApplicationService implements PersistentStateComponent<Creden
         try {
             herokuApi.addKey(key);
         } catch (RequestFailedException rfe) {
-            Notifications.notifyError(null, "Error Adding key", rfe.getResponseBody(), true, rfe);
+            Notifications.notifyError(null, "Error adding key", rfe.getResponseBody(), true, rfe);
         }
     }
 
     public void removeKey(Key key) {
         try {
-            herokuApi.removeKey(key.getEmail());
+            herokuApi.removeKey(encodeKeyComment(getKeyComment(key)));
         } catch (RequestFailedException rfe) {
-            Notifications.notifyError(null, "Error Adding key", rfe.getResponseBody(), false, rfe);
+            Notifications.notifyError(null, "Error removing key", rfe.getResponseBody(), false, rfe);
         }
     }
+
+    private String encodeKeyComment(final String comment) {
+        return URLEncoder.encode(comment).replace(".","%2E");
+    }
+
+    private String getKeyComment(Key key) {
+        return key.getContents().split(" +")[2];
+    }
+
 
     public void destroyApp(App app) {
         try {

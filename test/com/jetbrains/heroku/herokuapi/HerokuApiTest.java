@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import com.heroku.api.App;
 import com.heroku.api.Collaborator;
 import com.heroku.api.HerokuAPI;
-import com.heroku.api.connection.Connection;
+import com.heroku.api.Key;
 import com.heroku.api.exception.RequestFailedException;
 import com.heroku.api.parser.TypeReference;
 import com.heroku.api.request.log.LogStreamResponse;
@@ -12,6 +12,7 @@ import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import java.net.URLEncoder;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -27,6 +28,7 @@ public class HerokuApiTest {
     private static final String API_KEY = "8e8d207358c24f68314ccfb7b47e93f6f298f7c8";
     private static final String INVALID_API_KEY = API_KEY.substring(1);
     private static final String IDEA_TEST = "idea-test";
+    public static final String TEST_KEY = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDYvZD77Bom8eZVoCiWEY5+eYvU4+jNA3l/NUEgzLz3VktRu9Y0ekU0ZKEEmyCLBKhoJ6eoojmcuxQQJEJbZXquJTF1RpfDWJvQIFu7OQUX6jmqCemR1PsJIgfaSXuS4+DlPtA1uObi6GRABSxY2iwgVDdviltpWONfkIBeokwUfoR8FH6SYfWCPnlCKPw1JdDof/vpBj8pjQ78ug/AcDqjIMZ3Q4LNayd5lXpHsn1iT2WXsbpNu39HtZknGD75GPH1lHIOWSTaB2Ck7fv2TeBd1CyNt+LJrWwQGNzKRoqy77loVIJsYJ99ADqJxK5LlbFIgiDvW3qIZGxbsq1tz03x mh@ynagzet.local";
 
     @BeforeClass
     public static void init() throws Exception {
@@ -68,6 +70,56 @@ public class HerokuApiTest {
         System.out.println("status = " + status);
         assertNotNull(status);
     }
+
+    @Test
+    public void testListKeys() throws Exception {
+        removeKey("mh@ynagzet.local");
+        final List<Key> keys = herokuApi.listKeys();
+        assertNotNull(keys);
+        assertEquals(1, keys.size());
+        assertEquals("heroku-test@mesirii.de", getKeyComment(keys.get(0)));
+    }
+
+    private void removeKey(final String key) {
+        try {
+        herokuApi.removeKey(URLEncoder.encode(key).replace(".","%2E"));
+        } catch(RequestFailedException rfe) {
+            if (rfe.getStatusCode()==404) return;
+            throw rfe;
+        }
+    }
+
+    private String getKeyComment(Key key) {
+        return key.getContents().split(" ")[2];
+    }
+
+    @Test
+    public void testAddKey() throws Exception {
+        herokuApi.addKey(TEST_KEY);
+        List<Key> keys = herokuApi.listKeys();
+        assertNotNull(keys);
+        for (Key key : keys) {
+            System.out.println(key.getEmail());
+        }
+        assertEquals(2, keys.size());
+        final Key foundKey = keyWith("mh@ynagzet.local", keys);
+        assertNotNull(foundKey);
+        removeKey(getKeyComment(foundKey));
+        keys = herokuApi.listKeys();
+        for (Key key : keys) {
+            System.out.println(key.getContents());
+        }
+    }
+
+    private Key keyWith(String comment, List<Key> keys) {
+        for (Key key : keys) {
+            System.out.println(key.getEmail());
+            System.out.println(getKeyComment(key));
+            if (key.getContents().contains(comment)) return key;
+        }
+        return  null;
+    }
+
     @Test
     public void testGetApplicationCollaborators() throws Exception {
         final List<Collaborator> result = herokuApi.listCollaborators(IDEA_TEST);

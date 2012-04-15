@@ -8,12 +8,13 @@
       <sourceFolder url="file://$MODULE_DIR$/test" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/resources" isTestSource="false" />
     </content>
-    <orderEntry type="jdk" jdkName="IDEA IU-111.69" jdkType="IDEA JDK" />
+    <orderEntry type="jdk" jdkName="IDEA IC-117.117" jdkType="IDEA JDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="json-simple-1.1" level="project" />
-    <orderEntry type="library" name="heroku-api-0.1-SNAPSHOT" level="project" />
     <orderEntry type="library" name="apache-http" level="project" />
     <orderEntry type="library" name="com.google.code.gson:gson:2.0" level="project" />
+    <orderEntry type="library" name="heroku-api" level="project" />
+    <orderEntry type="library" name="git4idea11CE" level="project" />
   </component>
 </module>
 

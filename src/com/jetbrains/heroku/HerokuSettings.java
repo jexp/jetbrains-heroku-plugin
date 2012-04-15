@@ -8,6 +8,7 @@ import com.intellij.openapi.options.Configurable;
 import com.intellij.openapi.options.ConfigurationException;
 import com.intellij.openapi.ui.DialogWrapper;
 import com.intellij.openapi.ui.Messages;
+import com.intellij.openapi.ui.ValidationInfo;
 import com.intellij.openapi.util.Pair;
 import com.jetbrains.heroku.herokuapi.Credentials;
 import com.jetbrains.heroku.notification.Notifications;
@@ -100,20 +101,14 @@ public class HerokuSettings implements Configurable {
                 "right:pref, 6dlu, pref, 10dlu, right:pref:g(0.2), 6dlu, pref, 10dlu, pref, 10dlu:g(0.1)", // columns
                 "pref, pref, min(pref;100dlu), pref, min(pref;50dlu)"));// rows
         builder.appendSeparator("Heroku Credentials");
-        builder.append("API-Token");
+        builder.append("API-Key");
         builder.append(tokenField, 3);
-        builder.append(new JButton(new BackgroundAction("Resolve Credentials") {
+        builder.append(new JButton(new BackgroundAction("Check API-Key") {
             public void runActionPerformed(ActionEvent e) {
                 String token = getToken();
                 if (token.isEmpty()) {
-                    final CredentialsDialog dialog = new CredentialsDialog();
-                    dialog.show();
-                    if (dialog.getExitCode() == CredentialsDialog.OK_EXIT_CODE) {
-                        token = obtainToken(dialog.getEmail(), dialog.getPassword());
-                        tokenField.setText(token);
-                    }
-                }
-                if (token != null && !token.isEmpty()) {
+                    Notifications.notifyModalInfo("<html>Please retrieve your API-Key at your <a href=\"https://api.heroku.com/account\">Heroku Account</a></html>","Need API-Key");
+                } else {
                     if (testLogin()) {
                         Notifications.notifyModalInfo("Heroku Login", "Heroku Login successful! Authorized: " + token);
                     }
@@ -199,28 +194,20 @@ public class HerokuSettings implements Configurable {
         tokenField = null;
     }
 
-    private String obtainToken(String email, String password) {
-        final String token = herokuApplicationService.obtainApiToken(email, password);
-        if (token==null) {
-            Notifications.notifyModalError("Token Retrieval Failed", "Could noth retrieve token for Heroku email: " + email);
-        }
-        return token;
-    }
-
     private boolean testLogin() {
         this.appsModel.update(Collections.<App>emptyList());
         this.keyModel.update(Collections.<Key>emptyList());
 
         final String token = getToken();
         if (token ==null || token.isEmpty()) {
-            Notifications.notifyModalError("Missing API-Key", "Please retrieve the Heroku-API Key with your email address and password.");
+            Notifications.notifyModalError("Missing API-Key", "Please retrieve the Heroku-API Key from your Heroku Account page.");
             return false;
         }
 
         if (herokuApplicationService.validateToken(token)) {
-            final HerokuAPI api = new HerokuAPI(token);
-            this.appsModel.update(api.listApps());
-            this.keyModel.update(api.listKeys());
+            herokuApplicationService.update(token);
+            this.appsModel.update(herokuApplicationService.listApps());
+            this.keyModel.update(herokuApplicationService.listKeys());
             return true;
         } else {
             Notifications.notifyModalError("Heroku Login", "Heroku Login not successful! Could not authorize: " + token);
@@ -245,18 +232,30 @@ public class HerokuSettings implements Configurable {
 
         @Override
         public int getColumnCount() {
-            return 2;
+            return 3;
         }
 
         @Override
         public Object getValueAt(int rowIndex, int columnIndex) {
             final Key key = getKey(rowIndex);
-            return columnIndex==0 ? key.getEmail() : key.getContents();
+            final String[] parts = key.getContents().split(" +");
+            switch (columnIndex) {
+                case 0 : return parts[2];
+                case 1 : return parts[0];
+                case 2 : return parts[1];
+            }
+            return null;
         }
+
 
         @Override
         public String getColumnName(int column) {
-            return column==0 ? "Email" : "Key";
+            switch (column) {
+                case 0 : return "Comment";
+                case 1 : return "Type";
+                case 2 : return "Key";
+            }
+            return null;
         }
 
         public Key getKey(int row) {

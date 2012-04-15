@@ -74,12 +74,12 @@ public class HerokuApplicationWindow extends HerokuToolWindow {
     }
 
     private int getWorkers(App app) {
-        if (app.getStack().equalsIgnoreCase(Heroku.Stack.Cedar.name())) return herokuProjectService.getProcesses("worker").size();
+        if (app.getStack() == Heroku.Stack.Cedar) return herokuProjectService.getProcesses("worker").size();
         return app.getWorkers();
     }
 
     private int getDynos(App app) {
-        if (app.getStack().equalsIgnoreCase(Heroku.Stack.Cedar.name())) return herokuProjectService.getProcesses("web").size();
+        if (app.getStack() == Heroku.Stack.Cedar) return herokuProjectService.getProcesses("web").size();
         return app.getDynos();
     }
 

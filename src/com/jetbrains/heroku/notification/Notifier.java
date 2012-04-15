@@ -66,11 +66,11 @@ public abstract class Notifier {
     public abstract void notifyMessages(Project project, @NotNull String title, @NotNull String description, Type type, boolean important, @Nullable Collection<String> messages);
 
     public void notifyModalError(String title, String description) {
-        Messages.showErrorDialog(description, title);
+        Messages.showMessageDialog(description, title,Messages.getErrorIcon());
     }
 
     public void notifyModalInfo(String title, String description) {
-        Messages.showInfoMessage(description, title);
+        Messages.showMessageDialog(description, title,Messages.getInformationIcon());
     }
 
 }

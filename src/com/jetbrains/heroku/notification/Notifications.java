@@ -66,11 +66,11 @@ public class Notifications {
     }
 
     public static void notifyModalError(String title, String description) {
-        notifier.notifyModalError(description, title);
+        notifier.notifyModalError(title,description);
     }
 
     public static void notifyModalInfo(String title, String description) {
-        notifier.notifyModalInfo(description, title);
+        notifier.notifyModalInfo(title,description);
     }
 
     static class CreateNewAppDialog extends DialogWrapper {

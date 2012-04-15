@@ -147,7 +147,7 @@ public class HerokuProjectService implements  PersistentStateComponent<HerokuPro
     }
 
     public void restartApplication() {
-        // TODO this.app.restart();
+        this.herokuApi.restart(this.app.getName());
     }
 
     public Project getProject() {
