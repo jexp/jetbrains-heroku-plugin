@@ -50,7 +50,7 @@ public class HerokuProcessesWindow extends HerokuToolWindow {
                     public void actionPerformed(AnActionEvent anActionEvent) {
                         final ScaleInputValidator parser = new ScaleInputValidator(1, MAX_WEB_PROCESSES);
                         final List<Proc> webProcesses = herokuProjectService.getProcesses("web");
-                        String webProcessText = Messages.showInputDialog(herokuProjectService.getProject(), "New Number of Web-Processes:", "Scale Web-Processes", Messages.getQuestionIcon(), String.valueOf(webProcesses.size()), parser);
+                        String webProcessText = Messages.showInputDialog(getProject(), "New Number of Web-Processes:", "Scale Web-Processes", Messages.getQuestionIcon(), String.valueOf(webProcesses.size()), parser);
                         Integer webProcessCount = parser.parse(webProcessText);
                         if (webProcessCount == null) return;
                         herokuProjectService.scaleWeb(webProcessCount);
@@ -61,7 +61,7 @@ public class HerokuProcessesWindow extends HerokuToolWindow {
                     public void actionPerformed(AnActionEvent anActionEvent) {
                         final ScaleInputValidator parser = new ScaleInputValidator(0, MAX_WEB_PROCESSES);
                         final List<Proc> workerProcesses = herokuProjectService.getProcesses("worker");
-                        String workersText = Messages.showInputDialog(herokuProjectService.getProject(), "New Number of Workers:", "Scale Workers", Messages.getQuestionIcon(), String.valueOf(workerProcesses.size()), parser);
+                        String workersText = Messages.showInputDialog(getProject(), "New Number of Workers:", "Scale Workers", Messages.getQuestionIcon(), String.valueOf(workerProcesses.size()), parser);
                         Integer workers = parser.parse(workersText);
                         if (workers == null) return;
                         herokuProjectService.scaleWorkers(workers);

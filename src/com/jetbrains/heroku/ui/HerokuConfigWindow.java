@@ -3,7 +3,7 @@ package com.jetbrains.heroku.ui;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.ui.DialogWrapper;
-import com.intellij.openapi.util.Pair;
+import com.jetbrains.heroku.notification.Notifications;
 import com.jetbrains.heroku.service.HerokuProjectService;
 import com.jgoodies.forms.builder.DefaultFormBuilder;
 import com.jgoodies.forms.layout.FormLayout;
@@ -47,7 +47,7 @@ public class HerokuConfigWindow extends HerokuToolWindow {
     }
 
     
-    static class AddConfigVariableDialog extends DialogWrapper {
+    class AddConfigVariableDialog extends DialogWrapper {
 
         private JTextField keyField;
         private JTextField valueField;
@@ -66,13 +66,25 @@ public class HerokuConfigWindow extends HerokuToolWindow {
             return builder.getPanel();
         }
 
-        @Override
-        protected ValidationInfo doValidate() {
-            if (getKey().isEmpty()) return new ValidationInfo("Key is empty", keyField);
-            if (getValue().isEmpty()) return new ValidationInfo("Value is empty",valueField);
-            return super.doValidate();
+        public boolean validateInput() {
+            super.validate();
+            String msg="";
+            if (getKey().isEmpty()) msg += "Key is empty ";
+            if (getValue().isEmpty()) msg += "Value is empty";
+            if (msg.isEmpty()) return true;
+
+            Notifications.notifyImportantError(getProject(),"Invalid input",msg);
+            return false;
         }
 
+        /* incompatible package change of ValidationInfo, replaced by some custom code
+                @Override
+                protected ValidationInfo doValidate() {
+                    if (getKey().isEmpty()) return new ValidationInfo("Key is empty", keyField);
+                    if (getValue().isEmpty()) return new ValidationInfo("Value is empty",valueField);
+                    return super.doValidate();
+                }
+        */
         private String getValue() {
             return valueField.getText();
         }
@@ -82,7 +94,7 @@ public class HerokuConfigWindow extends HerokuToolWindow {
         }
 
     }
-    
+
     @Override
     protected List<AnAction> createActions() {
         return Arrays.asList(
@@ -90,7 +102,7 @@ public class HerokuConfigWindow extends HerokuToolWindow {
                     public void actionPerformed(AnActionEvent anActionEvent) {
                         final AddConfigVariableDialog dialog = new AddConfigVariableDialog();
                         dialog.show();
-                        if (dialog.getExitCode()==AddConfigVariableDialog.OK_EXIT_CODE) {
+                        if (dialog.getExitCode()==AddConfigVariableDialog.OK_EXIT_CODE && dialog.validateInput()) {
                             herokuProjectService.addConfigVar(dialog.getKey(), dialog.getValue());
                             HerokuConfigWindow.this.doUpdate();
                         }
@@ -109,12 +121,6 @@ public class HerokuConfigWindow extends HerokuToolWindow {
                     }
                 }
         );
-    }
-
-    private Pair<String, String> parseVariable(String text) {
-        if (text == null || !text.contains(":")) return null;
-        int idx=text.indexOf(":");
-        return Pair.create(text.substring(0, idx), text.substring(idx + 1));
     }
 
     public HerokuConfigWindow(HerokuProjectService herokuProjectService) {

@@ -6,8 +6,8 @@
     </description>
     <version>0.3.9</version>
     <!--idea-version since-build="117.227"/-->
-    <idea-version since-build="8000" until-build="117.277"/> <!-- 111.277 117.117 -->
-    <!--idea-version since-build="8000" until-build="107.105"/-->
+    <!--idea-version since-build="8000" until-build="117.117"/--> <!-- 111.277 117.117 -->
+    <idea-version since-build="8000"/> <!-- until-build="107.105"/-->
     <vendor>Michael Hunger</vendor>
     <depends>com.intellij.modules.lang</depends>
     <depends>com.intellij.modules.platform</depends>

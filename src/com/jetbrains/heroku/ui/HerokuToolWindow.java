@@ -37,13 +37,9 @@ public abstract class HerokuToolWindow extends SimpleToolWindowPanel implements 
     public HerokuToolWindow(HerokuProjectService herokuProjectService) {
         super(false, false);
         this.herokuProjectService = herokuProjectService;
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                final JComponent contentPane = createContentPane();
-                if (contentPane!=null) setContent(contentPane);
-                setToolbar(createToolbarPanel(createActions()));
-            }
-        });
+        final JComponent contentPane = createContentPane();
+        if (contentPane!=null) setContent(contentPane);
+        setToolbar(createToolbarPanel(createActions()));
     }
 
     public final void update() {
@@ -54,6 +50,10 @@ public abstract class HerokuToolWindow extends SimpleToolWindowPanel implements 
         });
     }
     public void doUpdate() {}
+
+    protected Project getProject() {
+        return herokuProjectService.getProject();
+    }
 
     interface ContentInfo {
         void describe(String title, String icon, String description);

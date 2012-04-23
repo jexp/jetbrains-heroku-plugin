@@ -24,7 +24,7 @@ public class HerokuLogsWindow extends HerokuToolWindow {
 
     @Override
     protected JComponent createContentPane() {
-        logView = new LogView(herokuProjectService.getProject());
+        logView = new LogView(getProject());
         doUpdate();
         return logView.getConsoleView().getComponent();
     }
