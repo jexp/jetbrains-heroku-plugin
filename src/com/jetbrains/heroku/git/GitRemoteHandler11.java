@@ -14,8 +14,8 @@ import java.util.List;
  * @author mh
  * @since 19.12.11
  */
-public class NewGitRemoteHandler implements GitRemoteHandler{
-    private static final Logger LOG = Logger.getInstance(NewGitRemoteHandler.class);
+public class GitRemoteHandler11 implements GitRemoteHandler{
+    private static final Logger LOG = Logger.getInstance(GitRemoteHandler11.class);
 
     public void updateRepository(Project project) {
         getRepository(project).update(GitRepository.TrackedTopic.CONFIG);
@@ -56,7 +56,8 @@ public class NewGitRemoteHandler implements GitRemoteHandler{
     }
 
     private GitRepository getRepository(final Project project) {
-        final GitRepositoryManager repositoryManager = GitRepositoryManager.getInstance(project);
+        //final GitRepositoryManager repositoryManager = GitRepositoryManager.getInstance(project);
+        final GitRepositoryManager repositoryManager = project.getComponent(GitRepositoryManager.class);
         if (repositoryManager==null) {
             LOG.error("Could not retrieve repository manager for project "+project.getName()+" vcsRoot "+project.getBaseDir());
         }

@@ -38,7 +38,7 @@ public class HerokuProcessesWindow extends HerokuToolWindow {
         return herokuProjectService.getProcesses();
     }
 
-    public void update() {
+    public void doUpdate() {
         setEnabled(herokuProjectService.isHerokuProject());
         tableModel.update(load());
     }
@@ -54,7 +54,7 @@ public class HerokuProcessesWindow extends HerokuToolWindow {
                         Integer webProcessCount = parser.parse(webProcessText);
                         if (webProcessCount == null) return;
                         herokuProjectService.scaleWeb(webProcessCount);
-                        HerokuProcessesWindow.this.update();
+                        HerokuProcessesWindow.this.doUpdate();
                     }
                 },
                 new AnAction("Scale Workers", "", icon("/debugger/threadRunning.png")) {
@@ -65,12 +65,12 @@ public class HerokuProcessesWindow extends HerokuToolWindow {
                         Integer workers = parser.parse(workersText);
                         if (workers == null) return;
                         herokuProjectService.scaleWorkers(workers);
-                        HerokuProcessesWindow.this.update();
+                        HerokuProcessesWindow.this.doUpdate();
                     }
                 },
                 new AnAction("Update", "", icon("/actions/sync.png")) {
                     public void actionPerformed(AnActionEvent anActionEvent) {
-                        HerokuProcessesWindow.this.update();
+                        HerokuProcessesWindow.this.doUpdate();
                     }
                 }
         );

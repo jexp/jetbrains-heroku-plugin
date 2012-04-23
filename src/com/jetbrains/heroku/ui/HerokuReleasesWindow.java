@@ -39,7 +39,7 @@ public class HerokuReleasesWindow extends HerokuToolWindow {
         return herokuProjectService.getReleases();
     }
 
-    public void update() {
+    public void doUpdate() {
         setEnabled(herokuProjectService.isHerokuProject());
         tableModel.update(load());
     }
@@ -62,12 +62,12 @@ public class HerokuReleasesWindow extends HerokuToolWindow {
                         if (release==null) return;
                         if (Messages.showYesNoDialog("Rollback to the Release: "+release.getName(),"Rollback to Release",Messages.getQuestionIcon())!=Messages.YES) return;
                         herokuProjectService.rollbackTo(release);
-                        HerokuReleasesWindow.this.update();
+                        HerokuReleasesWindow.this.doUpdate();
                     }
                 },
                 new AnAction("Update", "", icon("/actions/sync.png")) {
                     public void actionPerformed(AnActionEvent anActionEvent) {
-                        HerokuReleasesWindow.this.update();
+                        HerokuReleasesWindow.this.doUpdate();
                     }
                 }
         );

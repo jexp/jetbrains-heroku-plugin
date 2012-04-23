@@ -2,13 +2,11 @@ package com.jetbrains.heroku;
 
 import com.heroku.api.App;
 import com.heroku.api.Heroku;
-import com.heroku.api.HerokuAPI;
 import com.heroku.api.Key;
 import com.intellij.openapi.options.Configurable;
 import com.intellij.openapi.options.ConfigurationException;
 import com.intellij.openapi.ui.DialogWrapper;
 import com.intellij.openapi.ui.Messages;
-import com.intellij.openapi.ui.ValidationInfo;
 import com.intellij.openapi.util.Pair;
 import com.jetbrains.heroku.herokuapi.Credentials;
 import com.jetbrains.heroku.notification.Notifications;

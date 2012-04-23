@@ -37,12 +37,23 @@ public abstract class HerokuToolWindow extends SimpleToolWindowPanel implements 
     public HerokuToolWindow(HerokuProjectService herokuProjectService) {
         super(false, false);
         this.herokuProjectService = herokuProjectService;
-        final JComponent contentPane = createContentPane();
-        if (contentPane!=null) setContent(contentPane);
-        setToolbar(createToolbarPanel(createActions()));
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                final JComponent contentPane = createContentPane();
+                if (contentPane!=null) setContent(contentPane);
+                setToolbar(createToolbarPanel(createActions()));
+            }
+        });
     }
 
-    public void update() {}
+    public final void update() {
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                doUpdate();
+            }
+        });
+    }
+    public void doUpdate() {}
 
     interface ContentInfo {
         void describe(String title, String icon, String description);

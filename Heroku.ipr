@@ -226,13 +226,6 @@
       <JAVADOC />
       <SOURCES />
     </library>
-    <library name="git4idea11CE">
-      <CLASSES>
-        <root url="jar://$APPLICATION_HOME_DIR$/plugins/git4idea/lib/git4idea.jar!/" />
-      </CLASSES>
-      <JAVADOC />
-      <SOURCES />
-    </library>
     <library name="heroku-api">
       <CLASSES>
         <root url="jar://$PROJECT_DIR$/lib/heroku-api-0.6.jar!/" />

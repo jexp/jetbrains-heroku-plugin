@@ -5,8 +5,6 @@ import com.heroku.api.Domain;
 import com.heroku.api.Heroku;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.ui.Messages;
-import com.intellij.ui.HyperlinkLabel;
 import com.jetbrains.heroku.git.GitHelper;
 import com.jetbrains.heroku.git.GitRemoteInfo;
 import com.jetbrains.heroku.service.HerokuProjectService;
@@ -36,7 +34,7 @@ public class HerokuApplicationWindow extends HerokuToolWindow {
     @Override
     protected JComponent createContentPane() {
         view = new JPanel(new BorderLayout());
-        update();
+        doUpdate();
         return view;
     }
 
@@ -90,7 +88,7 @@ public class HerokuApplicationWindow extends HerokuToolWindow {
         return herokuRemote.getName() + " : " + herokuRemote.getUrl();
     }
 
-    public void update() {
+    public void doUpdate() {
         setEnabled(herokuProjectService.isHerokuProject());
 
         view.removeAll();
@@ -104,24 +102,25 @@ public class HerokuApplicationWindow extends HerokuToolWindow {
                 new AnAction("Restart", "", icon("/general/toolWindowRun.png")) {
                     public void actionPerformed(AnActionEvent anActionEvent) {
                         herokuProjectService.restartApplication();
-                        HerokuApplicationWindow.this.update();
+                        HerokuApplicationWindow.this.doUpdate();
                     }
                 },
                 new AnAction("Stop", "", icon("/actions/suspend.png")) {
                     public void actionPerformed(AnActionEvent anActionEvent) {
                         herokuProjectService.stopApplication();
-                        HerokuApplicationWindow.this.update();
+                        HerokuApplicationWindow.this.doUpdate();
                     }
                 },
                 new AnAction("Deploy", "", icon("/actions/resume.png")) {
                     public void actionPerformed(AnActionEvent anActionEvent) {
                         GitHelper.pushToHeroku(herokuProjectService.getProject());
-                        HerokuApplicationWindow.this.update();
+
+                        HerokuApplicationWindow.this.doUpdate();
                     }
                 },
                 new AnAction("Update", "", icon("/actions/sync.png")) {
                     public void actionPerformed(AnActionEvent anActionEvent) {
-                        HerokuApplicationWindow.this.update();
+                        HerokuApplicationWindow.this.doUpdate();
                     }
                 }
 /*                new AnAction("Change Stack", "", icon("/runConfigurations/scrollToStackTrace.png")) {

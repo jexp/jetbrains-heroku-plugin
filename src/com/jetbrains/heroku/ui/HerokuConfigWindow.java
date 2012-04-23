@@ -3,9 +3,6 @@ package com.jetbrains.heroku.ui;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.ui.DialogWrapper;
-import com.intellij.openapi.ui.Messages;
-import com.intellij.openapi.ui.ValidationInfo;
-import com.intellij.openapi.util.AsyncResult;
 import com.intellij.openapi.util.Pair;
 import com.jetbrains.heroku.service.HerokuProjectService;
 import com.jgoodies.forms.builder.DefaultFormBuilder;
@@ -39,7 +36,7 @@ public class HerokuConfigWindow extends HerokuToolWindow {
         return GuiUtil.table(tableModel, selectedRow);
     }
 
-    public void update() {
+    public void doUpdate() {
         setEnabled(herokuProjectService.isHerokuProject());
         tableModel.update(load());
     }
@@ -95,7 +92,7 @@ public class HerokuConfigWindow extends HerokuToolWindow {
                         dialog.show();
                         if (dialog.getExitCode()==AddConfigVariableDialog.OK_EXIT_CODE) {
                             herokuProjectService.addConfigVar(dialog.getKey(), dialog.getValue());
-                            HerokuConfigWindow.this.update();
+                            HerokuConfigWindow.this.doUpdate();
                         }
                     }
                 },
@@ -103,12 +100,12 @@ public class HerokuConfigWindow extends HerokuToolWindow {
                     public void actionPerformed(AnActionEvent anActionEvent) {
                         final String varName = tableModel.getKey(selectedRow.get());
                         herokuProjectService.removeConfigVar(varName);
-                        HerokuConfigWindow.this.update();
+                        HerokuConfigWindow.this.doUpdate();
                     }
                 },
                 new AnAction("Update", "", icon("/actions/sync.png")) {
                     public void actionPerformed(AnActionEvent anActionEvent) {
-                        HerokuConfigWindow.this.update();
+                        HerokuConfigWindow.this.doUpdate();
                     }
                 }
         );

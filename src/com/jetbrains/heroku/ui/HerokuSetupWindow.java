@@ -51,7 +51,7 @@ public class HerokuSetupWindow extends HerokuToolWindow {
         builder.append("Git-Integration", gitIntegration = new JBLabel());
         builder.append("Current Heroku-Git-Remote:", remoteLabel = new JBLabel());
         panel.add(builder.getPanel(), BorderLayout.NORTH);
-        update();
+        doUpdate();
         return panel;
     }
 
@@ -59,7 +59,7 @@ public class HerokuSetupWindow extends HerokuToolWindow {
         return herokuProjectService.getApplicationService().listApps();
     }
 
-    public void update() {
+    public void doUpdate() {
         final Project project = herokuProjectService.getProject();
         final boolean gitEnabled = GitHelper.isGitEnabled(project);
         presentGitStatus(gitEnabled);
@@ -120,7 +120,7 @@ public class HerokuSetupWindow extends HerokuToolWindow {
 
                     public void runActionPerformed(AnActionEvent anActionEvent) {
                         new StartUseVcsAction().actionPerformed(anActionEvent);
-                        HerokuSetupWindow.this.update();
+                        HerokuSetupWindow.this.doUpdate();
                         updatePanels();
                     }
                 },
@@ -144,7 +144,7 @@ public class HerokuSetupWindow extends HerokuToolWindow {
                             LOG.info("Attached remote " + attachedRemote.getName() + ":" + attachedRemote.getUrl() + " to project " + herokuProjectService.getProject().getName());
                             herokuProjectService.update(app);
                             updatePanels();
-                            HerokuSetupWindow.this.update();
+                            HerokuSetupWindow.this.doUpdate();
                         } else {
                             LOG.warn("No attached remote attached to project " + herokuProjectService.getProject().getName());
                         }
@@ -192,7 +192,7 @@ public class HerokuSetupWindow extends HerokuToolWindow {
                             if (Messages.showYesNoDialog("Really destroy app "+app.getName()+" this is irrecoverable!","Destroy App",Messages.getWarningIcon())!=Messages.YES) return;
                             herokuProjectService.getApplicationService().destroyApp(app);
                             Notifications.notifyModalInfo("Destroyed App", "Sucessfully Destroyed App " + app.getName());
-                            HerokuSetupWindow.this.update();
+                            HerokuSetupWindow.this.doUpdate();
                             if (app.getName().equals(herokuProjectService.getApp().getName())) {
                                 herokuProjectService.update(null);
                                 GitHelper.removeRemote(herokuProjectService.getProject(), app);
@@ -206,7 +206,7 @@ public class HerokuSetupWindow extends HerokuToolWindow {
                 },
                 new AnAction("Update", "", icon("/actions/sync.png")) {
                     public void actionPerformed(AnActionEvent anActionEvent) {
-                        HerokuSetupWindow.this.update();
+                        HerokuSetupWindow.this.doUpdate();
                     }
                 }
         );

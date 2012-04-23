@@ -38,7 +38,7 @@ public class HerokuCollaboratorsWindow extends HerokuToolWindow {
         return herokuProjectService.getApplicationCollaborators();
     }
 
-    public void update() {
+    public void doUpdate() {
         setEnabled(herokuProjectService.isHerokuProject());
         tableModel.update(load());
     }
@@ -51,7 +51,7 @@ public class HerokuCollaboratorsWindow extends HerokuToolWindow {
                         String email = Messages.showInputDialog(herokuProjectService.getProject(), "Collaborator Heroku email:", "Add Collaborator", Messages.getQuestionIcon());
                         if (email!=null && !email.isEmpty()) return;
                         herokuProjectService.addCollaborator(email);
-                        HerokuCollaboratorsWindow.this.update();
+                        HerokuCollaboratorsWindow.this.doUpdate();
                     }
                 },
                 new AnAction("Remove Config Variable", "", icon("/general/remove.png")) {
@@ -60,12 +60,12 @@ public class HerokuCollaboratorsWindow extends HerokuToolWindow {
                         if (collaborator==null) return;
                         if (Messages.showYesNoDialog("Remove the Collaborator: "+collaborator.getEmail(),"Remove Collaborator",Messages.getQuestionIcon())!=Messages.YES) return;
                         herokuProjectService.removeCollaborator(collaborator.getEmail());
-                        HerokuCollaboratorsWindow.this.update();
+                        HerokuCollaboratorsWindow.this.doUpdate();
                     }
                 },
                 new AnAction("Update", "", icon("/actions/sync.png")) {
                     public void actionPerformed(AnActionEvent anActionEvent) {
-                        HerokuCollaboratorsWindow.this.update();
+                        HerokuCollaboratorsWindow.this.doUpdate();
                     }
                 }
         );

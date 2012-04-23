@@ -9,10 +9,10 @@ import com.intellij.openapi.vcs.VcsException;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.jetbrains.heroku.notification.Notifications;
 import com.jetbrains.heroku.notification.Type;
-import git4idea.checkout.GitCheckoutProvider;
 import git4idea.commands.*;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,19 +20,20 @@ import java.util.List;
  * @since 18.12.11
  */
 public class GitHelper {
-    private static final Logger LOG = Logger.getInstance(GitCheckoutProvider.class);
+    private static final Logger LOG = Logger.getInstance(GitHelper.class);
     public static final String HEROKU_REMOTE = "heroku";
     public static final String HEROKU_DEFAULT_BRANCH = "master";
 
     private final static GitRemoteHandler remoteHandler = createRemoteHandler();
 
     private static GitRemoteHandler createRemoteHandler() {
-        try {
-            Class.forName("git4idea.repo.GitRepositoryManager");
-            return createRemoteHandler("NewGitRemoteHandler");
-        } catch(Exception cnfe) {
-            return createRemoteHandler("OldGitRemoteHandler");
-        }
+            try {
+                Class.forName("git4idea.repo.GitRepositoryManager");
+                return createRemoteHandler("GitRemoteHandler11");
+            } catch(Exception cnfe2) {
+                //throw new IllegalStateException("Incorrect API version, need at least: ");
+                return createRemoteHandler("GitRemoteHandler10CE");
+            }
     }
 
     private static GitRemoteHandler createRemoteHandler(final String className)  {
@@ -103,15 +104,34 @@ public class GitHelper {
     public static void pushToHeroku(Project project) {
         final VirtualFile vcsRoot = project.getBaseDir();
         final GitLineHandler handler = new GitLineHandler(project, vcsRoot, GitCommand.PUSH);
-        LOG.info("pushing to heroku adding remote " + project.getBaseDir());
         final GitRemoteInfo herokuRemote = findRemote(".*heroku.*", project);
         String remoteName = herokuRemote==null ? HEROKU_REMOTE : herokuRemote.getName();
+        final List<String> messages=new ArrayList<String>();
+        final String description = "Deploying project " + project.getBaseDir() + " to Heroku remote " + herokuRemote+"\n";
+        messages.add(description);
 
         handler.addParameters("-v", remoteName, HEROKU_DEFAULT_BRANCH);
+        handler.addLineListener(new GitLineHandlerAdapter() {
+            @Override
+            public void onLineAvailable(String line, Key outputType) {
+                messages.add(line+"\n");
+            }
 
-        LOG.info("git push to heroku vcs-root " + vcsRoot+" remote "+remoteName);
-        trackPushRejectedAsError(handler, "Rejected push (" + vcsRoot.getPresentableUrl() + "): ");
-        GitHandlerUtil.doSynchronously(handler, "deploying project to heroku", "git push");
+            @Override
+            public void processTerminated(int exitCode) {
+                messages.add("exit code " + exitCode+"\n");
+            }
+
+            @Override
+            public void startFailed(Throwable exception) {
+                messages.add("start failed with " + exception.getMessage()+"\n");
+            }
+        });
+        LOG.info("git push to heroku vcs-root " + vcsRoot + " remote " + remoteName);
+        // trackPushRejectedAsError(handler, "Rejected push (" + vcsRoot.getPresentableUrl() + "): ");
+        final int exitCode = GitHandlerUtil.doSynchronously(handler, "deploying project to heroku", "git push");
+        final boolean isError = exitCode != 0;
+        Notifications.notifyMessages(project,"Deploy to Heroku",description,isError ? Type.ERROR : Type.INFORMATION, isError,messages);
     }
 
     /**

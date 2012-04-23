@@ -14,7 +14,7 @@ import java.util.List;
  * @author mh
  * @since 19.12.11
  */
-public class OldGitRemoteHandler implements GitRemoteHandler {
+public class GitRemoteHandler10CE implements GitRemoteHandler {
     public void updateRepository(Project project) {
     }
 

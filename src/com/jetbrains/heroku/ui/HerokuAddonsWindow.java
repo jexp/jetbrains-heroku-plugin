@@ -40,7 +40,7 @@ public class HerokuAddonsWindow extends HerokuToolWindow {
         return herokuProjectService.getApplicationAddOns();
     }
 
-    public void update() {
+    public void doUpdate() {
         setEnabled(herokuProjectService.isHerokuProject());
         tableModel.update(load());
     }
@@ -56,7 +56,7 @@ public class HerokuAddonsWindow extends HerokuToolWindow {
                         if (Messages.showYesNoDialog("Add the Add-On: "+addon.getName()+" for "+price,"Add Add-On",Messages.getQuestionIcon())!=Messages.YES) return;
                         // ask confirmation
                         herokuProjectService.addAddon(addon);
-                        HerokuAddonsWindow.this.update();
+                        HerokuAddonsWindow.this.doUpdate();
                     }
                 },
                 new AnAction("Remove Add-On", "", icon("/general/remove.png")) {
@@ -66,7 +66,7 @@ public class HerokuAddonsWindow extends HerokuToolWindow {
                         // ask confirmation
                         if (Messages.showYesNoDialog("Remove the Add-On:"+addon.getName(),"Remove Add-On",Messages.getQuestionIcon())!=Messages.YES) return;
                         herokuProjectService.removeAddon(addon);
-                        HerokuAddonsWindow.this.update();
+                        HerokuAddonsWindow.this.doUpdate();
                     }
                 },
                 new AnAction("Show Documentation", "", icon("/xml/web_preview.png")) {
@@ -78,7 +78,7 @@ public class HerokuAddonsWindow extends HerokuToolWindow {
                 },
                 new AnAction("Update", "", icon("/actions/sync.png")) {
                     public void actionPerformed(AnActionEvent anActionEvent) {
-                        HerokuAddonsWindow.this.update();
+                        HerokuAddonsWindow.this.doUpdate();
                     }
                 }
         );
