@@ -99,7 +99,7 @@ public class HerokuApplicationWindow extends HerokuToolWindow {
     @Override
     protected List<AnAction> createActions() {
         return Arrays.asList(
-                new AnAction("Restart", "", icon("/general/toolWindowRun.png")) {
+                new AnAction("Restart", "", icon("/general/toolWindowRun.png","/actions/restart.png")) {
                     public void actionPerformed(AnActionEvent anActionEvent) {
                         herokuProjectService.restartApplication();
                         HerokuApplicationWindow.this.doUpdate();

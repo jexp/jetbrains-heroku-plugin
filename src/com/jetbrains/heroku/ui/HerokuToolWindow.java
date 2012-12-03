@@ -76,8 +76,15 @@ public abstract class HerokuToolWindow extends SimpleToolWindowPanel implements 
         return this;
     }
 
-    protected Icon icon(String iconPath) {
-        return IconLoader.getIcon(iconPath);
+    protected Icon icon(String...iconPaths) {
+        try {
+            for (String iconPath : iconPaths) {
+                Icon icon = IconLoader.findIcon(iconPath, getClass(), true);
+                if (icon!=null) return icon;
+            }
+        } catch(Exception e) {
+        }
+        return null;
     }
 
     protected abstract void setWindowInfo(ContentInfo contentInfo);

@@ -69,7 +69,7 @@ public class HerokuAddonsWindow extends HerokuToolWindow {
                         HerokuAddonsWindow.this.doUpdate();
                     }
                 },
-                new AnAction("Show Documentation", "", icon("/xml/web_preview.png")) {
+                new AnAction("Show Documentation", "", icon("/xml/web_preview.png","/actions/preview.png")) {
                     public void actionPerformed(AnActionEvent anActionEvent) {
                         final Addon addon = tableModel.getAddOn(selectedRow.get());
                         if (addon==null) return;

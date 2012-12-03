@@ -2,15 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="19e80d91-3f4d-4f31-8360-256ebec15f4e" name="Default" comment="#15 openapi / git4idea version conflict, have to deploy different plugins for different idea versions">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Heroku.ipr" afterPath="$PROJECT_DIR$/Heroku.ipr" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Heroku.iws" afterPath="$PROJECT_DIR$/Heroku.iws" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/META-INF/plugin.xml" afterPath="$PROJECT_DIR$/META-INF/plugin.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/jetbrains/heroku/HerokuSettings.java" afterPath="$PROJECT_DIR$/src/com/jetbrains/heroku/HerokuSettings.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/jetbrains/heroku/git/GitRemoteHandler11.java" afterPath="$PROJECT_DIR$/src/com/jetbrains/heroku/git/GitRemoteHandler11.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/jetbrains/heroku/ui/HerokuAddonsWindow.java" afterPath="$PROJECT_DIR$/src/com/jetbrains/heroku/ui/HerokuAddonsWindow.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/jetbrains/heroku/ui/HerokuApplicationWindow.java" afterPath="$PROJECT_DIR$/src/com/jetbrains/heroku/ui/HerokuApplicationWindow.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/jetbrains/heroku/ui/HerokuCollaboratorsWindow.java" afterPath="$PROJECT_DIR$/src/com/jetbrains/heroku/ui/HerokuCollaboratorsWindow.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/jetbrains/heroku/ui/HerokuConfigWindow.java" afterPath="$PROJECT_DIR$/src/com/jetbrains/heroku/ui/HerokuConfigWindow.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/jetbrains/heroku/ui/HerokuLogsWindow.java" afterPath="$PROJECT_DIR$/src/com/jetbrains/heroku/ui/HerokuLogsWindow.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/jetbrains/heroku/ui/HerokuProcessesWindow.java" afterPath="$PROJECT_DIR$/src/com/jetbrains/heroku/ui/HerokuProcessesWindow.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/jetbrains/heroku/ui/HerokuSetupWindow.java" afterPath="$PROJECT_DIR$/src/com/jetbrains/heroku/ui/HerokuSetupWindow.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/jetbrains/heroku/ui/HerokuToolWindow.java" afterPath="$PROJECT_DIR$/src/com/jetbrains/heroku/ui/HerokuToolWindow.java" />
     </list>
@@ -87,33 +83,7 @@
         <option name="CONDITION" value="" />
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
-      <breakpoint url="file://$PROJECT_DIR$/src/com/jetbrains/heroku/ui/HerokuToolWindowFactory.java" line="78" class="com.jetbrains.heroku.ui.HerokuToolWindowFactory" package="com.jetbrains.heroku.ui">
-        <option name="ENABLED" value="true" />
-        <option name="LOG_ENABLED" value="false" />
-        <option name="LOG_EXPRESSION_ENABLED" value="false" />
-        <option name="SUSPEND_POLICY" value="SuspendAll" />
-        <option name="COUNT_FILTER_ENABLED" value="false" />
-        <option name="COUNT_FILTER" value="0" />
-        <option name="CONDITION_ENABLED" value="false" />
-        <option name="CLASS_FILTERS_ENABLED" value="false" />
-        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
-        <option name="CONDITION" value="" />
-        <option name="LOG_MESSAGE" value="" />
-      </breakpoint>
-      <breakpoint url="file://$PROJECT_DIR$/src/com/jetbrains/heroku/HerokuSettings.java" line="104" class="com.jetbrains.heroku.HerokuSettings$4" package="com.jetbrains.heroku">
-        <option name="ENABLED" value="true" />
-        <option name="LOG_ENABLED" value="false" />
-        <option name="LOG_EXPRESSION_ENABLED" value="false" />
-        <option name="SUSPEND_POLICY" value="SuspendAll" />
-        <option name="COUNT_FILTER_ENABLED" value="false" />
-        <option name="COUNT_FILTER" value="0" />
-        <option name="CONDITION_ENABLED" value="false" />
-        <option name="CLASS_FILTERS_ENABLED" value="false" />
-        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
-        <option name="CONDITION" value="" />
-        <option name="LOG_MESSAGE" value="" />
-      </breakpoint>
-      <breakpoint url="file://$PROJECT_DIR$/src/com/jetbrains/heroku/git/GitHelper.java" line="51" class="com.jetbrains.heroku.git.GitHelper" package="com.jetbrains.heroku.git">
+      <breakpoint url="file://$PROJECT_DIR$/src/com/jetbrains/heroku/HerokuSettings.java" line="95" class="com.jetbrains.heroku.HerokuSettings$3" package="com.jetbrains.heroku">
         <option name="ENABLED" value="true" />
         <option name="LOG_ENABLED" value="false" />
         <option name="LOG_EXPRESSION_ENABLED" value="false" />
@@ -191,7 +161,7 @@
         <option name="CONDITION" value="" />
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
-      <breakpoint url="file://$PROJECT_DIR$/src/com/jetbrains/heroku/HerokuSettings.java" line="121" class="com.jetbrains.heroku.HerokuSettings$5" package="com.jetbrains.heroku">
+      <breakpoint url="file://$PROJECT_DIR$/src/com/jetbrains/heroku/HerokuSettings.java" line="106" class="com.jetbrains.heroku.HerokuSettings$4" package="com.jetbrains.heroku">
         <option name="ENABLED" value="true" />
         <option name="LOG_ENABLED" value="false" />
         <option name="LOG_EXPRESSION_ENABLED" value="false" />
@@ -230,7 +200,7 @@
         <option name="CONDITION" value="" />
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
-      <breakpoint url="file://$PROJECT_DIR$/src/com/jetbrains/heroku/ui/HerokuConfigWindow.java" line="69" class="com.jetbrains.heroku.ui.HerokuConfigWindow.AddConfigVariableDialog" package="com.jetbrains.heroku.ui">
+      <breakpoint url="file://$PROJECT_DIR$/src/com/jetbrains/heroku/ui/HerokuConfigWindow.java" line="73" class="com.jetbrains.heroku.ui.HerokuConfigWindow.AddConfigVariableDialog" package="com.jetbrains.heroku.ui">
         <option name="ENABLED" value="true" />
         <option name="LOG_ENABLED" value="false" />
         <option name="LOG_EXPRESSION_ENABLED" value="false" />
@@ -243,7 +213,7 @@
         <option name="CONDITION" value="" />
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
-      <breakpoint url="file://$PROJECT_DIR$/src/com/jetbrains/heroku/ui/HerokuConfigWindow.java" line="104" class="com.jetbrains.heroku.ui.HerokuConfigWindow$1" package="com.jetbrains.heroku.ui">
+      <breakpoint url="file://$PROJECT_DIR$/src/com/jetbrains/heroku/ui/HerokuConfigWindow.java" line="116" class="com.jetbrains.heroku.ui.HerokuConfigWindow$2" package="com.jetbrains.heroku.ui">
         <option name="ENABLED" value="true" />
         <option name="LOG_ENABLED" value="false" />
         <option name="LOG_EXPRESSION_ENABLED" value="false" />
@@ -335,15 +305,53 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="HerokuConfigWindow.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/jetbrains/heroku/ui/HerokuConfigWindow.java">
+      <file leaf-file-name="GitRemoteHandler11.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/jetbrains/heroku/git/GitRemoteHandler11.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="69" column="44" selection-start="2238" selection-end="2238" vertical-scroll-proportion="0.0">
+            <state line="82" column="67" selection-start="2865" selection-end="2865" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="class#3286:3906" expanded="true" />
-                <element signature="class#3928:4332" expanded="true" />
-                <element signature="class#4354:4584" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="HerokuToolWindowFactory.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/jetbrains/heroku/ui/HerokuToolWindowFactory.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="42" column="31" selection-start="1580" selection-end="1580" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="HerokuToolWindow.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/jetbrains/heroku/ui/HerokuToolWindow.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="84" column="116" selection-start="2934" selection-end="2934" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="e#2184#2548#0" expanded="true" />
+                <element signature="e#2537#2538#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="HerokuAddonsWindow.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/jetbrains/heroku/ui/HerokuAddonsWindow.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="31" column="184" selection-start="914" selection-end="914" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="HerokuSetupWindow.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/jetbrains/heroku/ui/HerokuSetupWindow.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="92" column="39" selection-start="3563" selection-end="3563" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="class#7781:9514" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -352,25 +360,34 @@
       <file leaf-file-name="plugin.xml" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/META-INF/plugin.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="8" column="65" selection-start="520" selection-end="520" vertical-scroll-proportion="0.14533965">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Notifications.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/jetbrains/heroku/notification/Notifications.java">
+      <file leaf-file-name="Icon.class" pinned="false" current="false" current-in-tab="false">
+        <entry file="jar:///System/Library/Frameworks/JavaVM.framework/Versions/1.6.0/Classes/classes.jar!/javax/swing/Icon.class">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="52" column="23" selection-start="1846" selection-end="1846" vertical-scroll-proportion="0.0">
+            <state line="5" column="17" selection-start="153" selection-end="153" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Notifier.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/jetbrains/heroku/notification/Notifier.java">
+      <file leaf-file-name="ContentManager.class" pinned="false" current="false" current-in-tab="false">
+        <entry file="jar://$APPLICATION_HOME_DIR$/lib/openapi.jar!/com/intellij/ui/content/ContentManager.class">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="34" column="16" selection-start="990" selection-end="990" vertical-scroll-proportion="0.0">
+            <state line="11" column="9" selection-start="359" selection-end="359" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="IconLoader.class" pinned="false" current="false" current-in-tab="false">
+        <entry file="jar://$APPLICATION_HOME_DIR$/lib/util.jar!/com/intellij/openapi/util/IconLoader.class">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="36" column="176" selection-start="1920" selection-end="1927" vertical-scroll-proportion="-16.192308">
               <folding />
             </state>
           </provider>
@@ -379,59 +396,11 @@
       <file leaf-file-name="HerokuApplicationWindow.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/jetbrains/heroku/ui/HerokuApplicationWindow.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="115" column="47" selection-start="4539" selection-end="4539" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="HerokuLogsWindow.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/jetbrains/heroku/ui/HerokuLogsWindow.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="26" column="30" selection-start="708" selection-end="708" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="HerokuProcessesWindow.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/jetbrains/heroku/ui/HerokuProcessesWindow.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="63" column="70" selection-start="2717" selection-end="2717" vertical-scroll-proportion="0.0">
+            <state line="101" column="47" selection-start="3730" selection-end="3730" vertical-scroll-proportion="0.0">
               <folding>
-                <element signature="class#1384:2267" expanded="true" />
+                <element signature="class#3703:4038" expanded="true" />
+                <element signature="class#4382:4682" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="HerokuSetupWindow.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/jetbrains/heroku/ui/HerokuSetupWindow.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="197" column="55" selection-start="9003" selection-end="9003" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="class#4367:4969" expanded="true" />
-                <element signature="class#5042:6327" expanded="true" />
-                <element signature="class#6349:7692" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="HerokuToolWindow.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/jetbrains/heroku/ui/HerokuToolWindow.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="41" column="0" selection-start="1522" selection-end="1522" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="OldHerokuToolWindowFactory.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/jetbrains/heroku/ui/OldHerokuToolWindowFactory.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="65" column="32" selection-start="2544" selection-end="2544" vertical-scroll-proportion="0.0">
-              <folding />
             </state>
           </provider>
         </entry>
@@ -455,7 +424,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/com/jetbrains/heroku/ui/HerokuAddonsWindow.java" />
         <option value="$PROJECT_DIR$/src/com/jetbrains/heroku/service/HerokuProjectService.java" />
         <option value="$PROJECT_DIR$/../heroku.jar/heroku-api/src/main/java/com/heroku/api/request/key/KeyList.java" />
         <option value="$PROJECT_DIR$/src/com/jetbrains/heroku/notification/Notifier.java" />
@@ -465,17 +433,18 @@
         <option value="$PROJECT_DIR$/src/com/jetbrains/heroku/service/HerokuApplicationService.java" />
         <option value="$PROJECT_DIR$/src/com/jetbrains/heroku/git/OldGitRemoteHandler.java" />
         <option value="$PROJECT_DIR$/src/com/jetbrains/heroku/git/GitRemoteHandler10CE.java" />
-        <option value="$PROJECT_DIR$/src/com/jetbrains/heroku/git/GitRemoteHandler11.java" />
         <option value="$PROJECT_DIR$/src/com/jetbrains/heroku/notification/NewNotifier.java" />
         <option value="$PROJECT_DIR$/src/com/jetbrains/heroku/git/GitHelper.java" />
         <option value="$PROJECT_DIR$/src/com/jetbrains/heroku/HerokuSettings.java" />
         <option value="$PROJECT_DIR$/src/com/jetbrains/heroku/ui/HerokuCollaboratorsWindow.java" />
         <option value="$PROJECT_DIR$/src/com/jetbrains/heroku/ui/HerokuLogsWindow.java" />
         <option value="$PROJECT_DIR$/src/com/jetbrains/heroku/ui/HerokuProcessesWindow.java" />
-        <option value="$PROJECT_DIR$/src/com/jetbrains/heroku/ui/HerokuSetupWindow.java" />
-        <option value="$PROJECT_DIR$/src/com/jetbrains/heroku/ui/HerokuApplicationWindow.java" />
         <option value="$PROJECT_DIR$/src/com/jetbrains/heroku/ui/HerokuConfigWindow.java" />
+        <option value="$PROJECT_DIR$/src/com/jetbrains/heroku/git/GitRemoteHandler11.java" />
+        <option value="$PROJECT_DIR$/src/com/jetbrains/heroku/ui/HerokuApplicationWindow.java" />
         <option value="$PROJECT_DIR$/src/com/jetbrains/heroku/ui/HerokuToolWindow.java" />
+        <option value="$PROJECT_DIR$/src/com/jetbrains/heroku/ui/HerokuAddonsWindow.java" />
+        <option value="$PROJECT_DIR$/src/com/jetbrains/heroku/ui/HerokuSetupWindow.java" />
         <option value="$PROJECT_DIR$/META-INF/plugin.xml" />
       </list>
     </option>
@@ -568,16 +537,21 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope">
-        <subPane subId="Project Files">
+      <pane id="PackagesPane">
+        <subPane>
           <PATH>
-            <PATH_ELEMENT USER_OBJECT="Root">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Heroku" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Heroku" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -585,88 +559,6 @@
               <option name="myItemId" value="Heroku" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="External Libraries" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ExternalLibrariesNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="&lt; IDEA IU-111.69 &gt;" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.NamedLibraryElementNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Heroku" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="External Libraries" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ExternalLibrariesNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="&lt; IDEA IU-111.69 &gt;" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.NamedLibraryElementNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="openapi.jar" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Heroku" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="External Libraries" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ExternalLibrariesNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="&lt; IDEA IU-111.69 &gt;" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.NamedLibraryElementNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="openapi.jar" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="com" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="intellij" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Heroku" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="External Libraries" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ExternalLibrariesNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="&lt; IDEA IU-111.69 &gt;" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.NamedLibraryElementNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="openapi.jar" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="com" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="intellij" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="openapi" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -701,126 +593,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="heroku" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Heroku" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="jetbrains-heroku-plugin" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="com" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="jetbrains" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="heroku" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ui" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Heroku" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="jetbrains-heroku-plugin" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="com" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="jetbrains" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="heroku" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="service" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Heroku" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="jetbrains-heroku-plugin" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="com" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="jetbrains" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="heroku" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="notification" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Heroku" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="jetbrains-heroku-plugin" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="com" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="jetbrains" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="heroku" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="herokuapi" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -852,116 +624,6 @@
             <PATH_ELEMENT>
               <option name="myItemId" value="git" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Heroku" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="jetbrains-heroku-plugin" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="com" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="jetbrains" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="heroku" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="action" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Heroku" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="jetbrains-heroku-plugin" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="lib" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Heroku" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="jetbrains-heroku-plugin" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="lib" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="heroku-http-apache-0.6.jar" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Heroku" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="jetbrains-heroku-plugin" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="lib" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="heroku-http-apache-0.6.jar" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="com" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="heroku" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="api" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="connection" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
-      <pane id="PackagesPane">
-        <subPane>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Heroku" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Heroku" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
@@ -1039,7 +701,7 @@
       <recent name="com.heroku.idea.rest" />
     </key>
   </component>
-  <component name="RunManager" selected="Plugin.Heroku">
+  <component name="RunManager" selected="Remote.remote">
     <configuration default="false" name="All in Heroku" type="JUnit" factoryName="JUnit" temporary="true">
       <extension name="coverage" enabled="false" merge="false" runner="idea" />
       <module name="Heroku" />
@@ -1312,13 +974,29 @@
       <ConfigurationWrapper RunnerId="Run" />
       <method />
     </configuration>
-    <list size="6">
+    <configuration default="false" name="remote" type="Remote" factoryName="Remote">
+      <module name="Heroku" />
+      <option name="USE_SOCKET_TRANSPORT" value="true" />
+      <option name="SERVER_MODE" value="false" />
+      <option name="SHMEM_ADDRESS" value="javadebug" />
+      <option name="HOST" value="localhost" />
+      <option name="PORT" value="5005" />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="5005" />
+        <option name="TRANSPORT" value="0" />
+        <option name="LOCAL" value="false" />
+      </RunnerSettings>
+      <ConfigurationWrapper RunnerId="Debug" />
+      <method />
+    </configuration>
+    <list size="7">
       <item index="0" class="java.lang.String" itemvalue="JUnit.All in Heroku" />
       <item index="1" class="java.lang.String" itemvalue="JUnit.HerokuApiTest.testGetApplicationStatus" />
       <item index="2" class="java.lang.String" itemvalue="JUnit.HerokuApiTest.testListKeys" />
       <item index="3" class="java.lang.String" itemvalue="JUnit.HerokuApiTest.testAddKey" />
       <item index="4" class="java.lang.String" itemvalue="JUnit.HerokuApiTest" />
       <item index="5" class="java.lang.String" itemvalue="Plugin.Heroku" />
+      <item index="6" class="java.lang.String" itemvalue="Remote.remote" />
     </list>
     <configuration name="&lt;template&gt;" type="WebApp" default="true" selected="false">
       <Host>localhost</Host>
@@ -1326,7 +1004,7 @@
     </configuration>
   </component>
   <component name="ShelveChangesManager" show_recycled="false" />
-  <component name="SvnConfiguration" maxAnnotateRevisions="500">
+  <component name="SvnConfiguration" maxAnnotateRevisions="500" myUseAcceleration="nothing" myAutoUpdateAfterCommit="false" cleanupOnStartRun="false">
     <option name="USER" value="" />
     <option name="PASSWORD" value="" />
     <option name="mySSHConnectionTimeout" value="30000" />
@@ -1341,6 +1019,7 @@
     <option name="IGNORE_SPACES_IN_ANNOTATE" value="true" />
     <option name="SHOW_MERGE_SOURCES_IN_ANNOTATE" value="true" />
     <option name="FORCE_UPDATE" value="false" />
+    <option name="IGNORE_EXTERNALS" value="false" />
     <configuration useDefault="true">$USER_HOME$/.subversion_IDEA</configuration>
     <myIsUseDefaultProxy>false</myIsUseDefaultProxy>
   </component>
@@ -1378,7 +1057,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="22" width="2560" height="1414" extended-state="0" />
+    <frame x="0" y="22" width="2560" height="1414" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Data Sources" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3297414" sideWeight="0.6754967" order="3" side_tool="false" content_ui="tabs" />
@@ -1386,8 +1065,7 @@
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.5158546" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.6754967" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39907193" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.39907193" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32967034" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
@@ -1395,11 +1073,12 @@
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32980132" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24928162" sideWeight="0.21721855" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32961783" sideWeight="0.60092807" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.6800977" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32961783" sideWeight="0.60092807" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.31709203" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.6754967" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="JavaRebel Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="JavaRebel" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.6800977" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Dilbert" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Atlassian " active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
@@ -1502,179 +1181,194 @@
     </option>
   </component>
   <component name="editorHistoryManager">
-    <entry file="jar:///Applications/IntelliJ IDEA 10 CE.app/plugins/git4idea/lib/git4idea.jar!/git4idea/commands/GitLineHandler.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="11" selection-start="720" selection-end="720" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/jetbrains/heroku/notification/Type.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="17" selection-start="121" selection-end="121" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/jetbrains/heroku/notification/NewNotifier.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="74" selection-start="1320" selection-end="1320" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/jetbrains/heroku/notification/OldNotifier.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="20" column="16" selection-start="652" selection-end="652" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="jar://$APPLICATION_HOME_DIR$/lib/openapi.jar!/com/intellij/openapi/ui/SimpleToolWindowPanel.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="28" column="16" selection-start="1348" selection-end="1348" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/jetbrains/heroku/ui/HerokuAddonsWindow.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="58" column="48" selection-start="2290" selection-end="2290" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/jetbrains/heroku/ui/JBBackgroundAction.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="29" column="38" selection-start="955" selection-end="973" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/jetbrains/heroku/git/GitHelper.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="130" column="11" selection-start="5919" selection-end="5919" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/jetbrains/heroku/ui/HerokuToolWindowFactory.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="78" column="23" selection-start="3107" selection-end="3107" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/jetbrains/heroku/git/GitRemoteHandler11.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="40" column="41" selection-start="1359" selection-end="1359" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/jetbrains/heroku/HerokuSettings.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="26" selection-start="331" selection-end="331" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="9" column="26" selection-start="331" selection-end="331" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="jar://$APPLICATION_HOME_DIR$/lib/openapi.jar!/com/intellij/openapi/ui/DialogWrapper.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="171" column="16" selection-start="7922" selection-end="7922" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="171" column="16" selection-start="7922" selection-end="7922" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="jar://$APPLICATION_HOME_DIR$/lib/openapi.jar!/com/intellij/openapi/ui/ValidationInfo.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="25" selection-start="481" selection-end="495" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="11" column="25" selection-start="481" selection-end="495" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="jar://$APPLICATION_HOME_DIR$/lib/openapi.jar!/com/intellij/openapi/ui/InputValidatorEx.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="17" selection-start="165" selection-end="165" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="5" column="17" selection-start="165" selection-end="165" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="jar://$APPLICATION_HOME_DIR$/lib/openapi.jar!/com/intellij/openapi/ui/InputValidator.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="49" selection-start="280" selection-end="280" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="10" column="49" selection-start="280" selection-end="280" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/jetbrains/heroku/ui/HerokuCollaboratorsWindow.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="50" column="64" selection-start="1715" selection-end="1715" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="50" column="64" selection-start="1715" selection-end="1715" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/jetbrains/heroku/ui/HerokuConfigWindow.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="69" column="44" selection-start="2238" selection-end="2238" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/jetbrains/heroku/notification/Notifications.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="52" column="23" selection-start="1846" selection-end="1846" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/jetbrains/heroku/notification/Notifier.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="34" column="16" selection-start="990" selection-end="990" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test/com/jetbrains/heroku/herokuapi/HerokuApiTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="27" column="83" selection-start="667" selection-end="707" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/jetbrains/heroku/git/GitRemoteHandler10CE.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="16" column="13" selection-start="336" selection-end="336" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/jetbrains/heroku/ui/HerokuLogsWindow.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="26" column="30" selection-start="708" selection-end="708" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="26" column="30" selection-start="708" selection-end="708" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/jetbrains/heroku/ui/HerokuProcessesWindow.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="63" column="70" selection-start="2717" selection-end="2717" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="class#1384:2267" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/jetbrains/heroku/ui/HerokuSetupWindow.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="197" column="55" selection-start="9003" selection-end="9003" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="class#4367:4969" expanded="true" />
-            <element signature="class#5042:6327" expanded="true" />
-            <element signature="class#6349:7692" expanded="true" />
-          </folding>
-        </state>
+        <state line="63" column="70" selection-start="2717" selection-end="2717" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/jetbrains/heroku/ui/OldHerokuToolWindowFactory.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="65" column="32" selection-start="2544" selection-end="2544" vertical-scroll-proportion="0.0">
+        <state line="65" column="32" selection-start="2544" selection-end="2544" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/jetbrains/heroku/service/HerokuApplicationService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="120" column="0" selection-start="3847" selection-end="3847" vertical-scroll-proportion="0.0">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$APPLICATION_HOME_DIR$/plugins/git4idea/lib/git4idea.jar!/git4idea/repo/GitRepository.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="63" column="57" selection-start="3686" selection-end="3686" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/jetbrains/heroku/git/GitHelper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="51" column="0" selection-start="2052" selection-end="2052" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$APPLICATION_HOME_DIR$/lib/util.jar!/com/intellij/openapi/diagnostic/Logger.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="56" column="0" selection-start="3037" selection-end="3037" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///System/Library/Frameworks/JavaVM.framework/Versions/1.6.0/Classes/classes.jar!/java/awt/Container.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="399" column="0" selection-start="16801" selection-end="16801" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$APPLICATION_HOME_DIR$/lib/openapi.jar!/com/intellij/ui/content/ContentManager.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="11" column="9" selection-start="359" selection-end="359" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$APPLICATION_HOME_DIR$/lib/openapi.jar!/com/intellij/openapi/wm/AppIconScheme.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="5" column="13" selection-start="161" selection-end="161" vertical-scroll-proportion="0.07009346">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/jetbrains/heroku/ui/HerokuToolWindowFactory.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="42" column="31" selection-start="1580" selection-end="1580" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/jetbrains/heroku/git/GitRemoteHandler11.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="82" column="67" selection-start="2865" selection-end="2865" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/jetbrains/heroku/ui/HerokuApplicationWindow.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="115" column="47" selection-start="4539" selection-end="4539" vertical-scroll-proportion="0.0">
+        <state line="101" column="47" selection-start="3730" selection-end="3730" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="class#3703:4038" expanded="true" />
+            <element signature="class#4382:4682" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$APPLICATION_HOME_DIR$/lib/util.jar!/com/intellij/openapi/util/IconLoader.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="36" column="176" selection-start="1920" selection-end="1927" vertical-scroll-proportion="-16.192308">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/jetbrains/heroku/notification/Notifier.java">
+    <entry file="jar:///System/Library/Frameworks/JavaVM.framework/Versions/1.6.0/Classes/classes.jar!/javax/swing/Icon.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="34" column="16" selection-start="990" selection-end="990" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/jetbrains/heroku/notification/Notifications.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="52" column="23" selection-start="1846" selection-end="1846" vertical-scroll-proportion="0.0">
+        <state line="5" column="17" selection-start="153" selection-end="153" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/jetbrains/heroku/ui/HerokuToolWindow.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="41" column="0" selection-start="1522" selection-end="1522" vertical-scroll-proportion="0.0">
+        <state line="84" column="116" selection-start="2934" selection-end="2934" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="e#2184#2548#0" expanded="true" />
+            <element signature="e#2537#2538#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/jetbrains/heroku/ui/HerokuAddonsWindow.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="31" column="184" selection-start="914" selection-end="914" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/jetbrains/heroku/ui/HerokuConfigWindow.java">
+    <entry file="file://$PROJECT_DIR$/src/com/jetbrains/heroku/ui/HerokuSetupWindow.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="69" column="44" selection-start="2238" selection-end="2238" vertical-scroll-proportion="0.0">
+        <state line="92" column="39" selection-start="3563" selection-end="3563" vertical-scroll-proportion="0.0">
           <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="class#3286:3906" expanded="true" />
-            <element signature="class#3928:4332" expanded="true" />
-            <element signature="class#4354:4584" expanded="true" />
+            <element signature="class#7781:9514" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/META-INF/plugin.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="65" selection-start="520" selection-end="520" vertical-scroll-proportion="0.14533965">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -1708,6 +1402,7 @@
       </state>
       <state key="GlobalLibrariesConfigurable.UI">
         <settings>
+          <last-edited>groovy-2.0.1</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>

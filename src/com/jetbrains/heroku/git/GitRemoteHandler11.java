@@ -3,10 +3,12 @@ package com.jetbrains.heroku.git;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
 import git4idea.repo.GitRemote;
-import git4idea.repo.GitRepository;
 import git4idea.repo.GitRepositoryManager;
 
+import java.lang.reflect.Array;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -15,10 +17,93 @@ import java.util.List;
  * @since 19.12.11
  */
 public class GitRemoteHandler11 implements GitRemoteHandler{
-    private static final Logger LOG = Logger.getInstance(GitRemoteHandler11.class);
+    private final static Logger LOG = Logger.getInstance(GitRemoteHandler11.class);
 
+    static class GitRepositoryInfo {
+        private static boolean isInterface;
+        private static Class repositoryClass = classFor("git4idea.repo.GitRepository");
+        private static Method updateMethod;
+        private static Method getRemotesMethod;
+        private static Class topicClass;
+        private static Object topics;
+
+        static {
+            initialize();
+        }
+
+        static void initialize() {
+            isInterface = repositoryClass.isInterface();
+            updateMethod = getUpdateMethod();
+            getRemotesMethod = getMethod("getRemotes");
+        }
+
+        private static Method getUpdateMethod() {
+            try {
+                return getMethod("update");
+            } catch(IllegalStateException ise) {
+                topicClass = classFor("git4idea.repo.GitRepository$TrackedTopic");
+                topics = Array.newInstance(topicClass,1);
+                Array.set(topics,0, getTopic(topicClass, "CONFIG"));
+                return getMethod("update", topics.getClass());
+            }
+        }
+
+        private final Object repository;
+
+        GitRepositoryInfo(Object repository) {
+            if (!repositoryClass.isInstance(repository)) throw new IllegalStateException(repository+" is not an instance of "+repositoryClass);
+            this.repository = repository;
+        }
+
+        public void update() {
+            if (topics==null) {
+                invoke(updateMethod);
+            } else {
+                invoke(updateMethod, topics);
+            }
+        }
+
+        public Collection<GitRemote> getRemotes() {
+            return (Collection<GitRemote>)invoke(getRemotesMethod);
+        }
+        
+        private static Method getMethod(String name, Class... args) {
+            try {
+                return repositoryClass.getMethod(name,args);
+            } catch (NoSuchMethodException e) {
+                throw new IllegalStateException("Error retrieving method "+name+" from "+repositoryClass,e);
+            }
+        }
+
+        private Object invoke(Method method, Object...args) {
+            try {
+                return method.invoke(repository,args);
+            } catch (Exception e) {
+                throw new RuntimeException("Error invoking method "+method.getName()+" on "+repository,e);
+            }
+        }
+        
+
+        private static Object getTopic(Class topicClass, String name) {
+            for (Object topic : topicClass.getEnumConstants()) {
+                if (((Enum)topic).name().equals(name)) {
+                    return topic;
+                }
+            }
+            return null;
+        }
+
+        private static Class classFor(String className) {
+            try {
+                return Class.forName(className);
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
     public void updateRepository(Project project) {
-        getRepository(project).update(GitRepository.TrackedTopic.CONFIG);
+        GitRepositoryInfo repository = getRepository(project);
+        repository.update();
     }
 
     public GitRemoteInfo findRemote(String pattern, final Project project) {
@@ -41,7 +126,7 @@ public class GitRemoteHandler11 implements GitRemoteHandler{
     }
 
     public List<GitRemoteInfo> getRemotes(final Project project) {
-        final GitRepository repo = getRepository(project);
+        final GitRepositoryInfo repo = getRepository(project);
         if (repo == null) return Collections.emptyList();
         final ArrayList<GitRemoteInfo> result = new ArrayList<GitRemoteInfo>();
         for (GitRemote remote : repo.getRemotes()) {
@@ -55,17 +140,17 @@ public class GitRemoteHandler11 implements GitRemoteHandler{
         return getRepository(project)!=null;
     }
 
-    private GitRepository getRepository(final Project project) {
+    private GitRepositoryInfo getRepository(final Project project) {
         //final GitRepositoryManager repositoryManager = GitRepositoryManager.getInstance(project);
         final GitRepositoryManager repositoryManager = project.getComponent(GitRepositoryManager.class);
         if (repositoryManager==null) {
             LOG.error("Could not retrieve repository manager for project "+project.getName()+" vcsRoot "+project.getBaseDir());
         }
-        final GitRepository repository = repositoryManager.getRepositoryForRoot(project.getBaseDir());
+        final Object repository = repositoryManager.getRepositoryForRoot(project.getBaseDir());
         if (repository==null) {
             LOG.error("Could not retrieve repository for project "+project.getName()+" vcsRoot "+project.getBaseDir());
         }
-        return repository;
+        return new GitRepositoryInfo(repository);
     }
 
     private static class NewGitRemoteInfo implements GitRemoteInfo {
