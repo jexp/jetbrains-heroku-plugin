@@ -226,28 +226,14 @@
       <JAVADOC />
       <SOURCES />
     </library>
-    <library name="heroku-api">
+    <library name="heroku-http-apache-0.14">
       <CLASSES>
-        <root url="jar://$PROJECT_DIR$/lib/heroku-api-0.6.jar!/" />
-        <root url="jar://$PROJECT_DIR$/lib/heroku-http-apache-0.6.jar!/" />
-        <root url="jar://$PROJECT_DIR$/lib/heroku-json-gson-0.6.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/heroku-http-apache-0.14.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/heroku-api-0.14.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/heroku-json-gson-0.14.jar!/" />
       </CLASSES>
       <JAVADOC />
-      <SOURCES>
-        <root url="file://$PROJECT_DIR$/../heroku.jar/heroku-api/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../heroku.jar/heroku-api/src/test/java" />
-        <root url="file://$PROJECT_DIR$/../heroku.jar/heroku-api/src/test/resources" />
-        <root url="file://$PROJECT_DIR$/../heroku.jar/heroku-api/target/test-classes" />
-        <root url="file://$PROJECT_DIR$/../heroku.jar/heroku-api/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../heroku.jar/heroku-api/src/test/java" />
-        <root url="file://$PROJECT_DIR$/../heroku.jar/heroku-api/src/test/resources" />
-        <root url="file://$PROJECT_DIR$/../heroku.jar/heroku-api/target/test-classes" />
-        <root url="file://$PROJECT_DIR$/../heroku.jar/heroku-api-integration-tests/src/test/java" />
-        <root url="file://$PROJECT_DIR$/../heroku.jar/heroku-http-apache/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../heroku.jar/heroku-http-ning-async/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../heroku.jar/heroku-json-gson/src/main/java" />
-        <root url="file://$PROJECT_DIR$/../heroku.jar/heroku-json-jackson/src/main/java" />
-      </SOURCES>
+      <SOURCES />
     </library>
     <library name="json-simple-1.1">
       <CLASSES>
