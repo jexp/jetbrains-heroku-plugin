@@ -2,10 +2,11 @@ package com.jetbrains.heroku.git;
 
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.vfs.VirtualFile;
 import git4idea.repo.GitRemote;
-import git4idea.repo.GitRepositoryManager;
 
 import java.lang.reflect.Array;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -140,17 +141,52 @@ public class GitRemoteHandler11 implements GitRemoteHandler{
         return getRepository(project)!=null;
     }
 
+    static class RepositoryManagerReflection {
+        private static final Class type = getRepositoryManager();
+        private static final Method getRepositoryForRoot = getRepositoryForRootMethod(type);
+
+        public static Object getRepositoryForRoot(Project project) {
+            final Object repositoryManager = project.getComponent(type);
+            if (repositoryManager==null) {
+                LOG.error("Could not retrieve repository manager for project "+project.getName()+" vcsRoot "+project.getBaseDir());
+            }
+            final Object repository = invoke(project, repositoryManager);
+            if (repository==null) {
+                LOG.error("Could not retrieve repository for project "+project.getName()+" vcsRoot "+project.getBaseDir());
+            }
+            return repository;
+        }
+
+        private static Object invoke(Project project, Object repositoryManager) {
+            try {
+                return getRepositoryForRoot.invoke(repositoryManager, project.getBaseDir());
+            } catch (IllegalAccessException e) {
+                LOG.error("Error getting repository for project",e);
+            } catch (InvocationTargetException e) {
+                LOG.error("Error getting repository for project",e);
+            }
+            return null;
+        }
+
+        private static Method getRepositoryForRootMethod(Class type) {
+            try {
+                return type.getMethod("getRepositoryForRoot",VirtualFile.class);
+            } catch (NoSuchMethodException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        private static Class<?> getRepositoryManager() {
+            try {
+                return Class.forName("git4idea.repo.GitRepositoryManager");
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
     private GitRepositoryInfo getRepository(final Project project) {
-        //final GitRepositoryManager repositoryManager = GitRepositoryManager.getInstance(project);
-        final GitRepositoryManager repositoryManager = project.getComponent(GitRepositoryManager.class);
-        if (repositoryManager==null) {
-            LOG.error("Could not retrieve repository manager for project "+project.getName()+" vcsRoot "+project.getBaseDir());
-        }
-        final Object repository = repositoryManager.getRepositoryForRoot(project.getBaseDir());
-        if (repository==null) {
-            LOG.error("Could not retrieve repository for project "+project.getName()+" vcsRoot "+project.getBaseDir());
-        }
-        return new GitRepositoryInfo(repository);
+        return new GitRepositoryInfo(RepositoryManagerReflection.getRepositoryForRoot(project));
     }
 
     private static class NewGitRemoteInfo implements GitRemoteInfo {

@@ -112,7 +112,7 @@ public class HerokuSetupWindow extends HerokuToolWindow {
     @Override
     protected List<AnAction> createActions() {
         final List<AnAction> actions = Arrays.<AnAction>asList(
-                new JBBackgroundAction("Enable Git Integration", "Enable Git VCS integration for project", icon("/vcs/addToVcs.png","/debugger/threadStates/socket.png")) {
+                new JBBackgroundAction("Enable Git Integration", "Enable Git VCS integration for project", icon("/general/vcsSmallTab.png","/toolwindows/vcsSmallTab.png")) {
                     @Override
                     public void update(AnActionEvent e) {
                         setEnabled(!GitHelper.isGitEnabled(getProject()));
@@ -126,7 +126,7 @@ public class HerokuSetupWindow extends HerokuToolWindow {
                 },
                 // /general/getProjectfromVCS.png
 
-                new JBBackgroundAction("Attach", "Attach to existing Heroku Application", icon("/general/vcsSmallTab.png","/toolwindows/vcsSmallTab.png")) {
+                new JBBackgroundAction("Attach", "Attach to existing Heroku Application", icon("/vcs/addToVcs.png","/debugger/threadStates/socket.png")) {
                     {
                         update(null);
                     }

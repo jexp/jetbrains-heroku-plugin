@@ -2,12 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="19e80d91-3f4d-4f31-8360-256ebec15f4e" name="Default" comment="#15 openapi / git4idea version conflict, have to deploy different plugins for different idea versions">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/jetbrains/heroku/git/GitHelper.java" afterPath="$PROJECT_DIR$/src/com/jetbrains/heroku/git/GitHelper.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/jetbrains/heroku/git/GitRemoteHandler10CE.java" afterPath="$PROJECT_DIR$/src/com/jetbrains/heroku/git/GitRemoteHandler10CE.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/jetbrains/heroku/git/GitRemoteHandler11.java" afterPath="$PROJECT_DIR$/src/com/jetbrains/heroku/git/GitRemoteHandler11.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Heroku.iml" afterPath="$PROJECT_DIR$/Heroku.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Heroku.ipr" afterPath="$PROJECT_DIR$/Heroku.ipr" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Heroku.iws" afterPath="$PROJECT_DIR$/Heroku.iws" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/META-INF/plugin.xml" afterPath="$PROJECT_DIR$/META-INF/plugin.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/jetbrains/heroku/ui/AddonTableModel.java" afterPath="$PROJECT_DIR$/src/com/jetbrains/heroku/ui/AddonTableModel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/jetbrains/heroku/ui/GuiUtil.java" afterPath="$PROJECT_DIR$/src/com/jetbrains/heroku/ui/GuiUtil.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/com/jetbrains/heroku/herokuapi/HerokuApiTest.java" afterPath="$PROJECT_DIR$/test/com/jetbrains/heroku/herokuapi/HerokuApiTest.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/jetbrains/heroku/ui/HerokuSetupWindow.java" afterPath="$PROJECT_DIR$/src/com/jetbrains/heroku/ui/HerokuSetupWindow.java" />
     </list>
     <ignored path="Heroku.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -29,14 +31,16 @@
     <groupTables value="false" />
   </component>
   <component name="DebuggerManager">
-    <exception_breakpoints>
+    <exception_breakpoints default_suspend_policy="SuspendAll" default_condition_enabled="true">
       <breakpoint class_name="java.lang.ClassCastException" package_name="java.lang">
         <option name="NOTIFY_CAUGHT" value="true" />
         <option name="NOTIFY_UNCAUGHT" value="true" />
         <option name="ENABLED" value="false" />
         <option name="LOG_ENABLED" value="false" />
         <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="REMOVE_AFTER_HIT" value="false" />
         <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="SUSPEND" value="true" />
         <option name="COUNT_FILTER_ENABLED" value="false" />
         <option name="COUNT_FILTER" value="0" />
         <option name="CONDITION_ENABLED" value="false" />
@@ -46,29 +50,17 @@
         <option name="LOG_MESSAGE" value="&#13;&#13;JAVA" />
       </breakpoint>
     </exception_breakpoints>
-    <line_breakpoints>
-      <breakpoint url="file://$PROJECT_DIR$/src/com/jetbrains/heroku/ui/AddonTableModel.java" line="43" class="com.jetbrains.heroku.ui.AddonTableModel" package="com.jetbrains.heroku.ui">
-        <option name="ENABLED" value="true" />
-        <option name="LOG_ENABLED" value="false" />
-        <option name="LOG_EXPRESSION_ENABLED" value="true" />
-        <option name="SUSPEND_POLICY" value="SuspendNone" />
-        <option name="COUNT_FILTER_ENABLED" value="false" />
-        <option name="COUNT_FILTER" value="0" />
-        <option name="CONDITION_ENABLED" value="true" />
-        <option name="CLASS_FILTERS_ENABLED" value="false" />
-        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
-        <option name="CONDITION" value="addon.getName().contains(&quot;eo&quot;)&#13;&#13;JAVA" />
-        <option name="LOG_MESSAGE" value="toString(addon)+&quot;\n&quot;+toString(appAddons.get(addon.getName()))&#13;&#13;JAVA" />
-      </breakpoint>
-    </line_breakpoints>
-    <breakpoint_any>
+    <ui_properties default_suspend_policy="SuspendAll" default_condition_enabled="true" />
+    <breakpoint_any default_suspend_policy="SuspendAll" default_condition_enabled="true">
       <breakpoint>
         <option name="NOTIFY_CAUGHT" value="true" />
         <option name="NOTIFY_UNCAUGHT" value="true" />
         <option name="ENABLED" value="false" />
         <option name="LOG_ENABLED" value="false" />
         <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="REMOVE_AFTER_HIT" value="false" />
         <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="SUSPEND" value="true" />
         <option name="COUNT_FILTER_ENABLED" value="false" />
         <option name="COUNT_FILTER" value="0" />
         <option name="CONDITION_ENABLED" value="false" />
@@ -83,7 +75,9 @@
         <option name="ENABLED" value="false" />
         <option name="LOG_ENABLED" value="false" />
         <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="REMOVE_AFTER_HIT" value="false" />
         <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="SUSPEND" value="true" />
         <option name="COUNT_FILTER_ENABLED" value="false" />
         <option name="COUNT_FILTER" value="0" />
         <option name="CONDITION_ENABLED" value="false" />
@@ -93,6 +87,23 @@
         <option name="LOG_MESSAGE" value="&#13;&#13;JAVA" />
       </breakpoint>
     </breakpoint_any>
+    <line_breakpoints default_suspend_policy="SuspendAll" default_condition_enabled="true">
+      <breakpoint url="file://$PROJECT_DIR$/src/com/jetbrains/heroku/ui/AddonTableModel.java" line="43" class="com.jetbrains.heroku.ui.AddonTableModel" package="com.jetbrains.heroku.ui">
+        <option name="ENABLED" value="true" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="true" />
+        <option name="REMOVE_AFTER_HIT" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="SUSPEND" value="false" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="true" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="addon.getName().contains(&quot;eo&quot;)&#13;&#13;JAVA" />
+        <option name="LOG_MESSAGE" value="toString(addon)+&quot;\n&quot;+toString(appAddons.get(addon.getName()))&#13;&#13;JAVA" />
+      </breakpoint>
+    </line_breakpoints>
     <breakpoint_rules />
     <ui_properties>
       <property name="line_breakpoints_groupByMethods" value="false" />
@@ -108,8 +119,8 @@
       <property name="field_breakpoints_groupByClasses" value="true" />
       <property name="method_breakpoints_groupByClasses" value="true" />
       <property name="exception_breakpoints_viewId" value="TABLE" />
-      <property name="field_breakpoints_viewId" value="TABLE" />
       <property name="exception_breakpoints_groupByClasses" value="true" />
+      <property name="field_breakpoints_viewId" value="TABLE" />
       <property name="method_breakpoints_groupByMethods" value="false" />
     </ui_properties>
   </component>
@@ -117,56 +128,64 @@
     <option name="hideWarnings" value="true" />
     <option name="HIDE_WARNINGS" value="true" />
   </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FavoritesManager">
     <favorites_list name="Heroku" />
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="HerokuAddonsWindow.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/jetbrains/heroku/ui/HerokuAddonsWindow.java">
+      <file leaf-file-name="HerokuSettingsAction.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/jetbrains/heroku/action/HerokuSettingsAction.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="34" column="26" selection-start="1097" selection-end="1097" vertical-scroll-proportion="0.0">
+            <state line="2" column="40" selection-start="78" selection-end="78" vertical-scroll-proportion="-1.2" vertical-offset="0" max-vertical-offset="435">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="GuiUtil.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/com/jetbrains/heroku/ui/GuiUtil.java">
+      <file leaf-file-name="HerokuProjectService.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/jetbrains/heroku/service/HerokuProjectService.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="47" column="68" selection-start="1622" selection-end="1622" vertical-scroll-proportion="0.33294392">
+            <state line="7" column="27" selection-start="311" selection-end="311" vertical-scroll-proportion="-4.2" vertical-offset="0" max-vertical-offset="3570">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AddonTableModel.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/jetbrains/heroku/ui/AddonTableModel.java">
+      <file leaf-file-name="GitRemoteHandler11.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/jetbrains/heroku/git/GitRemoteHandler11.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="72" column="194" selection-start="2087" selection-end="2087" vertical-scroll-proportion="0.0">
+            <state line="143" column="44" selection-start="4934" selection-end="4934" vertical-scroll-proportion="-15.6" vertical-offset="1755" max-vertical-offset="3285">
               <folding>
-                <element signature="e#336#351#0" expanded="true" />
+                <element signature="imports" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Addon.class" pinned="false" current="false" current-in-tab="false">
-        <entry file="jar://$PROJECT_DIR$/lib/heroku-api-0.14.jar!/com/heroku/api/Addon.class">
+      <file leaf-file-name="GitHelper.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/jetbrains/heroku/git/GitHelper.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="5" column="13" selection-start="152" selection-end="152" vertical-scroll-proportion="-2.4">
+            <state line="35" column="60" selection-start="1364" selection-end="1364" vertical-scroll-proportion="-6.44" vertical-offset="169" max-vertical-offset="2520">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Price.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/jetbrains/heroku/ui/Price.java">
+      <file leaf-file-name="HerokuToolWindow.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/jetbrains/heroku/ui/HerokuToolWindow.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="29" column="215" selection-start="636" selection-end="636" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="docComment;class#Price#0" expanded="false" />
-              </folding>
+            <state line="33" column="22" selection-start="1091" selection-end="1091" vertical-scroll-proportion="-4.8" vertical-offset="0" max-vertical-offset="1320">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="HerokuSetupWindow.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/com/jetbrains/heroku/ui/HerokuSetupWindow.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="114" column="16" selection-start="4363" selection-end="4363" vertical-scroll-proportion="0.28169015" vertical-offset="1245" max-vertical-offset="3150">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -174,7 +193,25 @@
       <file leaf-file-name="plugin.xml" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/META-INF/plugin.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="13" column="41" selection-start="795" selection-end="795" vertical-scroll-proportion="0.0">
+            <state line="15" column="34" selection-start="862" selection-end="862" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="795">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="HerokuApiTest.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/test/com/jetbrains/heroku/herokuapi/HerokuApiTest.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="73" column="34" selection-start="2597" selection-end="2597" vertical-scroll-proportion="-4.2" vertical-offset="765" max-vertical-offset="2520">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="GitRepositoryManager.class" pinned="false" current="false" current-in-tab="false">
+        <entry file="jar:///Applications/IntelliJ IDEA 11 CE.app/plugins/git4idea/lib/git4idea.jar!/git4idea/repo/GitRepositoryManager.class">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="4" column="21" selection-start="127" selection-end="140" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="420">
               <folding />
             </state>
           </provider>
@@ -183,38 +220,10 @@
       <file leaf-file-name="GitRemoteHandler10CE.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/jetbrains/heroku/git/GitRemoteHandler10CE.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="55" column="136" selection-start="1871" selection-end="1871" vertical-scroll-proportion="0.0">
+            <state line="8" column="27" selection-start="229" selection-end="229" vertical-scroll-proportion="-4.8" vertical-offset="0" max-vertical-offset="1260">
               <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#1482#1497#0" expanded="true" />
+                <element signature="e#1431#1446#0" expanded="false" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ContentManager.class" pinned="false" current="false" current-in-tab="false">
-        <entry file="jar://$APPLICATION_HOME_DIR$/lib/openapi.jar!/com/intellij/ui/content/ContentManager.class">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="11" column="9" selection-start="359" selection-end="359" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="IconLoader.class" pinned="false" current="false" current-in-tab="false">
-        <entry file="jar://$APPLICATION_HOME_DIR$/lib/util.jar!/com/intellij/openapi/util/IconLoader.class">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="36" column="176" selection-start="1920" selection-end="1927" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="HerokuApplicationWindow.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/jetbrains/heroku/ui/HerokuApplicationWindow.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="107" column="67" selection-start="4096" selection-end="4107" vertical-scroll-proportion="0.0">
-              <folding />
             </state>
           </provider>
         </entry>
@@ -231,6 +240,9 @@
   </component>
   <component name="GitLogSettings">
     <option name="myStructureFilterPaths" />
+    <option name="myDateState">
+      <MyDateState />
+    </option>
   </component>
   <component name="HierarchyBrowserManager">
     <option name="SORT_ALPHABETICALLY" value="true" />
@@ -238,30 +250,22 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/com/jetbrains/heroku/service/HerokuProjectService.java" />
-        <option value="$PROJECT_DIR$/../heroku.jar/heroku-api/src/main/java/com/heroku/api/request/key/KeyList.java" />
-        <option value="$PROJECT_DIR$/src/com/jetbrains/heroku/notification/Notifier.java" />
-        <option value="$PROJECT_DIR$/src/com/jetbrains/heroku/notification/Notifications.java" />
-        <option value="$PROJECT_DIR$/test/com/jetbrains/heroku/herokuapi/HerokuApiTest.java" />
-        <option value="$PROJECT_DIR$/src/com/jetbrains/heroku/git/GitRemoteHandler11CE.java" />
-        <option value="$PROJECT_DIR$/src/com/jetbrains/heroku/service/HerokuApplicationService.java" />
-        <option value="$PROJECT_DIR$/src/com/jetbrains/heroku/git/OldGitRemoteHandler.java" />
-        <option value="$PROJECT_DIR$/src/com/jetbrains/heroku/notification/NewNotifier.java" />
-        <option value="$PROJECT_DIR$/src/com/jetbrains/heroku/git/GitHelper.java" />
         <option value="$PROJECT_DIR$/src/com/jetbrains/heroku/HerokuSettings.java" />
         <option value="$PROJECT_DIR$/src/com/jetbrains/heroku/ui/HerokuCollaboratorsWindow.java" />
         <option value="$PROJECT_DIR$/src/com/jetbrains/heroku/ui/HerokuLogsWindow.java" />
         <option value="$PROJECT_DIR$/src/com/jetbrains/heroku/ui/HerokuProcessesWindow.java" />
         <option value="$PROJECT_DIR$/src/com/jetbrains/heroku/ui/HerokuConfigWindow.java" />
-        <option value="$PROJECT_DIR$/src/com/jetbrains/heroku/git/GitRemoteHandler11.java" />
         <option value="$PROJECT_DIR$/src/com/jetbrains/heroku/ui/HerokuApplicationWindow.java" />
         <option value="$PROJECT_DIR$/src/com/jetbrains/heroku/ui/HerokuToolWindow.java" />
         <option value="$PROJECT_DIR$/src/com/jetbrains/heroku/ui/HerokuAddonsWindow.java" />
-        <option value="$PROJECT_DIR$/src/com/jetbrains/heroku/ui/HerokuSetupWindow.java" />
-        <option value="$PROJECT_DIR$/src/com/jetbrains/heroku/git/GitRemoteHandler10CE.java" />
         <option value="$PROJECT_DIR$/META-INF/plugin.xml" />
         <option value="$PROJECT_DIR$/src/com/jetbrains/heroku/ui/AddonTableModel.java" />
         <option value="$PROJECT_DIR$/src/com/jetbrains/heroku/ui/GuiUtil.java" />
+        <option value="$PROJECT_DIR$/src/com/jetbrains/heroku/git/GitRemoteHandler10CE.java" />
+        <option value="$PROJECT_DIR$/test/com/jetbrains/heroku/herokuapi/HerokuApiTest.java" />
+        <option value="$PROJECT_DIR$/src/com/jetbrains/heroku/git/GitRemoteHandler11.java" />
+        <option value="$PROJECT_DIR$/src/com/jetbrains/heroku/git/GitHelper.java" />
+        <option value="$PROJECT_DIR$/src/com/jetbrains/heroku/ui/HerokuSetupWindow.java" />
       </list>
     </option>
   </component>
@@ -270,8 +274,8 @@
   </component>
   <component name="ProjectFrameBounds">
     <option name="y" value="22" />
-    <option name="width" value="2560" />
-    <option name="height" value="1414" />
+    <option name="width" value="1440" />
+    <option name="height" value="874" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -359,6 +363,20 @@
             <PATH_ELEMENT USER_OBJECT="Root">
               <option name="myItemId" value="" />
               <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+      <pane id="PackagesPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Heroku" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Heroku" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
@@ -463,6 +481,36 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="ui" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Heroku" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="jetbrains-heroku-plugin" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="com" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="jetbrains" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="heroku" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="git" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -483,36 +531,23 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="PackagesPane">
-        <subPane>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Heroku" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Heroku" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="project.structure.last.edited" value="SDKs" />
-    <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary" value="JUnit4" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth0" value="413" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth1" value="422" />
-    <property name="OverrideImplement.combined" value="true" />
+    <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary" value="JUnit4" />
     <property name="project.structure.proportion" value="0.15" />
+    <property name="OverrideImplement.combined" value="true" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth1" value="422" />
     <property name="options.splitter.main.proportions" value="0.30000004" />
     <property name="Repository.Attach.JavaDocs" value="false" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth0" value="419" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder1" value="1" />
-    <property name="recentsLimit" value="5" />
     <property name="MemberChooser.sorted" value="false" />
+    <property name="recentsLimit" value="5" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder1" value="1" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth0" value="419" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder0" value="0" />
+    <property name="last_opened_file_path" value="/Applications/IntelliJ IDEA 11 CE.app/plugins/git4idea/lib/git4idea.jar!/" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth2" value="427" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth3" value="1218" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth3" value="1220" />
@@ -526,19 +561,19 @@
     <property name="MemberChooser.showClasses" value="true" />
     <property name="Repository.Attach.Sources" value="false" />
     <property name="GoToClass.includeLibraries" value="false" />
-    <property name="options.splitter.details.proportions" value="0.2" />
     <property name="Downloaded.Files.Path" value="$PROJECT_DIR$/lib" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder0" value="0" />
+    <property name="options.splitter.details.proportions" value="0.2" />
     <property name="GoToFile.includeJavaFiles" value="false" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder0" value="0" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder3" value="3" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder1" value="1" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder2" value="2" />
-    <property name="options.lastSelected" value="preferences.externalResources" />
+    <property name="options.lastSelected" value="preferences.pluginManager" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="MemberChooser.copyJavadoc" value="false" />
     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.includeInheritedMembers" value="false" />
-    <property name="dynamic.classpath" value="false" />
     <property name="options.searchVisible" value="true" />
+    <property name="dynamic.classpath" value="false" />
   </component>
   <component name="RecentsManager">
     <key name="CreateTestDialog.RecentsKey">
@@ -712,16 +747,11 @@
       <ConfigurationWrapper RunnerId="Run" />
       <method />
     </configuration>
-    <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin">
+    <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin" singleton="true">
       <module name="Heroku" />
       <option name="VM_PARAMETERS" value=" &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt; &lt;!DOCTYPE plist PUBLIC &quot;-//Apple Computer//DTD PLIST 1.0//EN&quot; &quot;http://www.apple.com/DTDs/PropertyList-1.0.dtd&quot;&gt; &lt;plist version=&quot;1.0&quot;&gt;   &lt;dict&gt;     &lt;key&gt;CFBundleDevelopmentRegion&lt;/key&gt;     &lt;string&gt;English&lt;/string&gt;     &lt;key&gt;CFBundleDocumentTypes&lt;/key&gt;     &lt;array&gt;              &lt;dict&gt;         &lt;key&gt;CFBundleTypeExtensions&lt;/key&gt;         &lt;array&gt;           &lt;string&gt;ipr&lt;/string&gt;         &lt;/array&gt;         &lt;key&gt;CFBundleTypeIconFile&lt;/key&gt;         &lt;string&gt;idea.icns&lt;/string&gt;         &lt;key&gt;CFBundleTypeName&lt;/key&gt;         &lt;string&gt;IntelliJ IDEA Project File&lt;/string&gt;         &lt;key&gt;CFBundleTypeRole&lt;/key&gt;         &lt;string&gt;Editor&lt;/string&gt;       &lt;/dict&gt;          &lt;dict&gt;           &lt;key&gt;CFBundleTypeExtensions&lt;/key&gt;           &lt;array&gt;               &lt;string&gt;*&lt;/string&gt;           &lt;/array&gt;           &lt;key&gt;CFBundleTypeName&lt;/key&gt;           &lt;string&gt;All documents&lt;/string&gt;           &lt;key&gt;CFBundleTypeOSTypes&lt;/key&gt;           &lt;array&gt;               &lt;string&gt;****&lt;/string&gt;           &lt;/array&gt;           &lt;key&gt;CFBundleTypeRole&lt;/key&gt;           &lt;string&gt;Editor&lt;/string&gt;           &lt;key&gt;LSTypeIsPackage&lt;/key&gt;           &lt;false/&gt;       &lt;/dict&gt;     &lt;/array&gt;     &lt;key&gt;CFBundleExecutable&lt;/key&gt;     &lt;string&gt;idea&lt;/string&gt;     &lt;key&gt;CFBundleIconFile&lt;/key&gt;     &lt;string&gt;idea.icns&lt;/string&gt;     &lt;key&gt;CFBundleInfoDictionaryVersion&lt;/key&gt;     &lt;string&gt;6.0&lt;/string&gt;     &lt;key&gt;CFBundleName&lt;/key&gt;     &lt;string&gt;IntelliJ IDEA&lt;/string&gt;     &lt;key&gt;CFBundlePackageType&lt;/key&gt;     &lt;string&gt;APPL&lt;/string&gt;     &lt;key&gt;CFBundleIdentifier&lt;/key&gt;     &lt;string&gt;com.jetbrains.intellij&lt;/string&gt;     &lt;key&gt;CFBundleSignature&lt;/key&gt;     &lt;string&gt;????&lt;/string&gt;     &lt;key&gt;CFBundleGetInfoString&lt;/key&gt;     &lt;string&gt;IntelliJ IDEA 11.0, build IU-111.69. Copyright JetBrains s.r.o., (c) 2000-2011&lt;/string&gt;     &lt;key&gt;CFBundleShortVersionString&lt;/key&gt;     &lt;string&gt;11.0&lt;/string&gt;     &lt;key&gt;CFBundleVersion&lt;/key&gt;     &lt;string&gt;IU-111.69&lt;/string&gt;     &lt;key&gt;LSApplicationCategoryType&lt;/key&gt;     &lt;string&gt;public.app-category.developer-tools&lt;/string&gt;      &lt;key&gt;LSArchitecturePriority&lt;/key&gt;     &lt;array&gt;       &lt;string&gt;x86_64&lt;/string&gt;       &lt;string&gt;i386&lt;/string&gt;     &lt;/array&gt;     &lt;key&gt;LSRequiresNativeExecution&lt;/key&gt;     &lt;string&gt;YES&lt;/string&gt;      &lt;key&gt;Java&lt;/key&gt;     &lt;dict&gt;       &lt;key&gt;ClassPath&lt;/key&gt;       &lt;string&gt;$APP_PACKAGE/lib/bootstrap.jar:$APP_PACKAGE/lib/extensions.jar:$APP_PACKAGE/lib/util.jar:$APP_PACKAGE/lib/jdom.jar:$APP_PACKAGE/lib/log4j.jar:$APP_PACKAGE/lib/jna.jar&lt;/string&gt;        &lt;key&gt;JVMVersion&lt;/key&gt;       &lt;string&gt;1.6*&lt;/string&gt;        &lt;key&gt;MainClass&lt;/key&gt;       &lt;string&gt;com.intellij.idea.Main&lt;/string&gt;       &lt;key&gt;Properties&lt;/key&gt;       &lt;dict&gt;                  &lt;key&gt;idea.popup.weight&lt;/key&gt;         &lt;string&gt;heavy&lt;/string&gt;            &lt;key&gt;idea.dynamic.classpath&lt;/key&gt;         &lt;string&gt;false&lt;/string&gt;            &lt;key&gt;swing.bufferPerWindow&lt;/key&gt;         &lt;string&gt;false&lt;/string&gt;            &lt;key&gt;CVS_PASSFILE&lt;/key&gt;         &lt;string&gt;~/.cvspass&lt;/string&gt;            &lt;key&gt;idea.smooth.progress&lt;/key&gt;         &lt;string&gt;false&lt;/string&gt;            &lt;key&gt;idea.max.intellisense.filesize&lt;/key&gt;         &lt;string&gt;2500&lt;/string&gt;            &lt;key&gt;idea.xdebug.key&lt;/key&gt;         &lt;string&gt;-Xdebug&lt;/string&gt;            &lt;key&gt;apple.awt.fullscreencapturealldisplays&lt;/key&gt;         &lt;string&gt;false&lt;/string&gt;            &lt;key&gt;idea.cycle.buffer.size&lt;/key&gt;         &lt;string&gt;1024&lt;/string&gt;            &lt;key&gt;com.apple.mrj.application.live-resize&lt;/key&gt;         &lt;string&gt;false&lt;/string&gt;            &lt;key&gt;java.endorsed.dirs&lt;/key&gt;         &lt;string&gt;&lt;/string&gt;            &lt;key&gt;sun.java2d.noddraw&lt;/key&gt;         &lt;string&gt;true&lt;/string&gt;            &lt;key&gt;idea.paths.selector&lt;/key&gt;         &lt;string&gt;IntelliJIdea11&lt;/string&gt;            &lt;key&gt;idea.jars.nocopy&lt;/key&gt;         &lt;string&gt;false&lt;/string&gt;            &lt;key&gt;sun.java2d.pmoffscreen&lt;/key&gt;         &lt;string&gt;false&lt;/string&gt;            &lt;key&gt;idea.use.default.antialiasing.in.editor&lt;/key&gt;         &lt;string&gt;false&lt;/string&gt;            &lt;key&gt;idea.lookup.height&lt;/key&gt;         &lt;string&gt;11&lt;/string&gt;            &lt;key&gt;idea.fatal.error.notification&lt;/key&gt;         &lt;string&gt;disabled&lt;/string&gt;            &lt;key&gt;apple.awt.graphics.UseQuartz&lt;/key&gt;         &lt;string&gt;true&lt;/string&gt;            &lt;key&gt;idea.no.launcher&lt;/key&gt;         &lt;string&gt;false&lt;/string&gt;            &lt;key&gt;sun.java2d.d3d&lt;/key&gt;         &lt;string&gt;false&lt;/string&gt;            &lt;key&gt;apple.laf.useScreenMenuBar&lt;/key&gt;         &lt;string&gt;true&lt;/string&gt;          &lt;/dict&gt;        &lt;key&gt;VMOptions&lt;/key&gt;       &lt;string&gt;-ea -Xverify:none -Xbootclasspath/a:../lib/boot.jar&lt;/string&gt;        &lt;key&gt;VMOptions.i386&lt;/key&gt;       &lt;string&gt;-Xms128m -Xmx512m -XX:MaxPermSize=250m -XX:ReservedCodeCacheSize=64m&lt;/string&gt;        &lt;key&gt;VMOptions.x86_64&lt;/key&gt;       &lt;string&gt;-Xms128m -Xmx800m -XX:MaxPermSize=350m -XX:ReservedCodeCacheSize=64m -XX:+UseCompressedOops&lt;/string&gt;        &lt;key&gt;WorkingDirectory&lt;/key&gt;       &lt;string&gt;$APP_PACKAGE/bin&lt;/string&gt;     &lt;/dict&gt;   &lt;/dict&gt; &lt;/plist&gt;" />
       <option name="PROGRAM_PARAMETERS" />
-      <method>
-        <option name="AntTarget" enabled="false" />
-        <option name="BuildArtifacts" enabled="false" />
-        <option name="Make" enabled="true" />
-        <option name="Maven.BeforeRunTask" enabled="false" />
-      </method>
+      <method />
     </configuration>
     <configuration default="true" type="Remote" factoryName="Remote">
       <option name="USE_SOCKET_TRANSPORT" value="true" />
@@ -729,13 +759,7 @@
       <option name="SHMEM_ADDRESS" value="javadebug" />
       <option name="HOST" value="localhost" />
       <option name="PORT" value="5005" />
-      <method>
-        <option name="AntTarget" enabled="false" />
-        <option name="BuildArtifacts" enabled="false" />
-        <option name="Maven.BeforeRunTask" enabled="false" />
-        <option name="PhingTarget" enabled="false" />
-        <option name="SBT.BeforeRunTask" enabled="false" />
-      </method>
+      <method />
     </configuration>
     <configuration default="true" type="Applet" factoryName="Applet">
       <module name="" />
@@ -748,14 +772,7 @@
       <option name="VM_PARAMETERS" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
-      <method>
-        <option name="AntTarget" enabled="false" />
-        <option name="BuildArtifacts" enabled="false" />
-        <option name="Make" enabled="true" />
-        <option name="Maven.BeforeRunTask" enabled="false" />
-        <option name="PhingTarget" enabled="false" />
-        <option name="SBT.BeforeRunTask" enabled="false" />
-      </method>
+      <method />
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
       <extension name="coverage" enabled="false" merge="false" runner="idea" />
@@ -770,14 +787,7 @@
       <option name="PASS_PARENT_ENVS" value="true" />
       <module name="" />
       <envs />
-      <method>
-        <option name="AntTarget" enabled="false" />
-        <option name="BuildArtifacts" enabled="false" />
-        <option name="Make" enabled="true" />
-        <option name="Maven.BeforeRunTask" enabled="false" />
-        <option name="PhingTarget" enabled="false" />
-        <option name="SBT.BeforeRunTask" enabled="false" />
-      </method>
+      <method />
     </configuration>
     <configuration default="true" type="JUnit" factoryName="JUnit">
       <extension name="coverage" enabled="false" merge="false" runner="idea" />
@@ -798,14 +808,7 @@
       </option>
       <envs />
       <patterns />
-      <method>
-        <option name="AntTarget" enabled="false" />
-        <option name="BuildArtifacts" enabled="false" />
-        <option name="Make" enabled="true" />
-        <option name="Maven.BeforeRunTask" enabled="false" />
-        <option name="PhingTarget" enabled="false" />
-        <option name="SBT.BeforeRunTask" enabled="false" />
-      </method>
+      <method />
     </configuration>
     <configuration default="false" name="Heroku" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin">
       <module name="Heroku" />
@@ -859,14 +862,20 @@
       <method />
     </configuration>
     <list size="7">
-      <item index="0" class="java.lang.String" itemvalue="JUnit.All in Heroku" />
-      <item index="1" class="java.lang.String" itemvalue="JUnit.HerokuApiTest.testGetApplicationStatus" />
-      <item index="2" class="java.lang.String" itemvalue="JUnit.HerokuApiTest.testListKeys" />
-      <item index="3" class="java.lang.String" itemvalue="JUnit.HerokuApiTest.testAddKey" />
-      <item index="4" class="java.lang.String" itemvalue="JUnit.HerokuApiTest" />
-      <item index="5" class="java.lang.String" itemvalue="Plugin.Heroku" />
-      <item index="6" class="java.lang.String" itemvalue="Remote.remote" />
+      <item index="0" class="java.lang.String" itemvalue="Plugin.Heroku" />
+      <item index="1" class="java.lang.String" itemvalue="Remote.remote" />
+      <item index="2" class="java.lang.String" itemvalue="JUnit.All in Heroku" />
+      <item index="3" class="java.lang.String" itemvalue="JUnit.HerokuApiTest.testGetApplicationStatus" />
+      <item index="4" class="java.lang.String" itemvalue="JUnit.HerokuApiTest.testListKeys" />
+      <item index="5" class="java.lang.String" itemvalue="JUnit.HerokuApiTest.testAddKey" />
+      <item index="6" class="java.lang.String" itemvalue="JUnit.HerokuApiTest" />
     </list>
+    <recent_temporary>
+      <list size="2">
+        <item index="0" class="java.lang.String" itemvalue="JUnit.HerokuApiTest.testListKeys" />
+        <item index="1" class="java.lang.String" itemvalue="JUnit.All in Heroku" />
+      </list>
+    </recent_temporary>
     <configuration name="&lt;template&gt;" type="WebApp" default="true" selected="false">
       <Host>localhost</Host>
       <Port>5050</Port>
@@ -926,35 +935,74 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="22" width="2560" height="1414" extended-state="6" />
+    <frame x="0" y="22" width="1440" height="874" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Data Sources" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3297414" sideWeight="0.6754967" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32980132" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.5158546" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.51193637" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39829853" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32946634" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32559937" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32625994" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32980132" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24928162" sideWeight="0.21721855" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32961783" sideWeight="0.68290794" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.31709203" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3292683" sideWeight="0.68302387" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.31697613" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.6754967" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="JavaRebel Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="JavaRebel" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.6800977" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Data Sources" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3297414" sideWeight="0.6754967" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Dilbert" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Atlassian " active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
     </layout>
+    <layout-to-restore>
+      <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32980132" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.6754967" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="JavaRebel Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="15" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="true" content_ui="tabs" />
+      <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32946634" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="JavaRebel" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="16" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32980132" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3292683" sideWeight="0.48806366" order="1" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.31697613" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.6800977" order="5" side_tool="false" content_ui="combo" />
+      <window_info id="Dilbert" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
+      <window_info id="Data Sources" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3297414" sideWeight="0.6754967" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Atlassian " active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
+      <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
+      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.51193637" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39829853" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32625994" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24928162" sideWeight="0.21721855" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+    </layout-to-restore>
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
@@ -978,19 +1026,24 @@
     <option name="PERFORM_ADD_REMOVE_IN_BACKGROUND" value="true" />
     <option name="PERFORM_ROLLBACK_IN_BACKGROUND" value="false" />
     <option name="CHECK_LOCALLY_CHANGED_CONFLICTS_IN_BACKGROUND" value="false" />
-    <option name="ENABLE_BACKGROUND_PROCESSES" value="false" />
     <option name="CHANGED_ON_SERVER_INTERVAL" value="60" />
     <option name="SHOW_ONLY_CHANGED_IN_SELECTION_DIFF" value="true" />
     <option name="CHECK_COMMIT_MESSAGE_SPELLING" value="true" />
     <option name="DEFAULT_PATCH_EXTENSION" value="patch" />
-    <option name="SHORT_DIFF_HORISONTALLY" value="true" />
+    <option name="SHORT_DIFF_HORIZONTALLY" value="true" />
     <option name="SHORT_DIFF_EXTRA_LINES" value="2" />
     <option name="SOFT_WRAPS_IN_SHORT_DIFF" value="true" />
     <option name="INCLUDE_TEXT_INTO_PATCH" value="false" />
     <option name="INCLUDE_TEXT_INTO_SHELF" value="false" />
-    <option name="CREATE_PATCH_EXPAND_DETAILS_DEFAULT" value="true" />
     <option name="SHOW_FILE_HISTORY_DETAILS" value="true" />
     <option name="SHOW_VCS_ERROR_NOTIFICATIONS" value="true" />
+    <option name="SHOW_DIRTY_RECURSIVELY" value="false" />
+    <option name="LIMIT_HISTORY" value="true" />
+    <option name="MAXIMUM_HISTORY_ROWS" value="1000" />
+    <option name="UPDATE_FILTER_SCOPE_NAME" />
+    <option name="USE_COMMIT_MESSAGE_MARGIN" value="false" />
+    <option name="COMMIT_MESSAGE_MARGIN_SIZE" value="72" />
+    <option name="WRAP_WHEN_TYPING_REACHES_RIGHT_MARGIN" value="false" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
     <option name="LAST_COMMIT_MESSAGE" value="#16 #1 fixed key-management, some workarounds for heroku-api bugs" />
@@ -1004,6 +1057,7 @@
     <option name="ACTIVE_VCS_NAME" />
     <option name="UPDATE_GROUP_BY_PACKAGES" value="false" />
     <option name="UPDATE_GROUP_BY_CHANGELIST" value="false" />
+    <option name="UPDATE_FILTER_BY_SCOPE" value="false" />
     <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
     <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.6" />
     <MESSAGE value="renamed packages" />
@@ -1050,182 +1104,118 @@
     </option>
   </component>
   <component name="editorHistoryManager">
-    <entry file="jar://$APPLICATION_HOME_DIR$/lib/openapi.jar!/com/intellij/openapi/ui/InputValidatorEx.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="17" selection-start="165" selection-end="165" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="jar://$APPLICATION_HOME_DIR$/lib/openapi.jar!/com/intellij/openapi/ui/InputValidator.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="49" selection-start="280" selection-end="280" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/jetbrains/heroku/ui/HerokuCollaboratorsWindow.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="50" column="64" selection-start="1715" selection-end="1715" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/jetbrains/heroku/ui/HerokuConfigWindow.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="69" column="44" selection-start="2238" selection-end="2238" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/jetbrains/heroku/notification/Notifications.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="52" column="23" selection-start="1846" selection-end="1846" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/jetbrains/heroku/notification/Notifier.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="34" column="16" selection-start="990" selection-end="990" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/jetbrains/heroku/ui/HerokuLogsWindow.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="26" column="30" selection-start="708" selection-end="708" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/jetbrains/heroku/ui/HerokuProcessesWindow.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="63" column="70" selection-start="2717" selection-end="2717" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/jetbrains/heroku/ui/OldHerokuToolWindowFactory.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="65" column="32" selection-start="2544" selection-end="2544" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/jetbrains/heroku/service/HerokuApplicationService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="120" column="0" selection-start="3847" selection-end="3847" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="jar://$APPLICATION_HOME_DIR$/plugins/git4idea/lib/git4idea.jar!/git4idea/repo/GitRepository.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="63" column="57" selection-start="3686" selection-end="3686" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/jetbrains/heroku/git/GitHelper.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="51" column="0" selection-start="2052" selection-end="2052" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="jar://$APPLICATION_HOME_DIR$/lib/util.jar!/com/intellij/openapi/diagnostic/Logger.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="56" column="0" selection-start="3037" selection-end="3037" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="jar:///System/Library/Frameworks/JavaVM.framework/Versions/1.6.0/Classes/classes.jar!/java/awt/Container.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="399" column="0" selection-start="16801" selection-end="16801" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="jar://$APPLICATION_HOME_DIR$/lib/openapi.jar!/com/intellij/openapi/wm/AppIconScheme.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="13" selection-start="161" selection-end="161" vertical-scroll-proportion="0.07009346" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/jetbrains/heroku/git/GitRemoteHandler11.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="82" column="67" selection-start="2865" selection-end="2865" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/jetbrains/heroku/ui/HerokuToolWindowFactory.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="42" column="31" selection-start="1580" selection-end="1580" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/jetbrains/heroku/ui/HerokuToolWindow.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="84" column="116" selection-start="2934" selection-end="2934" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/jetbrains/heroku/ui/HerokuSetupWindow.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="92" column="39" selection-start="3563" selection-end="3563" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test/com/jetbrains/heroku/herokuapi/HerokuApiTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="125" column="56" selection-start="4325" selection-end="4325" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar:///System/Library/Frameworks/JavaVM.framework/Versions/1.6.0/Classes/classes.jar!/javax/swing/Icon.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="17" selection-start="153" selection-end="153" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="jar://$APPLICATION_HOME_DIR$/lib/openapi.jar!/com/intellij/ui/content/ContentManager.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="9" selection-start="359" selection-end="359" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
     <entry file="jar://$APPLICATION_HOME_DIR$/lib/util.jar!/com/intellij/openapi/util/IconLoader.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="36" column="176" selection-start="1920" selection-end="1927" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/jetbrains/heroku/git/GitRemoteHandler10CE.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="55" column="136" selection-start="1871" selection-end="1871" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#1482#1497#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/META-INF/plugin.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="41" selection-start="795" selection-end="795" vertical-scroll-proportion="0.0">
+        <state line="36" column="176" selection-start="1920" selection-end="1927" vertical-scroll-proportion="0.0" vertical-offset="525" max-vertical-offset="1950">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/jetbrains/heroku/ui/Price.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="29" column="215" selection-start="636" selection-end="636" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="docComment;class#Price#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/lib/heroku-api-0.14.jar!/com/heroku/api/Addon.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="13" selection-start="152" selection-end="152" vertical-scroll-proportion="-2.4">
+        <state line="29" column="215" selection-start="636" selection-end="636" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/jetbrains/heroku/ui/HerokuApplicationWindow.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="107" column="67" selection-start="4096" selection-end="4107" vertical-scroll-proportion="0.0">
+        <state line="107" column="67" selection-start="4096" selection-end="4107" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/jetbrains/heroku/ui/AddonTableModel.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="72" column="194" selection-start="2087" selection-end="2087" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#336#351#0" expanded="true" />
-          </folding>
+        <state line="72" column="194" selection-start="2086" selection-end="2086" vertical-scroll-proportion="0.0" vertical-offset="1065" max-vertical-offset="1695">
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/jetbrains/heroku/ui/HerokuAddonsWindow.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="34" column="26" selection-start="1097" selection-end="1097" vertical-scroll-proportion="0.0">
+        <state line="34" column="26" selection-start="1097" selection-end="1097" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/jetbrains/heroku/ui/GuiUtil.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="47" column="68" selection-start="1622" selection-end="1622" vertical-scroll-proportion="0.33294392">
+        <state line="51" column="79" selection-start="1720" selection-end="1720" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1275">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/jetbrains/heroku/action/HerokuSettingsAction.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="2" column="40" selection-start="78" selection-end="78" vertical-scroll-proportion="-1.2" vertical-offset="0" max-vertical-offset="435">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/jetbrains/heroku/service/HerokuProjectService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="7" column="27" selection-start="311" selection-end="311" vertical-scroll-proportion="-4.2" vertical-offset="0" max-vertical-offset="3570">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/jetbrains/heroku/git/GitRemoteHandler10CE.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="8" column="27" selection-start="229" selection-end="229" vertical-scroll-proportion="-4.8" vertical-offset="0" max-vertical-offset="1260">
+          <folding>
+            <element signature="e#1431#1446#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/META-INF/plugin.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="15" column="34" selection-start="862" selection-end="862" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="795">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test/com/jetbrains/heroku/herokuapi/HerokuApiTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="73" column="34" selection-start="2597" selection-end="2597" vertical-scroll-proportion="-4.2" vertical-offset="765" max-vertical-offset="2520">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///Applications/IntelliJ IDEA 11 CE.app/plugins/git4idea/lib/git4idea.jar!/git4idea/repo/GitRepositoryManager.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="4" column="21" selection-start="127" selection-end="140" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="420">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/jetbrains/heroku/git/GitRemoteHandler11.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="143" column="44" selection-start="4934" selection-end="4934" vertical-scroll-proportion="-15.6" vertical-offset="1755" max-vertical-offset="3285">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/jetbrains/heroku/git/GitHelper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="35" column="60" selection-start="1364" selection-end="1364" vertical-scroll-proportion="-6.44" vertical-offset="169" max-vertical-offset="2520">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/jetbrains/heroku/ui/HerokuToolWindow.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="33" column="22" selection-start="1091" selection-end="1091" vertical-scroll-proportion="-4.8" vertical-offset="0" max-vertical-offset="1320">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/jetbrains/heroku/ui/HerokuSetupWindow.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="114" column="16" selection-start="4363" selection-end="4363" vertical-scroll-proportion="0.28169015" vertical-offset="1245" max-vertical-offset="3150">
           <folding />
         </state>
       </provider>
@@ -1271,7 +1261,7 @@
       </state>
       <state key="JdkListConfigurable.UI">
         <settings>
-          <last-edited>IDEA IU-117.117</last-edited>
+          <last-edited>IDEA IU-130.1179</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
@@ -1288,6 +1278,7 @@
             <option name="proportions">
               <list>
                 <option value="0.2" />
+                <option value="0.5" />
               </list>
             </option>
           </splitter-proportions>
