@@ -60,7 +60,7 @@ public class HerokuSetupWindow extends HerokuToolWindow {
     }
 
     public void doUpdate() {
-        final Project project = herokuProjectService.getProject();
+        final Project project = getProject();
         final boolean gitEnabled = GitHelper.isGitEnabled(project);
         presentGitStatus(gitEnabled);
         final GitRemoteInfo existingRemote = GitHelper.findHerokuOrigin(project);
@@ -112,10 +112,10 @@ public class HerokuSetupWindow extends HerokuToolWindow {
     @Override
     protected List<AnAction> createActions() {
         final List<AnAction> actions = Arrays.<AnAction>asList(
-                new JBBackgroundAction("Enable Git Integration", "Enable Git VCS integration for project", icon("/vcs/addToVcs.png")) {
+                new JBBackgroundAction("Enable Git Integration", "Enable Git VCS integration for project", icon("/general/vcsSmallTab.png","/toolwindows/vcsSmallTab.png")) {
                     @Override
                     public void update(AnActionEvent e) {
-                        setEnabled(!GitHelper.isGitEnabled(herokuProjectService.getProject()));
+                        setEnabled(!GitHelper.isGitEnabled(getProject()));
                     }
 
                     public void runActionPerformed(AnActionEvent anActionEvent) {
@@ -126,7 +126,7 @@ public class HerokuSetupWindow extends HerokuToolWindow {
                 },
                 // /general/getProjectfromVCS.png
 
-                new JBBackgroundAction("Attach", "Attach to existing Heroku Application", icon("/general/vcsSmallTab.png")) {
+                new JBBackgroundAction("Attach", "Attach to existing Heroku Application", icon("/vcs/addToVcs.png","/debugger/threadStates/socket.png")) {
                     {
                         update(null);
                     }
@@ -139,14 +139,14 @@ public class HerokuSetupWindow extends HerokuToolWindow {
                     public void runActionPerformed(AnActionEvent anActionEvent) {
                         final App app = tableModel.getApplication(selectedRow.get());
                         if (app == null) return;
-                        final GitRemoteInfo attachedRemote = GitHelper.attachRemote(herokuProjectService.getProject(), app);
+                        final GitRemoteInfo attachedRemote = GitHelper.attachRemote(getProject(), app);
                         if (attachedRemote != null) {
-                            LOG.info("Attached remote " + attachedRemote.getName() + ":" + attachedRemote.getUrl() + " to project " + herokuProjectService.getProject().getName());
+                            LOG.info("Attached remote " + attachedRemote.getName() + ":" + attachedRemote.getUrl() + " to project " + getProject().getName());
                             herokuProjectService.update(app);
                             updatePanels();
                             HerokuSetupWindow.this.doUpdate();
                         } else {
-                            LOG.warn("No attached remote attached to project " + herokuProjectService.getProject().getName());
+                            LOG.warn("No attached remote attached to project " + getProject().getName());
                         }
 
                     }
@@ -167,7 +167,7 @@ public class HerokuSetupWindow extends HerokuToolWindow {
                             if (newApplicationInfo==null) return;
                             App newApp = herokuProjectService.getApplicationService().createApplication(newApplicationInfo.first, newApplicationInfo.second);
                             herokuProjectService.update(newApp);
-                            GitHelper.attachRemote(herokuProjectService.getProject(), newApp);
+                            GitHelper.attachRemote(getProject(), newApp);
                             updatePanels();
                         } catch (Exception e) {
                             LOG.warn("Error creating application: "+e.getMessage(),e);
@@ -195,7 +195,7 @@ public class HerokuSetupWindow extends HerokuToolWindow {
                             HerokuSetupWindow.this.doUpdate();
                             if (app.getName().equals(herokuProjectService.getApp().getName())) {
                                 herokuProjectService.update(null);
-                                GitHelper.removeRemote(herokuProjectService.getProject(), app);
+                                GitHelper.removeRemote(getProject(), app);
                                 updatePanels();
                             }
                         } catch (Exception e) {

@@ -2,10 +2,8 @@ package com.jetbrains.heroku.git;
 
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vcs.VcsException;
-import git4idea.Git;
 import git4idea.GitRemote;
 import git4idea.GitUtil;
-import git4idea.ui.GitUIUtil;
 
 import java.util.ArrayList;
 import java.util.List;

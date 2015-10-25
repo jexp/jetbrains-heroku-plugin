@@ -83,7 +83,7 @@ public class HerokuApplicationWindow extends HerokuToolWindow {
 
     private String getGitRemote(App app) {
         final String gitUrl = app.getGitUrl();
-        GitRemoteInfo herokuRemote = GitHelper.findRemote(gitUrl, herokuProjectService.getProject());
+        GitRemoteInfo herokuRemote = GitHelper.findRemote(gitUrl, getProject());
         if (herokuRemote == null) return gitUrl;
         return herokuRemote.getName() + " : " + herokuRemote.getUrl();
     }
@@ -99,7 +99,7 @@ public class HerokuApplicationWindow extends HerokuToolWindow {
     @Override
     protected List<AnAction> createActions() {
         return Arrays.asList(
-                new AnAction("Restart", "", icon("/general/toolWindowRun.png")) {
+                new AnAction("Restart", "", icon("/general/toolWindowRun.png","/actions/restart.png")) {
                     public void actionPerformed(AnActionEvent anActionEvent) {
                         herokuProjectService.restartApplication();
                         HerokuApplicationWindow.this.doUpdate();
@@ -113,7 +113,7 @@ public class HerokuApplicationWindow extends HerokuToolWindow {
                 },
                 new AnAction("Deploy", "", icon("/actions/resume.png")) {
                     public void actionPerformed(AnActionEvent anActionEvent) {
-                        GitHelper.pushToHeroku(herokuProjectService.getProject());
+                        GitHelper.pushToHeroku(getProject());
 
                         HerokuApplicationWindow.this.doUpdate();
                     }
@@ -135,7 +135,7 @@ public class HerokuApplicationWindow extends HerokuToolWindow {
                                 initial=i;
                             }
                         }
-                        final int newStack = Messages.showChooseDialog(herokuProjectService.getProject(), "Choose new stacks", "Stack", Messages.getQuestionIcon(), stackNames, stackNames[initial]);
+                        final int newStack = Messages.showChooseDialog(getProject(), "Choose new stacks", "Stack", Messages.getQuestionIcon(), stackNames, stackNames[initial]);
                         if (newStack < 0 || newStack >= stacks.length || newStack==initial) return;
                         herokuProjectService.changeStack(stacks[newStack]);
                     }

@@ -82,7 +82,7 @@ public class GuiUtil {
     }
 
     private static class BooleanCellRenderer implements TableCellRenderer {
-        private final Icon checkIcon = IconLoader.getIcon("/actions/check_16.png");
+        private final Icon checkIcon = IconLoader.getIcon("/actions/checked.png");
         final JLabel iconLabel = new JLabel(checkIcon,JLabel.CENTER);
 
         @Override

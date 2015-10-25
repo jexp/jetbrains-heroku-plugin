@@ -5,7 +5,6 @@ import com.heroku.api.Heroku;
 import com.heroku.api.Key;
 import com.intellij.openapi.options.Configurable;
 import com.intellij.openapi.options.ConfigurationException;
-import com.intellij.openapi.ui.DialogWrapper;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.util.Pair;
 import com.jetbrains.heroku.herokuapi.Credentials;
@@ -33,41 +32,6 @@ import static com.jetbrains.heroku.ui.GuiUtil.table;
  */
 public class HerokuSettings implements Configurable {
 
-    static class CredentialsDialog extends DialogWrapper {
-
-        private JTextField emailField;
-        private JPasswordField passwordField;
-
-        protected CredentialsDialog() {
-            super(true);
-            setTitle("Retrieve API-Token");
-            init();
-        }
-
-        @Override
-        protected JComponent createCenterPanel() {
-            final DefaultFormBuilder builder = new DefaultFormBuilder(new FormLayout("right:pref, 6dlu, pref:grow", "pref"));
-            builder.append("E-Mail:", emailField = new JTextField(30));
-            builder.append("Password:", passwordField = new JPasswordField(12));
-            return builder.getPanel();
-        }
-
-        @Override
-        protected ValidationInfo doValidate() {
-            if (getEmail().isEmpty()) return new ValidationInfo("Email is empty",emailField);
-            if (getPassword().isEmpty()) return new ValidationInfo("Password is empty",passwordField);
-            return super.doValidate();
-        }
-
-        private String getPassword() {
-            return String.valueOf(passwordField.getPassword());
-        }
-
-        public String getEmail() {
-            return emailField.getText();
-        }
-
-    }
     private JTextField tokenField = new JTextField();
     private final SimpleAppsTableModel appsModel= new SimpleAppsTableModel();
     private final HerokuApplicationService herokuApplicationService;

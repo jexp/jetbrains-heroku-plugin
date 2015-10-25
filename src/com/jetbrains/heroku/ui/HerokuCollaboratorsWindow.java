@@ -48,7 +48,7 @@ public class HerokuCollaboratorsWindow extends HerokuToolWindow {
         return Arrays.<AnAction>asList(
                 new AnAction("Add Collaborator Variable", "", icon("/general/add.png")) {
                     public void actionPerformed(AnActionEvent anActionEvent) {
-                        String email = Messages.showInputDialog(herokuProjectService.getProject(), "Collaborator Heroku email:", "Add Collaborator", Messages.getQuestionIcon());
+                        String email = Messages.showInputDialog(getProject(), "Collaborator Heroku email:", "Add Collaborator", Messages.getQuestionIcon());
                         if (email!=null && !email.isEmpty()) return;
                         herokuProjectService.addCollaborator(email);
                         HerokuCollaboratorsWindow.this.doUpdate();
